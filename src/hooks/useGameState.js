@@ -20,6 +20,9 @@ export const useGameState = () => {
   const [state, setState] = useState(initialState);
   const [rivals, setRivals] = useState([]);
   
+  // Game flow step tracking (landing, logo, bandCreation, game)
+  const [step, setStep] = useState('landing');
+  
   // Current selections
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -155,6 +158,17 @@ export const useGameState = () => {
   };
 
   /**
+   * Set band name and update state
+   * @param {string} bandName - Name of the band
+   */
+  const setBandName = (bandName) => {
+    setState(prevState => ({
+      ...prevState,
+      bandName: bandName.trim()
+    }));
+  };
+
+  /**
    * Add entry to game log
    * @param {string} message - Log entry text
    * @param {string} type - Entry type: 'info', 'success', 'warning', 'error'
@@ -240,12 +254,15 @@ export const useGameState = () => {
     saveSlots,
     autoSaveEnabled,
     setAutoSaveEnabled,
+    step,
+    setStep,
 
     // State management methods
     saveGame,
     loadGame,
     deleteSave,
     updateGameState,
+    setBandName,
     addLog,
     resetGame,
     loadAutoSave
