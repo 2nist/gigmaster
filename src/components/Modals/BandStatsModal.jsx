@@ -11,18 +11,14 @@ export default function BandStatsModal({
   if (!isOpen || !bandStats) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '700px', maxHeight: '90vh', overflowY: 'auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '12px' }}>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000" onClick={onClose}>
+      <div className="bg-card rounded-lg p-8 max-w-2xl w-11/12 max-h-[90vh] overflow-y-auto border-2 border-primary/30" onClick={(e) => e.stopPropagation()}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="m-0 flex items-center gap-3 text-foreground text-xl font-bold">
             {bandStats.isPlayer ? (
               <span 
-                style={{
-                  ...getBandLogoStyle(bandStats.name, fontOptions),
-                  border: '2px solid #3b82f6',
-                  padding: '4px 8px',
-                  borderRadius: '4px' 
-                }}
+                className="border-2 border-primary px-2 py-1 rounded text-sm"
+                style={getBandLogoStyle(bandStats.name, fontOptions)}
               >
                 Your Band
               </span>
@@ -34,65 +30,39 @@ export default function BandStatsModal({
           </h2>
           <button 
             onClick={onClose}
-            style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px' }}
+            className="bg-none border-none text-muted-foreground hover:text-destructive cursor-pointer p-1 transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px', marginBottom: '20px' }}>
-          <div style={{ 
-            padding: '16px', 
-            background: '#000000', 
-            borderRadius: '8px',
-            border: '1px solid #334155'
-          }}>
-            <div style={{ color: '#94a3b8', fontSize: '0.85em', marginBottom: '4px' }}>Chart Position</div>
-            <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#3b82f6' }}>#{bandStats.position}</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="p-4 bg-muted/50 rounded border border-border/20">
+            <div className="text-muted-foreground text-xs mb-1">Chart Position</div>
+            <div className="text-2xl font-bold text-primary">#{bandStats.position}</div>
           </div>
 
-          <div style={{ 
-            padding: '16px', 
-            background: '#000000', 
-            borderRadius: '8px',
-            border: '1px solid #334155'
-          }}>
-            <div style={{ color: '#94a3b8', fontSize: '0.85em', marginBottom: '4px' }}>Fame</div>
-            <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#f59e0b' }}>{bandStats.fame}</div>
+          <div className="p-4 bg-muted/50 rounded border border-border/20">
+            <div className="text-muted-foreground text-xs mb-1">Fame</div>
+            <div className="text-2xl font-bold text-accent">{bandStats.fame}</div>
           </div>
 
-          <div style={{ 
-            padding: '16px', 
-            background: '#000000', 
-            borderRadius: '8px',
-            border: '1px solid #334155'
-          }}>
-            <div style={{ color: '#94a3b8', fontSize: '0.85em', marginBottom: '4px' }}>Songs</div>
-            <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#10b981' }}>{bandStats.songs?.length || 0}</div>
+          <div className="p-4 bg-muted/50 rounded border border-border/20">
+            <div className="text-muted-foreground text-xs mb-1">Songs</div>
+            <div className="text-2xl font-bold text-secondary">{bandStats.songs?.length || 0}</div>
           </div>
 
-          <div style={{ 
-            padding: '16px', 
-            background: '#000000', 
-            borderRadius: '8px',
-            border: '1px solid #334155'
-          }}>
-            <div style={{ color: '#94a3b8', fontSize: '0.85em', marginBottom: '4px' }}>Albums</div>
-            <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#8b5cf6' }}>{bandStats.albums?.length || 0}</div>
+          <div className="p-4 bg-muted/50 rounded border border-border/20">
+            <div className="text-muted-foreground text-xs mb-1">Albums</div>
+            <div className="text-2xl font-bold text-primary">{bandStats.albums?.length || 0}</div>
           </div>
         </div>
 
-        <div style={{ 
-          padding: '16px', 
-          background: '#0f172a', 
-          borderRadius: '8px',
-          border: '1px solid #334155',
-          marginBottom: '20px'
-        }}>
-          <h3 style={{ marginTop: 0, marginBottom: '12px', fontSize: '1.1em' }}>Streaming Stats</h3>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ color: '#94a3b8' }}>Weekly Streams</span>
-            <strong style={{ color: '#3b82f6', fontSize: '1.2em' }}>
+        <div className="p-4 bg-muted/30 rounded border border-border/20 mb-6">
+          <h3 className="mt-0 mb-3 text-lg font-bold text-foreground">Streaming Stats</h3>
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-muted-foreground">Weekly Streams</span>
+            <strong className="text-primary text-lg">
               {bandStats.totalStreams ? `${(bandStats.totalStreams / 1000).toFixed(1)}k` : '0'}
             </strong>
           </div>
@@ -100,7 +70,7 @@ export default function BandStatsModal({
             const topSong = [...(bandStats.songs || [])].sort((a, b) => (b.weeklyStreams || 0) - (a.weeklyStreams || 0))[0];
             const topSongStreams = topSong?.weeklyStreams || 0;
             return (
-              <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '8px' }}>
+              <div className="text-xs text-muted-foreground/80 mt-2">
                 Top Song: {topSong?.title || 'N/A'} ({((topSongStreams) / 1000).toFixed(1)}k streams/wk)
               </div>
             );
@@ -108,34 +78,21 @@ export default function BandStatsModal({
         </div>
 
         {bandStats.songs && bandStats.songs.length > 0 && (
-          <div style={{ 
-            padding: '16px', 
-            background: '#000000', 
-            borderRadius: '8px',
-            border: '1px solid #334155',
-            marginBottom: '20px'
-          }}>
-            <h3 style={{ marginTop: 0, marginBottom: '12px', fontSize: '1.1em' }}>Top Songs</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className="p-4 bg-muted/50 rounded border border-border/20 mb-6">
+            <h3 className="mt-0 mb-3 text-lg font-bold text-foreground">Top Songs</h3>
+            <div className="flex flex-col gap-2">
               {[...(bandStats.songs || [])]
                 .sort((a, b) => (b.weeklyStreams || 0) - (a.weeklyStreams || 0))
                 .slice(0, 5)
                 .map((song, idx) => (
-                  <div key={song.title || idx} style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    padding: '8px',
-                    background: '#000000',
-                    borderRadius: '4px'
-                  }}>
+                  <div key={song.title || idx} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                     <div>
-                      <div style={{ fontWeight: 'bold' }}>{song.title || 'Untitled'}</div>
-                      <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                      <div className="font-semibold text-foreground">{song.title || 'Untitled'}</div>
+                      <div className="text-xs text-muted-foreground">
                         Q{song.quality || 0} • Pop {song.popularity || 0}
                       </div>
                     </div>
-                    <div style={{ color: '#3b82f6', fontWeight: 'bold' }}>
+                    <div className="text-primary font-bold text-sm">
                       {song.weeklyStreams ? `${(song.weeklyStreams / 1000).toFixed(1)}k` : '0'} streams/wk
                     </div>
                   </div>
@@ -145,32 +102,20 @@ export default function BandStatsModal({
         )}
 
         {bandStats.albums && bandStats.albums.length > 0 && (
-          <div style={{ 
-            padding: '16px', 
-            background: '#000000', 
-            borderRadius: '8px',
-            border: '1px solid #334155'
-          }}>
-            <h3 style={{ marginTop: 0, marginBottom: '12px', fontSize: '1.1em' }}>Albums</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className="p-4 bg-muted/50 rounded border border-border/20 mb-6">
+            <h3 className="mt-0 mb-3 text-lg font-bold text-foreground">Albums</h3>
+            <div className="flex flex-col gap-2">
               {bandStats.albums.map((album, idx) => {
                 const albumStreams = Math.floor((album.quality || 0) * 150 + (album.popularity || 0) * 80) * Math.max(0.3, 1 - (album.age || 0) * 0.02);
                 return (
-                  <div key={album.name || idx} style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    padding: '8px',
-                    background: '#000000',
-                    borderRadius: '4px'
-                  }}>
+                  <div key={album.name || idx} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                     <div>
-                      <div style={{ fontWeight: 'bold' }}>{album.name || 'Untitled Album'}</div>
-                      <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                      <div className="font-semibold text-foreground">{album.name || 'Untitled Album'}</div>
+                      <div className="text-xs text-muted-foreground">
                         Q{album.quality || 0} • Pop {album.popularity || 0} • {album.songs || 0} songs • Age {album.age || 0}w
                       </div>
                     </div>
-                    <div style={{ color: '#8b5cf6', fontWeight: 'bold' }}>
+                    <div className="text-secondary font-bold text-sm">
                       {albumStreams > 0 ? `${(albumStreams / 1000).toFixed(1)}k` : '0'} streams/wk
                     </div>
                   </div>
@@ -180,8 +125,8 @@ export default function BandStatsModal({
           </div>
         )}
 
-        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
-          <button className="btn" onClick={onClose}>Close</button>
+        <div className="mt-6 flex justify-end">
+          <button className="px-6 py-2 bg-muted hover:bg-muted/80 text-foreground rounded font-medium transition-colors" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

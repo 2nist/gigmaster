@@ -12,57 +12,25 @@ export const GigsModal = ({ isOpen, onClose, gameData, onBookGig }) => {
   ];
 
   return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: '#1a1a2e',
-        borderRadius: '0.75rem',
-        padding: '2rem',
-        maxWidth: '600px',
-        width: '90%',
-        maxHeight: '80vh',
-        overflowY: 'auto',
-        border: '2px solid rgba(131, 56, 236, 0.3)'
-      }}>
-        <h3 style={{ margin: '0 0 1.5rem 0' }}>Book a Gig</h3>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000">
+      <div className="bg-card rounded-xl p-8 max-w-2xl w-11/12 max-h-[80vh] overflow-y-auto border-2 border-primary/30">
+        <h3 className="m-0 mb-6 text-foreground text-xl font-bold">Book a Gig</h3>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="flex flex-col gap-4 mb-8">
           {venues.map(venue => (
             <div
               key={venue.id}
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                padding: '1.25rem',
-                borderRadius: '0.5rem',
-                border: '1px solid rgba(131, 56, 236, 0.3)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-              }}
+              className="bg-muted/50 p-4 rounded border border-border/20 flex justify-between items-center hover:border-primary/30 transition-all"
             >
               <div>
-                <h4 style={{ margin: 0, marginBottom: '0.25rem' }}>{venue.name}</h4>
-                <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#aaa' }}>
+                <h4 className="m-0 mb-1 text-foreground font-semibold">{venue.name}</h4>
+                <p className="m-0 text-sm text-muted-foreground">
                   {venue.type} • Success: {Math.round(venue.success * 100)}% • Earnings: ${venue.earnings}
                 </p>
               </div>
               <button
                 onClick={() => onBookGig?.(venue)}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  backgroundColor: 'rgba(34, 197, 94, 0.3)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '0.375rem',
-                  cursor: 'pointer'
-                }}
+                className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded font-medium transition-colors flex-shrink-0"
               >
                 Book
               </button>
@@ -72,15 +40,7 @@ export const GigsModal = ({ isOpen, onClose, gameData, onBookGig }) => {
 
         <button
           onClick={onClose}
-          style={{
-            padding: '0.75rem 2rem',
-            backgroundColor: 'rgba(239, 68, 68, 0.3)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '0.375rem',
-            cursor: 'pointer',
-            width: '100%'
-          }}
+          className="w-full px-6 py-3 bg-destructive/30 hover:bg-destructive/40 text-foreground rounded font-medium transition-colors"
         >
           Close
         </button>

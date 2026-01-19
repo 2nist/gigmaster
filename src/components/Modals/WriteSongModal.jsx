@@ -45,15 +45,15 @@ export default function WriteSongModal({
   };
 
   return (
-    <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
-        <h2 style={{ marginBottom: '12px' }}>Write & Record Song</h2>
-        <p style={{ marginBottom: '20px', color: '#94a3b8' }}>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000" onClick={handleClose}>
+      <div className="bg-card rounded-lg p-8 max-w-md w-11/12 border-2 border-primary/30" onClick={(e) => e.stopPropagation()}>
+        <h2 className="mb-3 text-foreground text-xl font-bold">Write & Record Song</h2>
+        <p className="mb-6 text-muted-foreground">
           Record a new single at {STUDIO_TIERS[studioTier].name}. You can edit the song title below.
         </p>
         
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <div className="mb-6">
+          <label className="block mb-2 font-bold text-foreground">
             Song Title
           </label>
           <input
@@ -61,57 +61,41 @@ export default function WriteSongModal({
             value={songTitle}
             onChange={(e) => setSongTitle(e.target.value)}
             placeholder="Enter song title..."
-            style={{
-              width: '100%',
-              padding: '12px',
-              background: '#0f172a',
-              border: '1px solid #334155',
-              borderRadius: '6px',
-              color: '#fff',
-              fontSize: '1em'
-            }}
+            className="w-full px-3 py-3 bg-input border border-border/50 rounded text-foreground placeholder-muted-foreground text-base"
             onKeyDown={handleKeyDown}
             autoFocus
           />
-          <p style={{ fontSize: '0.85em', color: '#94a3b8', marginTop: '8px' }}>
+          <p className="text-xs text-muted-foreground mt-2">
             Press Enter to record, or click the button below.
           </p>
         </div>
 
-        <div style={{ 
-          padding: '12px', 
-          background: '#1e293b', 
-          borderRadius: '6px',
-          border: '1px solid #334155',
-          marginBottom: '20px'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-            <span style={{ color: '#94a3b8' }}>Studio:</span>
-            <strong>{STUDIO_TIERS[studioTier].name}</strong>
+        <div className="p-3 bg-muted/30 rounded border border-border/20 mb-6">
+          <div className="flex justify-between mb-1">
+            <span className="text-muted-foreground">Studio:</span>
+            <strong className="text-foreground">{STUDIO_TIERS[studioTier].name}</strong>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-            <span style={{ color: '#94a3b8' }}>Cost:</span>
-            <strong>${cost}</strong>
+          <div className="flex justify-between mb-1">
+            <span className="text-muted-foreground">Cost:</span>
+            <strong className="text-accent">${cost}</strong>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ color: '#94a3b8' }}>Quality Bonus:</span>
-            <strong>+{STUDIO_TIERS[studioTier].qualityBonus}</strong>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Quality Bonus:</span>
+            <strong className="text-secondary">+{STUDIO_TIERS[studioTier].qualityBonus}</strong>
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className="flex gap-3">
           <button 
-            className="btn" 
+            className="flex-1 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded font-medium transition-colors disabled:opacity-50" 
             onClick={handleRecord}
-            style={{ flex: 1 }}
             disabled={!songTitle || !songTitle.trim()}
           >
             Record Song
           </button>
           <button 
-            className="btn-secondary" 
+            className="flex-1 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded font-medium transition-colors" 
             onClick={handleClose}
-            style={{ flex: 1 }}
           >
             Cancel
           </button>

@@ -9,30 +9,30 @@ export default function LoadModal({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h2>Load Game</h2>
-          <button className="btn-secondary" onClick={onClose}>✕</button>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000" onClick={onClose}>
+      <div className="bg-card rounded-lg p-8 max-w-md w-11/12 max-h-[80vh] overflow-y-auto border-2 border-primary/30" onClick={(e) => e.stopPropagation()}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-foreground m-0">Load Game</h2>
+          <button className="text-muted-foreground hover:text-destructive transition-colors text-xl" onClick={onClose}>✕</button>
         </div>
         {Object.keys(saveSlots).length === 0 ? (
           <div>
-            <p style={{ color: '#94a3b8', marginBottom: '16px' }}>No saved games found</p>
-            <button className="btn-secondary" onClick={onClose}>Close</button>
+            <p className="text-muted-foreground mb-6">No saved games found</p>
+            <button className="w-full px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded font-medium transition-colors" onClick={onClose}>Close</button>
           </div>
         ) : (
-          <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+          <div className="max-h-[400px] overflow-y-auto">
             {Object.entries(saveSlots).map(([name, data]) => (
-              <div key={name} style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155', marginBottom: '8px' }}>
-                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{name}</div>
-                <div style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '8px' }}>
+              <div key={name} className="p-3 bg-muted/50 rounded border border-border/20 mb-2">
+                <div className="font-bold text-foreground mb-2">{name}</div>
+                <div className="text-sm text-muted-foreground mb-3">
                   <div>Band: {data.bandName}</div>
                   <div>Week: {data.state.week} • Fame: {data.state.fame} • Money: ${data.state.money.toLocaleString()}</div>
-                  <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '4px' }}>
+                  <div className="text-xs text-muted-foreground/60 mt-2">
                     Saved: {new Date(data.timestamp).toLocaleString()}
                   </div>
                 </div>
-                <button className="btn" onClick={() => onLoad(name)} style={{ width: '100%' }}>
+                <button className="w-full px-4 py-2 bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded font-medium transition-colors text-sm" onClick={() => onLoad(name)}>
                   Load This Game
                 </button>
               </div>

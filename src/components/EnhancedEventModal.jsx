@@ -26,12 +26,23 @@ export const EnhancedEventModal = ({
 
   const getRiskColor = (riskLevel) => {
     switch (riskLevel) {
-      case 'low': return '#22c55e';
-      case 'medium': return '#eab308';
-      case 'high': return '#f97316';
-      case 'extreme': return '#dc2626';
-      case 'critical': return '#000000';
-      default: return '#6b7280';
+      case 'low': return 'text-secondary';
+      case 'medium': return 'text-accent';
+      case 'high': return 'text-orange-500';
+      case 'extreme': return 'text-destructive';
+      case 'critical': return 'text-destructive';
+      default: return 'text-muted-foreground';
+    }
+  };
+
+  const getRiskBgColor = (riskLevel) => {
+    switch (riskLevel) {
+      case 'low': return 'border-secondary';
+      case 'medium': return 'border-accent';
+      case 'high': return 'border-orange-500';
+      case 'extreme': return 'border-destructive';
+      case 'critical': return 'border-destructive';
+      default: return 'border-border';
     }
   };
 
@@ -50,9 +61,9 @@ export const EnhancedEventModal = ({
     if (value === 0) return null;
     const isPositive = value > 0;
     const symbol = isPositive ? '+' : '';
-    const color = isPositive ? '#22c55e' : '#ef4444';
+    const className = isPositive ? 'text-secondary' : 'text-destructive';
     return (
-      <div key={label} style={{ color, fontSize: '0.875rem', marginBottom: '0.25rem' }}>
+      <div key={label} className={`${className} text-sm mb-1`}>
         {symbol}{value} {label}
       </div>
     );
@@ -92,74 +103,35 @@ export const EnhancedEventModal = ({
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1000,
-        padding: '1rem'
-      }}
+      className="fixed inset-0 bg-black/90 flex items-center justify-center z-1000 p-4"
       onClick={onClose}
     >
       {/* Atmospheric background */}
       <div
+        className="absolute inset-0 opacity-50 animate-pulse"
         style={{
-          position: 'absolute',
-          inset: 0,
           background: `radial-gradient(circle at ${Math.random() * 100}% ${Math.random() * 100}%, 
-            rgba(139, 92, 246, 0.1) 0%, 
-            rgba(0, 0, 0, 0.9) 100%)`,
-          animation: 'pulse 4s ease-in-out infinite'
+            rgba(79, 70, 229, 0.1) 0%, 
+            rgba(0, 0, 0, 0.9) 100%)`
         }}
       />
 
       {/* Modal content */}
       <div
-        style={{
-          backgroundColor: '#1f2937',
-          borderRadius: '0.5rem',
-          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)',
-          maxWidth: '800px',
-          width: '100%',
-          maxHeight: '90vh',
-          overflow: 'auto',
-          position: 'relative',
-          zIndex: 1001,
-          border: `2px solid ${getRiskColor(event.risk || 'medium')}`,
-          animation: 'slideUp 0.3s ease-out'
-        }}
+        className={`bg-card rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-auto relative z-1001 border-2 ${getRiskBgColor(event.risk || 'medium')}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div
-          style={{
-            backgroundColor: '#111827',
-            padding: '1.5rem',
-            borderBottom: `2px solid ${getRiskColor(event.risk || 'medium')}`,
-            position: 'sticky',
-            top: 0
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
-            <span
-              style={{
-                fontSize: '2rem',
-                minWidth: '3rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+        <div className={`bg-background border-b-2 ${getRiskBgColor(event.risk || 'medium')} p-6 sticky top-0`}>
+          <div className="flex items-center gap-4 mb-2">
+            <span className="text-4xl w-12 flex items-center justify-center">
               {getRiskEmoji(event.risk || 'medium')}
             </span>
-            <div style={{ flex: 1 }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: 0 }}>
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-foreground m-0">
                 {event.title}
               </h2>
-              <p style={{ color: '#9ca3af', margin: '0.25rem 0 0 0', fontSize: '0.875rem' }}>
+              <p className="text-muted-foreground m-0 mt-1 text-sm">
                 {event.category?.replace('_', ' ')} • Risk: {event.risk?.toUpperCase()}
               </p>
             </div>
@@ -167,88 +139,67 @@ export const EnhancedEventModal = ({
 
           {/* Character info */}
           {event.character && (
-            <div style={{ 
-              backgroundColor: 'rgba(107, 114, 128, 0.3)',
-              padding: '0.75rem',
-              borderRadius: '0.375rem',
-              marginTop: '0.75rem'
-            }}>
-              <p style={{ color: '#e5e7eb', margin: 0, fontStyle: 'italic' }}>
-                <strong>{event.character.name}</strong>: {event.character.dialogue}
+            <div className="bg-muted/30 p-3 rounded mt-3">
+              <p className="text-foreground/80 m-0 italic">
+                <strong className="text-foreground">{event.character.name}</strong>: {event.character.dialogue}
               </p>
             </div>
           )}
         </div>
 
         {/* Event description */}
-        <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid #374151' }}>
-          <p style={{ color: '#e5e7eb', lineHeight: 1.6, fontSize: '1rem', margin: 0 }}>
+        <div className="p-8 border-b border-border/20">
+          <p className="text-foreground leading-relaxed text-base m-0">
             {event.description}
           </p>
 
           {/* Psychological state indicator */}
           {psychologicalState && (
-            <div style={{ marginTop: '1.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div style={{ backgroundColor: 'rgba(79, 70, 229, 0.1)', padding: '0.75rem', borderRadius: '0.375rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#a78bfa', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-                  Stress Level
-                </div>
-                <div style={{ height: '0.5rem', backgroundColor: '#374151', borderRadius: '0.25rem', overflow: 'hidden' }}>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="bg-primary/10 p-3 rounded">
+                <div className="text-xs text-primary/80 uppercase mb-1">Stress Level</div>
+                <div className="h-1 bg-input rounded overflow-hidden">
                   <div
-                    style={{
-                      height: '100%',
-                      backgroundColor: psychologicalState.stress_level > 70 ? '#ef4444' : '#f97316',
-                      width: `${psychologicalState.stress_level || 0}%`,
-                      transition: 'width 0.3s ease'
-                    }}
+                    className={psychologicalState.stress_level > 70 ? 'bg-destructive' : 'bg-orange-500'}
+                    style={{ height: '100%', width: `${psychologicalState.stress_level || 0}%` }}
                   />
                 </div>
               </div>
 
-              <div style={{ backgroundColor: 'rgba(79, 70, 229, 0.1)', padding: '0.75rem', borderRadius: '0.375rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#a78bfa', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-                  Moral Integrity
-                </div>
-                <div style={{ height: '0.5rem', backgroundColor: '#374151', borderRadius: '0.25rem', overflow: 'hidden' }}>
+              <div className="bg-primary/10 p-3 rounded">
+                <div className="text-xs text-primary/80 uppercase mb-1">Moral Integrity</div>
+                <div className="h-1 bg-input rounded overflow-hidden">
                   <div
-                    style={{
-                      height: '100%',
-                      backgroundColor: psychologicalState.moral_integrity < 40 ? '#ef4444' : psychologicalState.moral_integrity < 70 ? '#f97316' : '#22c55e',
-                      width: `${psychologicalState.moral_integrity || 100}%`,
-                      transition: 'width 0.3s ease'
-                    }}
+                    className={
+                      psychologicalState.moral_integrity < 40 ? 'bg-destructive' : 
+                      psychologicalState.moral_integrity < 70 ? 'bg-orange-500' : 
+                      'bg-secondary'
+                    }
+                    style={{ height: '100%', width: `${psychologicalState.moral_integrity || 100}%` }}
                   />
                 </div>
               </div>
 
-              <div style={{ backgroundColor: 'rgba(79, 70, 229, 0.1)', padding: '0.75rem', borderRadius: '0.375rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#a78bfa', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-                  Addiction Risk
-                </div>
-                <div style={{ height: '0.5rem', backgroundColor: '#374151', borderRadius: '0.25rem', overflow: 'hidden' }}>
+              <div className="bg-primary/10 p-3 rounded">
+                <div className="text-xs text-primary/80 uppercase mb-1">Addiction Risk</div>
+                <div className="h-1 bg-input rounded overflow-hidden">
                   <div
-                    style={{
-                      height: '100%',
-                      backgroundColor: psychologicalState.addiction_risk > 70 ? '#ef4444' : psychologicalState.addiction_risk > 40 ? '#f97316' : '#eab308',
-                      width: `${psychologicalState.addiction_risk || 0}%`,
-                      transition: 'width 0.3s ease'
-                    }}
+                    className={
+                      psychologicalState.addiction_risk > 70 ? 'bg-destructive' : 
+                      psychologicalState.addiction_risk > 40 ? 'bg-orange-500' : 
+                      'bg-accent'
+                    }
+                    style={{ height: '100%', width: `${psychologicalState.addiction_risk || 0}%` }}
                   />
                 </div>
               </div>
 
-              <div style={{ backgroundColor: 'rgba(79, 70, 229, 0.1)', padding: '0.75rem', borderRadius: '0.375rem' }}>
-                <div style={{ fontSize: '0.75rem', color: '#a78bfa', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-                  Paranoia
-                </div>
-                <div style={{ height: '0.5rem', backgroundColor: '#374151', borderRadius: '0.25rem', overflow: 'hidden' }}>
+              <div className="bg-primary/10 p-3 rounded">
+                <div className="text-xs text-primary/80 uppercase mb-1">Paranoia</div>
+                <div className="h-1 bg-input rounded overflow-hidden">
                   <div
-                    style={{
-                      height: '100%',
-                      backgroundColor: psychologicalState.paranoia > 70 ? '#ef4444' : '#f97316',
-                      width: `${psychologicalState.paranoia || 0}%`,
-                      transition: 'width 0.3s ease'
-                    }}
+                    className={psychologicalState.paranoia > 70 ? 'bg-destructive' : 'bg-orange-500'}
+                    style={{ height: '100%', width: `${psychologicalState.paranoia || 0}%` }}
                   />
                 </div>
               </div>
@@ -257,19 +208,14 @@ export const EnhancedEventModal = ({
         </div>
 
         {/* Choices */}
-        <div style={{ padding: '1.5rem' }}>
-          <h3 style={{ color: '#9ca3af', fontSize: '0.875rem', textTransform: 'uppercase', marginBottom: '1rem' }}>
+        <div className="p-6">
+          <h3 className="text-muted-foreground text-xs uppercase mb-4 font-semibold">
             What do you do?
           </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="flex flex-col gap-4">
             {event.choices?.map((choice) => (
-              <div
-                key={choice.id}
-                style={{
-                  position: 'relative'
-                }}
-              >
+              <div key={choice.id} className="relative">
                 <button
                   onClick={() => {
                     setSelectedChoice(choice.id);
@@ -277,51 +223,33 @@ export const EnhancedEventModal = ({
                   }}
                   onMouseEnter={() => setHoverChoice(choice.id)}
                   onMouseLeave={() => setHoverChoice(null)}
-                  style={{
-                    width: '100%',
-                    padding: '1rem',
-                    backgroundColor: selectedChoice === choice.id ? 'rgba(139, 92, 246, 0.3)' : hoverChoice === choice.id ? 'rgba(107, 114, 128, 0.3)' : 'rgba(55, 65, 81, 0.5)',
-                    border: `2px solid ${selectedChoice === choice.id ? '#a78bfa' : getRiskColor(choice.riskLevel)}`,
-                    borderRadius: '0.375rem',
-                    color: '#e5e7eb',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem'
-                  }}
+                  className={`w-full p-4 rounded border-2 transition-all flex items-center gap-3 text-left font-medium ${
+                    selectedChoice === choice.id 
+                      ? `bg-primary/20 ${getRiskBgColor(choice.riskLevel)}` 
+                      : hoverChoice === choice.id 
+                      ? 'bg-muted/30 border-muted-foreground/50' 
+                      : 'bg-muted/10 border-border/50'
+                  } text-foreground`}
                 >
-                  <span style={{ fontSize: '1.25rem' }}>
+                  <span className="text-xl flex-shrink-0">
                     {getRiskEmoji(choice.riskLevel)}
                   </span>
-                  <span style={{ flex: 1 }}>{choice.text}</span>
-                  {selectedChoice === choice.id && <AlertTriangle size={18} />}
+                  <span className="flex-1">{choice.text}</span>
+                  {selectedChoice === choice.id && <AlertTriangle size={18} className="flex-shrink-0" />}
                 </button>
 
                 {/* Consequence preview */}
                 {selectedChoice === choice.id && showConsequences && (
-                  <div
-                    style={{
-                      marginTop: '0.75rem',
-                      padding: '1rem',
-                      backgroundColor: 'rgba(30, 27, 35, 0.8)',
-                      borderLeft: `4px solid ${getRiskColor(choice.riskLevel)}`,
-                      borderRadius: '0.375rem',
-                      fontSize: '0.875rem'
-                    }}
-                  >
-                    <div style={{ color: '#f3e8ff', fontWeight: 'bold', marginBottom: '0.75rem' }}>
-                      Consequences:
-                    </div>
+                  <div className="mt-3 p-4 bg-background/80 border-l-4 border-accent rounded text-sm">
+                    <div className="text-foreground font-bold mb-3">Consequences:</div>
 
                     {(() => {
                       const impacts = calculateImpact(choice);
                       return (
                         <>
                           {impacts.immediate.length > 0 && (
-                            <div style={{ marginBottom: '0.75rem' }}>
-                              <div style={{ color: '#a78bfa', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
+                            <div className="mb-3">
+                              <div className="text-primary text-xs uppercase mb-1 font-semibold">
                                 Immediate Effects
                               </div>
                               {impacts.immediate}
@@ -329,8 +257,8 @@ export const EnhancedEventModal = ({
                           )}
 
                           {impacts.psychological.length > 0 && (
-                            <div style={{ marginBottom: '0.75rem' }}>
-                              <div style={{ color: '#a78bfa', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
+                            <div className="mb-3">
+                              <div className="text-primary text-xs uppercase mb-1 font-semibold">
                                 Psychological Impact
                               </div>
                               {impacts.psychological}
@@ -338,8 +266,8 @@ export const EnhancedEventModal = ({
                           )}
 
                           {impacts.longTerm.length > 0 && (
-                            <div>
-                              <div style={{ color: '#a78bfa', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
+                            <div className="mb-3">
+                              <div className="text-primary text-xs uppercase mb-1 font-semibold">
                                 Long-term Consequences
                               </div>
                               {impacts.longTerm}
@@ -347,12 +275,12 @@ export const EnhancedEventModal = ({
                           )}
 
                           {choice.traumaRisk && (
-                            <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #4b5563', color: '#fecaca' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                            <div className="mt-3 pt-3 border-t border-border/50 text-destructive/80">
+                              <div className="flex items-center gap-2 mb-1 font-semibold">
                                 <Skull size={14} />
-                                <span style={{ fontWeight: 'bold' }}>Trauma Risk: {(choice.traumaRisk.probability * 100).toFixed(0)}%</span>
+                                <span>Trauma Risk: {(choice.traumaRisk.probability * 100).toFixed(0)}%</span>
                               </div>
-                              <div style={{ fontSize: '0.8rem', color: '#f3e8ff' }}>
+                              <div className="text-xs text-foreground/70">
                                 {choice.traumaRisk.description}
                               </div>
                             </div>
@@ -361,25 +289,13 @@ export const EnhancedEventModal = ({
                       );
                     })()}
 
-                    <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem' }}>
+                    <div className="mt-4 flex gap-2">
                       <button
                         onClick={() => {
                           onChoice(event.id, choice.id, choice.text, calculateImpact(choice));
                           onClose();
                         }}
-                        style={{
-                          flex: 1,
-                          padding: '0.75rem',
-                          backgroundColor: getRiskColor(choice.riskLevel),
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '0.375rem',
-                          cursor: 'pointer',
-                          fontWeight: 'bold',
-                          transition: 'opacity 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => e.target.style.opacity = '0.8'}
-                        onMouseLeave={(e) => e.target.style.opacity = '1'}
+                        className={`flex-1 py-2 px-3 rounded text-white font-semibold transition-opacity hover:opacity-80 ${getRiskBgColor(choice.riskLevel)} bg-accent`}
                       >
                         Confirm Choice
                       </button>
@@ -388,17 +304,7 @@ export const EnhancedEventModal = ({
                           setSelectedChoice(null);
                           setShowConsequences(false);
                         }}
-                        style={{
-                          padding: '0.75rem 1rem',
-                          backgroundColor: '#374151',
-                          color: '#e5e7eb',
-                          border: 'none',
-                          borderRadius: '0.375rem',
-                          cursor: 'pointer',
-                          transition: 'opacity 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => e.target.style.opacity = '0.7'}
-                        onMouseLeave={(e) => e.target.style.opacity = '1'}
+                        className="px-4 py-2 bg-muted text-foreground rounded transition-opacity hover:opacity-70"
                       >
                         Back
                       </button>
@@ -413,24 +319,7 @@ export const EnhancedEventModal = ({
         {/* Close button */}
         <button
           onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            backgroundColor: 'transparent',
-            color: '#9ca3af',
-            border: 'none',
-            fontSize: '1.5rem',
-            cursor: 'pointer',
-            width: '2rem',
-            height: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'color 0.2s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.color = '#ef4444'}
-          onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
+          className="absolute top-4 right-4 text-muted-foreground hover:text-destructive transition-colors text-2xl w-8 h-8 flex items-center justify-center"
         >
           ✕
         </button>

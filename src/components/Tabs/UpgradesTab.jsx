@@ -8,37 +8,37 @@
  */
 export const UpgradesTab = ({ gameData }) => (
   <div>
-    <h3>Equipment Upgrades</h3>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-        <div style={{ color: '#aaa', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Studio Tier</div>
-        <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{gameData?.equipment?.studioTier || 'Basic'}</div>
+    <h3 className="text-xl font-bold text-foreground mb-4">Equipment Upgrades</h3>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="bg-card border border-primary/30 p-6 rounded-lg">
+        <div className="text-muted-foreground text-xs uppercase mb-2">Studio Tier</div>
+        <div className="text-2xl font-bold text-primary">{gameData?.equipment?.studioTier || 'Basic'}</div>
       </div>
-      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-        <div style={{ color: '#aaa', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Transport Tier</div>
-        <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{gameData?.equipment?.transportTier || 'Basic'}</div>
+      <div className="bg-card border border-secondary/30 p-6 rounded-lg">
+        <div className="text-muted-foreground text-xs uppercase mb-2">Transport Tier</div>
+        <div className="text-2xl font-bold text-secondary">{gameData?.equipment?.transportTier || 'Basic'}</div>
       </div>
-      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-        <div style={{ color: '#aaa', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Gear Tier</div>
-        <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{gameData?.equipment?.gearTier || 'Basic'}</div>
+      <div className="bg-card border border-accent/30 p-6 rounded-lg">
+        <div className="text-muted-foreground text-xs uppercase mb-2">Gear Tier</div>
+        <div className="text-2xl font-bold text-accent">{gameData?.equipment?.gearTier || 'Basic'}</div>
       </div>
     </div>
 
-    <h3>Upgrade History</h3>
+    <h3 className="text-xl font-bold text-foreground mb-4">Upgrade History</h3>
     {gameData?.upgrades?.length > 0 ? (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <div className="flex flex-col gap-2">
         {gameData.upgrades.map((upgrade, idx) => (
-          <div key={idx} style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div key={idx} className="bg-card border border-border/20 p-4 rounded-lg flex justify-between items-start hover:border-primary/30 transition-all">
             <div>
-              <p style={{ margin: 0, fontWeight: 'bold' }}>{upgrade.name || upgrade}</p>
-              {upgrade.type && <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#aaa' }}>Type: {upgrade.type}</p>}
+              <p className="text-foreground font-semibold m-0">{upgrade.name || upgrade}</p>
+              {upgrade.type && <p className="text-sm text-muted-foreground mt-1">Type: {upgrade.type}</p>}
             </div>
-            {upgrade.cost && <div style={{ color: '#22c55e', fontWeight: 'bold' }}>-${upgrade.cost.toLocaleString()}</div>}
+            {upgrade.cost && <div className="text-secondary font-bold ml-4">-${upgrade.cost.toLocaleString()}</div>}
           </div>
         ))}
       </div>
     ) : (
-      <p style={{ color: '#aaa' }}>No upgrades purchased yet. Save up and improve your gear!</p>
+      <p className="text-muted-foreground">No upgrades purchased yet. Save up and improve your gear!</p>
     )}
   </div>
 );

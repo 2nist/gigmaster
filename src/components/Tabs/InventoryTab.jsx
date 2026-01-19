@@ -8,34 +8,34 @@
  */
 export const InventoryTab = ({ gameData }) => (
   <div>
-    <h3>Songs</h3>
+    <h3 className="text-xl font-bold text-foreground mb-4">Songs</h3>
     {gameData?.songs?.length > 0 ? (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {gameData.songs.map(song => (
-          <div key={song.id} style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-            <h4 style={{ margin: '0 0 0.5rem 0' }}>{song.name}</h4>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Quality: {song.quality}/10</p>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Genre: {song.genre}</p>
+          <div key={song.id} className="bg-card border border-primary/30 p-4 rounded-lg hover:border-primary/60 transition-all">
+            <h4 className="text-foreground font-semibold mb-2">{song.name}</h4>
+            <p className="text-sm text-muted-foreground mb-1">Quality: <span className="text-accent font-medium">{song.quality}/10</span></p>
+            <p className="text-sm text-muted-foreground">Genre: {song.genre}</p>
           </div>
         ))}
       </div>
     ) : (
-      <p style={{ color: '#aaa' }}>No songs recorded yet. Start writing!</p>
+      <p className="text-muted-foreground mb-8">No songs recorded yet. Start writing!</p>
     )}
 
-    <h3 style={{ marginTop: '2rem' }}>Albums</h3>
+    <h3 className="text-xl font-bold text-foreground mb-4 mt-8">Albums</h3>
     {gameData?.albums?.length > 0 ? (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {gameData.albums.map(album => (
-          <div key={album.id} style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-            <h4 style={{ margin: '0 0 0.5rem 0' }}>{album.name}</h4>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Songs: {album.songs?.length || 0}</p>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Label: {album.label || 'Independent'}</p>
+          <div key={album.id} className="bg-card border border-secondary/30 p-4 rounded-lg hover:border-secondary/60 transition-all">
+            <h4 className="text-foreground font-semibold mb-2">{album.name}</h4>
+            <p className="text-sm text-muted-foreground mb-1">Songs: <span className="text-secondary font-medium">{album.songs?.length || 0}</span></p>
+            <p className="text-sm text-muted-foreground">Label: {album.label || 'Independent'}</p>
           </div>
         ))}
       </div>
     ) : (
-      <p style={{ color: '#aaa' }}>No albums released yet.</p>
+      <p className="text-muted-foreground">No albums released yet.</p>
     )}
   </div>
 );

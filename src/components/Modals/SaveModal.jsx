@@ -26,46 +26,46 @@ export default function SaveModal({
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h2>Save Game</h2>
-          <button className="btn-secondary" onClick={onClose}>✕</button>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000" onClick={onClose}>
+      <div className="bg-card rounded-lg p-8 max-w-md w-11/12 max-h-[80vh] overflow-y-auto border-2 border-primary/30" onClick={(e) => e.stopPropagation()}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-foreground m-0">Save Game</h2>
+          <button className="text-muted-foreground hover:text-destructive transition-colors text-xl" onClick={onClose}>✕</button>
         </div>
-        <div style={{ marginBottom: '16px' }}>
-          <label>Save Slot Name</label>
+        <div className="mb-6">
+          <label className="block text-foreground font-medium mb-2">Save Slot Name</label>
           <input
             type="text"
             value={saveName}
             onChange={(e) => setSaveName(e.target.value)}
             placeholder="Enter save name..."
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
+            className="w-full px-3 py-2 bg-input border border-border/50 rounded text-foreground placeholder-muted-foreground"
             onKeyDown={handleKeyDown}
           />
         </div>
-        <div style={{ marginBottom: '16px', maxHeight: '300px', overflowY: 'auto' }}>
-          <h3>Existing Saves</h3>
+        <div className="mb-6 max-h-[300px] overflow-y-auto">
+          <h3 className="text-lg font-bold text-foreground mb-3">Existing Saves</h3>
           {Object.keys(saveSlots).length === 0 ? (
-            <p style={{ color: '#94a3b8' }}>No saved games</p>
+            <p className="text-muted-foreground">No saved games</p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="flex flex-col gap-2">
               {Object.entries(saveSlots).map(([name, data]) => (
-                <div key={name} style={{ padding: '10px', background: '#0a1120', borderRadius: '6px', border: '1px solid #334155' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontWeight: 'bold' }}>{name}</div>
-                      <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                <div key={name} className="p-3 bg-muted/50 rounded border border-border/20">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <div className="font-bold text-foreground">{name}</div>
+                      <div className="text-sm text-muted-foreground mt-1">
                         {data.bandName} • Week {data.state.week} • ${data.state.money.toLocaleString()}
                       </div>
-                      <div style={{ fontSize: '0.75em', color: '#64748b' }}>
+                      <div className="text-xs text-muted-foreground/60 mt-1">
                         {new Date(data.timestamp).toLocaleString()}
                       </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                      <button className="btn" onClick={() => onSave(name)} style={{ fontSize: '12px', padding: '4px 8px' }}>
+                    <div className="flex gap-1 ml-2">
+                      <button className="px-2 py-1 text-xs bg-primary/20 hover:bg-primary/30 text-foreground rounded transition-colors" onClick={() => onSave(name)}>
                         Overwrite
                       </button>
-                      <button className="btn danger" onClick={() => onDelete(name)} style={{ fontSize: '12px', padding: '4px 8px' }}>
+                      <button className="px-2 py-1 text-xs bg-destructive/20 hover:bg-destructive/30 text-destructive rounded transition-colors" onClick={() => onDelete(name)}>
                         Delete
                       </button>
                     </div>
@@ -75,14 +75,14 @@ export default function SaveModal({
             </div>
           )}
         </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button className="btn" onClick={handleSave}>
+        <div className="flex gap-3 mb-4">
+          <button className="flex-1 px-4 py-2 bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded font-medium transition-colors" onClick={handleSave}>
             Save
           </button>
-          <button className="btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="flex-1 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded font-medium transition-colors" onClick={onClose}>Cancel</button>
         </div>
-        <div style={{ marginTop: '12px', padding: '8px', background: '#064e3b', borderRadius: '4px', fontSize: '0.85em' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+        <div className="mt-4 p-3 bg-secondary/10 rounded border border-secondary/30">
+          <label className="flex items-center gap-2 cursor-pointer text-foreground text-sm">
             <input
               type="checkbox"
               checked={autoSaveEnabled}

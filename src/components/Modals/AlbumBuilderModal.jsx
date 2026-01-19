@@ -50,62 +50,42 @@ export default function AlbumBuilderModal({
   const selectedSongObjects = songs.filter(s => selectedSongs.includes(s.title));
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
-        <h2 style={{ marginBottom: '12px' }}>Build Album</h2>
-        <p style={{ marginBottom: '20px', color: '#94a3b8' }}>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000" onClick={onClose}>
+      <div className="bg-card rounded-lg p-8 max-w-3xl w-11/12 max-h-[90vh] overflow-y-auto border-2 border-primary/30" onClick={(e) => e.stopPropagation()}>
+        <h2 className="mb-3 text-foreground text-xl font-bold">Build Album</h2>
+        <p className="mb-6 text-muted-foreground">
           Select 8-12 songs to compile into an album. Albums provide sustained streaming revenue and boost your overall reputation.
         </p>
         
         {availableSongs.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
+          <div className="text-center py-16 text-muted-foreground">
             <p>You don't have any songs available for an album.</p>
-            <p style={{ fontSize: '0.9em', marginTop: '8px' }}>All your songs are already part of albums, or you need to record more singles.</p>
+            <p className="text-sm mt-2">All your songs are already part of albums, or you need to record more singles.</p>
           </div>
         ) : (
           <>
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <strong>Available Songs ({availableSongs.length})</strong>
-                <span style={{ color: selectedSongs.length >= 8 ? '#10b981' : '#f59e0b', fontSize: '0.9em' }}>
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-3">
+                <strong className="text-foreground">Available Songs ({availableSongs.length})</strong>
+                <span className={selectedSongs.length >= 8 ? 'text-secondary text-sm' : 'text-accent text-sm'}>
                   Selected: {selectedSongs.length} / 12
                 </span>
               </div>
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', 
-                gap: '8px',
-                maxHeight: '400px',
-                overflowY: 'auto',
-                padding: '8px',
-                background: '#000000',
-                borderRadius: '8px',
-                border: '1px solid #334155'
-              }}>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto p-2 bg-muted/30 rounded border border-border/20">
                 {availableSongs.map((song) => {
                   const isSelected = selectedSongs.includes(song.title);
                   return (
                     <div
                       key={song.title}
                       onClick={() => toggleSong(song.title)}
-                      style={{
-                        padding: '10px',
-                        background: isSelected ? '#1e3a8a' : '#0f172a',
-                        border: `2px solid ${isSelected ? '#3b82f6' : '#334155'}`,
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        opacity: isSelected ? 1 : 0.8
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSelected) e.currentTarget.style.borderColor = '#475569';
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isSelected) e.currentTarget.style.borderColor = '#334155';
-                      }}
+                      className={`p-2 rounded border-2 cursor-pointer transition-all text-xs ${
+                        isSelected 
+                          ? 'bg-primary/20 border-primary' 
+                          : 'bg-muted/50 border-border/50 hover:border-border'
+                      }`}
                     >
-                      <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{song.title}</div>
-                      <div style={{ fontSize: '0.8em', color: '#94a3b8' }}>
+                      <div className="font-semibold text-foreground mb-1">{song.title}</div>
+                      <div className="text-muted-foreground">
                         Q{song.quality} • Pop {song.popularity || 0}
                       </div>
                     </div>
@@ -115,15 +95,9 @@ export default function AlbumBuilderModal({
             </div>
 
             {selectedSongs.length > 0 && (
-              <div style={{ 
-                marginBottom: '20px', 
-                padding: '12px', 
-                background: '#064e3b', 
-                borderRadius: '8px',
-                border: '1px solid #10b981'
-              }}>
-                <strong style={{ color: '#10b981' }}>Album Preview</strong>
-                <div style={{ marginTop: '8px', fontSize: '0.9em', color: '#94a3b8' }}>
+              <div className="mb-6 p-3 bg-secondary/10 rounded border border-secondary/30">
+                <strong className="text-secondary">Album Preview</strong>
+                <div className="mt-2 text-sm text-muted-foreground">
                   <div>Songs: {selectedSongs.length}</div>
                   <div>
                     Avg Quality: {selectedSongObjects.length > 0 
@@ -138,33 +112,31 @@ export default function AlbumBuilderModal({
                         ))
                       : 0}%
                   </div>
-                  <div style={{ marginTop: '4px', color: '#f59e0b' }}>
+                  <div className="mt-2 text-accent font-medium">
                     Estimated Cost: ${albumCost}
                   </div>
                 </div>
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <div className="flex gap-3 justify-end">
               <button 
-                className="btn-secondary" 
+                className="flex-1 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded font-medium transition-colors" 
                 onClick={() => {
                   setSelectedSongs([]);
                   onClose();
                 }}
-                style={{ flex: 1 }}
               >
                 Cancel
               </button>
               <button 
-                className="btn"
+                className={`flex-1 px-4 py-2 rounded font-medium transition-colors ${
+                  selectedSongs.length >= 8 && selectedSongs.length <= 12
+                    ? 'bg-secondary hover:bg-secondary/90 text-secondary-foreground'
+                    : 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+                }`}
                 onClick={handleRecord}
                 disabled={selectedSongs.length < 8 || selectedSongs.length > 12}
-                style={{ 
-                  flex: 1,
-                  opacity: (selectedSongs.length >= 8 && selectedSongs.length <= 12) ? 1 : 0.5,
-                  cursor: (selectedSongs.length >= 8 && selectedSongs.length <= 12) ? 'pointer' : 'not-allowed'
-                }}
               >
                 Release Album ({selectedSongs.length} songs)
               </button>

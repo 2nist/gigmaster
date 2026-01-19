@@ -5,28 +5,11 @@ export const UpgradesModal = ({ isOpen, onClose, gameData, onPurchase }) => {
   if (!isOpen) return null;
 
   return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: '#1a1a2e',
-        borderRadius: '0.75rem',
-        padding: '2rem',
-        maxWidth: '600px',
-        width: '90%',
-        maxHeight: '80vh',
-        overflowY: 'auto',
-        border: '2px solid rgba(131, 56, 236, 0.3)'
-      }}>
-        <h3 style={{ margin: '0 0 1.5rem 0' }}>Equipment Upgrades</h3>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000">
+      <div className="bg-card rounded-xl p-8 max-w-2xl w-11/12 max-h-[80vh] overflow-y-auto border-2 border-primary/30">
+        <h3 className="m-0 mb-6 text-foreground text-xl font-bold">Equipment Upgrades</h3>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           {[
             { name: 'Studio Upgrade', cost: 5000, benefit: '+20% recording quality' },
             { name: 'Transport Upgrade', cost: 3000, benefit: '+15% tour earnings' },
@@ -35,28 +18,18 @@ export const UpgradesModal = ({ isOpen, onClose, gameData, onPurchase }) => {
           ].map((upgrade, idx) => (
             <div
               key={idx}
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                border: '1px solid rgba(131, 56, 236, 0.3)',
-                textAlign: 'center'
-              }}
+              className="bg-muted/50 p-4 rounded border border-border/20 text-center"
             >
-              <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.95rem' }}>{upgrade.name}</h4>
-              <p style={{ margin: '0.5rem 0', fontSize: '0.85rem', color: '#aaa' }}>{upgrade.benefit}</p>
+              <h4 className="m-0 mb-2 text-sm font-semibold text-foreground">{upgrade.name}</h4>
+              <p className="m-2 text-xs text-muted-foreground">{upgrade.benefit}</p>
               <button
                 onClick={() => onPurchase?.(upgrade)}
                 disabled={gameData?.money < upgrade.cost}
-                style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: gameData?.money >= upgrade.cost ? 'rgba(34, 197, 94, 0.3)' : 'rgba(100, 100, 100, 0.3)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '0.375rem',
-                  cursor: gameData?.money >= upgrade.cost ? 'pointer' : 'not-allowed',
-                  fontSize: '0.8rem'
-                }}
+                className={`w-full px-3 py-2 rounded text-xs font-medium transition-colors ${
+                  gameData?.money >= upgrade.cost 
+                    ? 'bg-secondary hover:bg-secondary/90 text-secondary-foreground' 
+                    : 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+                }`}
               >
                 ${upgrade.cost.toLocaleString()}
               </button>
@@ -66,15 +39,7 @@ export const UpgradesModal = ({ isOpen, onClose, gameData, onPurchase }) => {
 
         <button
           onClick={onClose}
-          style={{
-            padding: '0.75rem 2rem',
-            backgroundColor: 'rgba(239, 68, 68, 0.3)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '0.375rem',
-            cursor: 'pointer',
-            width: '100%'
-          }}
+          className="w-full px-6 py-3 bg-destructive/30 hover:bg-destructive/40 text-foreground rounded font-medium transition-colors"
         >
           Close
         </button>

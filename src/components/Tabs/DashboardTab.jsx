@@ -14,137 +14,105 @@ export const DashboardTab = ({
   onAdvanceWeek,
   onTriggerEvent
 }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-      <div style={{ backgroundColor: 'rgba(131, 56, 236, 0.1)', padding: '1.5rem', borderRadius: '0.5rem', border: '2px solid rgba(131, 56, 236, 0.3)' }}>
-        <h3 style={{ margin: '0 0 1rem 0' }}>Psychological State</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
+  <div className="flex flex-col gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Psychological State Card */}
+      <div className="bg-card border-2 border-primary/30 p-6 rounded-lg">
+        <h3 className="text-lg font-bold text-foreground mb-4">Psychological State</h3>
+        <div className="flex flex-col gap-3 text-sm">
           <div>
-            <div style={{ marginBottom: '0.25rem', color: '#aaa' }}>Stress Level ({Math.round(dialogueState?.psychologicalState?.stress_level || 0)}%)</div>
-            <div style={{ height: '0.5rem', backgroundColor: '#333', borderRadius: '0.25rem', overflow: 'hidden' }}>
-              <div style={{ height: '100%', backgroundColor: '#ff6b6b', width: `${dialogueState?.psychologicalState?.stress_level || 0}%` }} />
+            <div className="text-muted-foreground mb-1">Stress Level ({Math.round(dialogueState?.psychologicalState?.stress_level || 0)}%)</div>
+            <div className="h-2 bg-input rounded overflow-hidden">
+              <div className="h-full bg-destructive" style={{ width: `${dialogueState?.psychologicalState?.stress_level || 0}%` }} />
             </div>
           </div>
           <div>
-            <div style={{ marginBottom: '0.25rem', color: '#aaa' }}>Moral Integrity ({Math.round(dialogueState?.psychologicalState?.moral_integrity || 100)}%)</div>
-            <div style={{ height: '0.5rem', backgroundColor: '#333', borderRadius: '0.25rem', overflow: 'hidden' }}>
-              <div style={{ height: '100%', backgroundColor: '#51cf66', width: `${dialogueState?.psychologicalState?.moral_integrity || 100}%` }} />
+            <div className="text-muted-foreground mb-1">Moral Integrity ({Math.round(dialogueState?.psychologicalState?.moral_integrity || 100)}%)</div>
+            <div className="h-2 bg-input rounded overflow-hidden">
+              <div className="h-full bg-secondary" style={{ width: `${dialogueState?.psychologicalState?.moral_integrity || 100}%` }} />
             </div>
           </div>
           <div>
-            <div style={{ marginBottom: '0.25rem', color: '#aaa' }}>Addiction Risk ({Math.round(dialogueState?.psychologicalState?.addiction_risk || 0)}%)</div>
-            <div style={{ height: '0.5rem', backgroundColor: '#333', borderRadius: '0.25rem', overflow: 'hidden' }}>
-              <div style={{ height: '100%', backgroundColor: '#ffa94d', width: `${dialogueState?.psychologicalState?.addiction_risk || 0}%` }} />
+            <div className="text-muted-foreground mb-1">Addiction Risk ({Math.round(dialogueState?.psychologicalState?.addiction_risk || 0)}%)</div>
+            <div className="h-2 bg-input rounded overflow-hidden">
+              <div className="h-full bg-accent" style={{ width: `${dialogueState?.psychologicalState?.addiction_risk || 0}%` }} />
             </div>
           </div>
           <div>
-            <div style={{ marginBottom: '0.25rem', color: '#aaa' }}>Paranoia ({Math.round(dialogueState?.psychologicalState?.paranoia || 0)}%)</div>
-            <div style={{ height: '0.5rem', backgroundColor: '#333', borderRadius: '0.25rem', overflow: 'hidden' }}>
-              <div style={{ height: '100%', backgroundColor: '#a78bfa', width: `${dialogueState?.psychologicalState?.paranoia || 0}%` }} />
+            <div className="text-muted-foreground mb-1">Paranoia ({Math.round(dialogueState?.psychologicalState?.paranoia || 0)}%)</div>
+            <div className="h-2 bg-input rounded overflow-hidden">
+              <div className="h-full bg-primary" style={{ width: `${dialogueState?.psychologicalState?.paranoia || 0}%` }} />
             </div>
           </div>
           <div>
-            <div style={{ marginBottom: '0.25rem', color: '#aaa' }}>Depression ({Math.round(dialogueState?.psychologicalState?.depression || 0)}%)</div>
-            <div style={{ height: '0.5rem', backgroundColor: '#333', borderRadius: '0.25rem', overflow: 'hidden' }}>
-              <div style={{ height: '100%', backgroundColor: '#38bdf8', width: `${dialogueState?.psychologicalState?.depression || 0}%` }} />
+            <div className="text-muted-foreground mb-1">Depression ({Math.round(dialogueState?.psychologicalState?.depression || 0)}%)</div>
+            <div className="h-2 bg-input rounded overflow-hidden">
+              <div className="h-full bg-primary/70" style={{ width: `${dialogueState?.psychologicalState?.depression || 0}%` }} />
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{ backgroundColor: 'rgba(131, 56, 236, 0.1)', padding: '1.5rem', borderRadius: '0.5rem', border: '2px solid rgba(131, 56, 236, 0.3)' }}>
-        <h3 style={{ margin: '0 0 1rem 0' }}>Quick Stats</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
-          <div>Songs: <strong>{gameData?.songs?.length || 0}</strong></div>
-          <div>Albums: <strong>{gameData?.albums?.length || 0}</strong></div>
-          <div>Gigs Completed: <strong>{gameData?.gigHistory?.length || 0}</strong></div>
-          <div>Total Earnings: <strong>${gameData?.totalEarnings?.toLocaleString() || 0}</strong></div>
-          <div>Morale: <strong>{gameData?.morale || 70}/100</strong></div>
-          <div>Band Members: <strong>{gameData?.bandMembers?.length || 0}</strong></div>
+      {/* Quick Stats Card */}
+      <div className="bg-card border-2 border-primary/30 p-6 rounded-lg">
+        <h3 className="text-lg font-bold text-foreground mb-4">Quick Stats</h3>
+        <div className="flex flex-col gap-3 text-sm">
+          <div className="text-muted-foreground">Songs: <strong className="text-foreground">{gameData?.songs?.length || 0}</strong></div>
+          <div className="text-muted-foreground">Albums: <strong className="text-foreground">{gameData?.albums?.length || 0}</strong></div>
+          <div className="text-muted-foreground">Gigs Completed: <strong className="text-foreground">{gameData?.gigHistory?.length || 0}</strong></div>
+          <div className="text-muted-foreground">Total Earnings: <strong className="text-accent">${gameData?.totalEarnings?.toLocaleString() || 0}</strong></div>
+          <div className="text-muted-foreground">Morale: <strong className="text-foreground">{gameData?.morale || 70}/100</strong></div>
+          <div className="text-muted-foreground">Band Members: <strong className="text-foreground">{gameData?.bandMembers?.length || 0}</strong></div>
         </div>
       </div>
 
-      <div style={{ backgroundColor: 'rgba(131, 56, 236, 0.1)', padding: '1.5rem', borderRadius: '0.5rem', border: '2px solid rgba(131, 56, 236, 0.3)' }}>
-        <h3 style={{ margin: '0 0 1rem 0' }}>Faction Standing</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
+      {/* Faction Standing Card */}
+      <div className="bg-card border-2 border-primary/30 p-6 rounded-lg">
+        <h3 className="text-lg font-bold text-foreground mb-4">Faction Standing</h3>
+        <div className="flex flex-col gap-3 text-sm">
           {dialogueState?.narrativeState?.factionReputation ? (
             Object.entries(dialogueState.narrativeState.factionReputation).map(([faction, standing]) => (
               <div key={faction}>
-                <div style={{ marginBottom: '0.25rem', color: '#aaa', textTransform: 'capitalize' }}>
-                  {faction}
+                <div className="text-muted-foreground mb-1 capitalize">{faction}</div>
+                <div className="h-2 bg-input rounded overflow-hidden">
+                  <div 
+                    className={`h-full ${
+                      standing > 0 ? 'bg-secondary' : standing < 0 ? 'bg-destructive' : 'bg-primary'
+                    }`}
+                    style={{ width: `${Math.abs(standing) > 100 ? 100 : Math.abs(standing)}%` }} 
+                  />
                 </div>
-                <div style={{ height: '0.5rem', backgroundColor: '#333', borderRadius: '0.25rem', overflow: 'hidden' }}>
-                  <div style={{ 
-                    height: '100%', 
-                    backgroundColor: standing > 0 ? '#51cf66' : standing < 0 ? '#ff6b6b' : '#8338ec',
-                    width: `${Math.abs(standing) > 100 ? 100 : Math.abs(standing)}%` 
-                  }} />
-                </div>
-                <div style={{ fontSize: '0.8rem', color: '#aaa', marginTop: '0.25rem' }}>
+                <div className="text-xs text-muted-foreground mt-1">
                   {standing > 0 ? '+' : ''}{Math.round(standing)}
                 </div>
               </div>
             ))
           ) : (
-            <div style={{ color: '#aaa' }}>No faction data yet</div>
+            <div className="text-muted-foreground">No faction data yet</div>
           )}
         </div>
       </div>
     </div>
 
     {/* Gameplay Controls */}
-    <div style={{
-      backgroundColor: 'rgba(255, 0, 110, 0.1)',
-      padding: '2rem',
-      borderRadius: '0.5rem',
-      border: '2px solid rgba(255, 0, 110, 0.3)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1rem'
-    }}>
-      <h3 style={{ margin: '0 0 1rem 0' }}>Gameplay</h3>
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+    <div className="bg-card border-2 border-accent/30 p-8 rounded-lg flex flex-col gap-4">
+      <h3 className="text-lg font-bold text-foreground">Gameplay</h3>
+      <div className="flex gap-4 flex-wrap">
         <button
           onClick={onTriggerEvent}
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: 'rgba(131, 56, 236, 0.3)',
-            color: '#fff',
-            border: '2px solid rgba(131, 56, 236, 0.5)',
-            borderRadius: '0.5rem',
-            cursor: 'pointer',
-            fontSize: '0.95rem',
-            fontWeight: 'bold',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.6)'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.3)'}
+          className="px-6 py-3 bg-primary/20 hover:bg-primary/30 text-foreground border-2 border-primary/40 rounded-lg transition-all text-sm font-medium"
         >
           🎭 Trigger Random Event
         </button>
 
         <button
           onClick={onAdvanceWeek}
-          style={{
-            flex: 1,
-            minWidth: '200px',
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#ff006e',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '0.5rem',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = '#ff1975'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = '#ff006e'}
+          className="flex-1 min-w-[200px] px-6 py-3 bg-accent hover:bg-accent/90 text-accent-foreground border-none rounded-lg transition-all text-base font-bold"
         >
           ⏭️ Advance Week
         </button>
       </div>
-      <p style={{ margin: '0', fontSize: '0.85rem', color: '#aaa' }}>
+      <p className="text-xs text-muted-foreground m-0">
         Advance the week to trigger consequences, events, and progress your career. Events may appear automatically or on demand.
       </p>
     </div>

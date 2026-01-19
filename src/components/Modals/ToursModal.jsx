@@ -12,63 +12,38 @@ export const ToursModal = ({ isOpen, onClose, gameData, onStartTour }) => {
   ];
 
   return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: '#1a1a2e',
-        borderRadius: '0.75rem',
-        padding: '2rem',
-        maxWidth: '600px',
-        width: '90%',
-        maxHeight: '80vh',
-        overflowY: 'auto',
-        border: '2px solid rgba(131, 56, 236, 0.3)'
-      }}>
-        <h3 style={{ margin: '0 0 1.5rem 0' }}>Manage Tours</h3>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000">
+      <div className="bg-card rounded-xl p-8 max-w-2xl w-11/12 max-h-[80vh] overflow-y-auto border-2 border-primary/30">
+        <h3 className="m-0 mb-6 text-foreground text-xl font-bold">Manage Tours</h3>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="flex flex-col gap-4 mb-8">
           {tours.map(tour => (
             <div
               key={tour.id}
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                padding: '1.25rem',
-                borderRadius: '0.5rem',
-                border: '1px solid rgba(131, 56, 236, 0.3)'
-              }}
+              className="bg-muted/50 p-4 rounded border border-border/20"
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+              <div className="flex justify-between mb-2">
                 <div>
-                  <h4 style={{ margin: 0, marginBottom: '0.25rem' }}>{tour.name}</h4>
-                  <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#aaa' }}>
+                  <h4 className="m-0 mb-1 text-foreground font-semibold">{tour.name}</h4>
+                  <p className="m-0 text-sm text-muted-foreground">
                     {tour.region} • {tour.duration} weeks
                   </p>
                 </div>
                 <button
                   onClick={() => onStartTour?.(tour)}
                   disabled={gameData?.money < tour.cost}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: gameData?.money >= tour.cost ? 'rgba(34, 197, 94, 0.3)' : 'rgba(100, 100, 100, 0.3)',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '0.375rem',
-                    cursor: gameData?.money >= tour.cost ? 'pointer' : 'not-allowed'
-                  }}
+                  className={`px-6 py-2 rounded font-medium transition-colors flex-shrink-0 ${
+                    gameData?.money >= tour.cost 
+                      ? 'bg-secondary hover:bg-secondary/90 text-secondary-foreground' 
+                      : 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+                  }`}
                 >
                   Start
                 </button>
               </div>
-              <div style={{ fontSize: '0.85rem', color: '#aaa', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Cost: ${tour.cost.toLocaleString()}</span>
-                <span>Potential: ${tour.potential.toLocaleString()}</span>
+              <div className="text-sm text-muted-foreground flex justify-between">
+                <span>Cost: <span className="text-accent">${tour.cost.toLocaleString()}</span></span>
+                <span>Potential: <span className="text-secondary">${tour.potential.toLocaleString()}</span></span>
               </div>
             </div>
           ))}
@@ -76,15 +51,7 @@ export const ToursModal = ({ isOpen, onClose, gameData, onStartTour }) => {
 
         <button
           onClick={onClose}
-          style={{
-            padding: '0.75rem 2rem',
-            backgroundColor: 'rgba(239, 68, 68, 0.3)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '0.375rem',
-            cursor: 'pointer',
-            width: '100%'
-          }}
+          className="w-full px-6 py-3 bg-destructive/30 hover:bg-destructive/40 text-foreground rounded font-medium transition-colors"
         >
           Close
         </button>

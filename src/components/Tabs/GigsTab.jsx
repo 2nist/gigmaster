@@ -8,19 +8,19 @@
  */
 export const GigsTab = ({ gameData }) => (
   <div>
-    <h3>Performance History</h3>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-        <div style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Total Gigs</div>
-        <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#8338ec' }}>{gameData?.gigHistory?.length || 0}</div>
+    <h3 className="text-xl font-bold text-foreground mb-4">Performance History</h3>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="bg-card border border-primary/30 p-6 rounded-lg">
+        <div className="text-muted-foreground text-sm mb-2">Total Gigs</div>
+        <div className="text-4xl font-bold text-primary">{gameData?.gigHistory?.length || 0}</div>
       </div>
-      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-        <div style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Total Earnings</div>
-        <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#22c55e' }}>${gameData?.gigEarnings?.toLocaleString() || 0}</div>
+      <div className="bg-card border border-secondary/30 p-6 rounded-lg">
+        <div className="text-muted-foreground text-sm mb-2">Total Earnings</div>
+        <div className="text-4xl font-bold text-secondary">${gameData?.gigEarnings?.toLocaleString() || 0}</div>
       </div>
-      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-        <div style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Avg. Earnings</div>
-        <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ff006e' }}>
+      <div className="bg-card border border-accent/30 p-6 rounded-lg">
+        <div className="text-muted-foreground text-sm mb-2">Avg. Earnings</div>
+        <div className="text-4xl font-bold text-accent">
           ${gameData?.gigHistory?.length > 0 
             ? Math.round((gameData.gigEarnings || 0) / gameData.gigHistory.length).toLocaleString() 
             : 0
@@ -29,24 +29,24 @@ export const GigsTab = ({ gameData }) => (
       </div>
     </div>
 
-    <h3>Recent Performances</h3>
+    <h3 className="text-xl font-bold text-foreground mb-4">Recent Performances</h3>
     {gameData?.gigHistory?.length > 0 ? (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <div className="flex flex-col gap-2">
         {gameData.gigHistory.slice(-10).reverse().map((gig, idx) => (
-          <div key={idx} style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div key={idx} className="bg-card border border-border/20 p-4 rounded-lg flex justify-between items-center hover:border-primary/30 transition-all">
             <div>
-              <p style={{ margin: '0 0 0.25rem 0', fontWeight: 'bold' }}>{gig.venue || 'Unknown Venue'}</p>
-              <p style={{ margin: 0, fontSize: '0.85rem', color: '#aaa' }}>Week {gig.week}</p>
+              <p className="text-foreground font-semibold mb-1">{gig.venue || 'Unknown Venue'}</p>
+              <p className="text-sm text-muted-foreground">Week {gig.week}</p>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ margin: '0 0 0.25rem 0', color: '#22c55e', fontWeight: 'bold' }}>${gig.earnings?.toLocaleString()}</p>
-              <p style={{ margin: 0, fontSize: '0.85rem', color: '#aaa' }}>Success: {gig.success ? 'Yes' : 'No'}</p>
+            <div className="text-right">
+              <p className="text-secondary font-bold mb-1">${gig.earnings?.toLocaleString()}</p>
+              <p className="text-sm text-muted-foreground">Success: <span className={gig.success ? 'text-secondary' : 'text-destructive'}>{gig.success ? 'Yes' : 'No'}</span></p>
             </div>
           </div>
         ))}
       </div>
     ) : (
-      <p style={{ color: '#aaa' }}>No gigs yet. Start booking shows!</p>
+      <p className="text-muted-foreground">No gigs yet. Start booking shows!</p>
     )}
   </div>
 );

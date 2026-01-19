@@ -136,78 +136,51 @@ export const GamePage = ({
   ];
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#1a1a2e',
-      color: '#fff',
-      fontFamily: 'Arial, sans-serif',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
-      <div style={{
-        backgroundColor: '#16213e',
-        borderBottom: '2px solid rgba(131, 56, 236, 0.3)',
-        padding: '1rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
+      <div className="bg-card border-b border-border/20 px-8 py-4 flex justify-between items-center">
         <div>
-          <h1 style={{ margin: 0, fontSize: '1.5rem' }}>
+          <h1 className="text-2xl font-bold text-foreground m-0">
             {gameData?.bandName || 'Your Band'}
           </h1>
-          <p style={{ margin: '0.5rem 0 0 0', color: '#aaa', fontSize: '0.9rem' }}>
+          <p className="mt-2 text-muted-foreground text-sm">
             Week {gameData?.week || 0}
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem' }}>
+        <div className="flex gap-8 text-sm">
           <div>
-            <div style={{ color: '#aaa' }}>Money</div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#22c55e' }}>
+            <div className="text-muted-foreground">Money</div>
+            <div className="text-xl font-bold text-accent">
               ${gameData?.money?.toLocaleString() || 0}
             </div>
           </div>
           <div>
-            <div style={{ color: '#aaa' }}>Fame</div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#ff006e' }}>
+            <div className="text-muted-foreground">Fame</div>
+            <div className="text-xl font-bold text-primary">
               {gameData?.fame || 0}
             </div>
           </div>
           <div>
-            <div style={{ color: '#aaa' }}>Members</div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#8338ec' }}>
+            <div className="text-muted-foreground">Members</div>
+            <div className="text-xl font-bold text-secondary">
               {gameData?.bandMembers?.length || 0}
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className="flex gap-4">
           <button
             onClick={() => {
               setAutoSaving(true);
               onSave?.();
               setTimeout(() => setAutoSaving(false), 1000);
             }}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: autoSaving ? '#22c55e' : 'rgba(34, 197, 94, 0.3)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '0.375rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (!autoSaving) e.target.style.backgroundColor = 'rgba(34, 197, 94, 0.6)';
-            }}
-            onMouseLeave={(e) => {
-              if (!autoSaving) e.target.style.backgroundColor = 'rgba(34, 197, 94, 0.3)';
-            }}
+            className={`px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 transition-all ${
+              autoSaving
+                ? 'bg-accent text-accent-foreground'
+                : 'bg-accent/20 text-accent hover:bg-accent/40'
+            }`}
           >
             <Save size={16} />
             {autoSaving ? 'Saving...' : 'Save'}
@@ -215,20 +188,7 @@ export const GamePage = ({
 
           <button
             onClick={onQuit}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: 'rgba(239, 68, 68, 0.3)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '0.375rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.6)'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.3)'}
+            className="px-4 py-2 bg-destructive/20 text-destructive hover:bg-destructive/40 rounded-md cursor-pointer flex items-center gap-2 transition-all"
           >
             <LogOut size={16} />
             Quit
@@ -244,13 +204,7 @@ export const GamePage = ({
       />
 
       {/* Content Area */}
-      <div style={{
-        flex: 1,
-        padding: '2rem',
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
+      <div className="flex-1 p-8 overflow-auto flex flex-col">
         <TabContent
           tabId={activeTab}
           gameData={gameData}
@@ -266,51 +220,17 @@ export const GamePage = ({
 
       {/* Week Advancement Button */}
       {activeTab === 'dashboard' && (
-        <div style={{
-          padding: '1rem 2rem',
-          backgroundColor: '#16213e',
-          borderTop: '2px solid rgba(131, 56, 236, 0.3)',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: '1rem'
-        }}>
+        <div className="px-8 py-4 bg-card border-t border-border/20 flex justify-end gap-4">
           <button
             onClick={triggerEvent}
-            style={{
-              padding: '0.75rem 1.5rem',
-              backgroundColor: 'rgba(131, 56, 236, 0.3)',
-              color: '#fff',
-              border: '2px solid rgba(131, 56, 236, 0.5)',
-              borderRadius: '0.5rem',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.6)'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.3)'}
+            className="px-6 py-3 bg-primary/20 text-primary border-2 border-primary/50 rounded-lg cursor-pointer text-lg font-bold hover:bg-primary/40 transition-all"
           >
             Trigger Event
           </button>
 
           <button
             onClick={handleAdvanceWeek}
-            style={{
-              padding: '0.75rem 1.5rem',
-              backgroundColor: '#ff006e',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '0.5rem',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#ff1975'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = '#ff006e'}
+            className="px-6 py-3 bg-accent text-accent-foreground rounded-lg cursor-pointer text-lg font-bold hover:opacity-90 transition-all flex items-center gap-2"
           >
             <ChevronRight size={18} />
             Advance Week

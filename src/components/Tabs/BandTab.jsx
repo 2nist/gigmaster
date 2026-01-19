@@ -8,25 +8,25 @@
  */
 export const BandTab = ({ gameData }) => (
   <div>
-    <h3>Band Members</h3>
+    <h3 className="text-xl font-bold text-foreground mb-4">Band Members</h3>
     {gameData?.bandMembers?.length > 0 ? (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {gameData.bandMembers.map(member => (
-          <div key={member.id} style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '1rem', borderRadius: '0.5rem', border: '1px solid rgba(131, 56, 236, 0.3)' }}>
-            <h4 style={{ margin: '0 0 0.5rem 0' }}>{member.name}</h4>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Role: {member.type}</p>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Skill: {member.skill}/10</p>
-            <p style={{ margin: '0.25rem 0', fontSize: '0.85rem', color: '#aaa' }}>Morale: {member.morale}%</p>
+          <div key={member.id} className="bg-card border border-primary/30 p-4 rounded-lg hover:border-primary/60 transition-all">
+            <h4 className="text-foreground font-semibold mb-2">{member.name}</h4>
+            <p className="text-sm text-muted-foreground mb-1">Role: <span className="text-primary font-medium">{member.type}</span></p>
+            <p className="text-sm text-muted-foreground mb-1">Skill: <span className="text-secondary font-medium">{member.skill}/10</span></p>
+            <p className="text-sm text-muted-foreground mb-2">Morale: <span className="text-accent font-medium">{member.morale}%</span></p>
             {member.traits && member.traits.length > 0 && (
-              <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#888' }}>
-                <p style={{ margin: '0.25rem 0' }}>Traits: {member.traits.join(', ')}</p>
+              <div className="text-xs text-muted-foreground/70 pt-2 border-t border-border/20">
+                Traits: {member.traits.join(', ')}
               </div>
             )}
           </div>
         ))}
       </div>
     ) : (
-      <p style={{ color: '#aaa' }}>No band members yet. Recruit some musicians!</p>
+      <p className="text-muted-foreground">No band members yet. Recruit some musicians!</p>
     )}
   </div>
 );
