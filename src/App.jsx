@@ -19,7 +19,8 @@ import {
   useGameLogic,
   useEnhancedDialogue,
   useEventGeneration,
-  useConsequenceSystem
+  useConsequenceSystem,
+  useRecordingSystem
 } from './hooks';
 
 // Import page components
@@ -60,6 +61,9 @@ function App() {
   
   // Phase 2: Consequence system (tracks consequences, factions, psychology evolution)
   const consequenceSystem = useConsequenceSystem(gameState.state);
+  
+  // Recording system for music creation and streaming revenue
+  const recordingSystem = useRecordingSystem(gameState.state, gameState.updateGameState, gameState.addLog);
 
   // Apply theme to document
   useEffect(() => {
