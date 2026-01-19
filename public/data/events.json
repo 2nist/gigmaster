@@ -349,6 +349,69 @@
       ]
     },
     {
+      "title": "Venue Owner Drama!",
+      "description": "A venue owner wants to renegotiate your contract mid-tour.",
+      "choices": [
+        { "text": "Stand your ground", "money": 0, "morale": 10, "fame": 5 },
+        { "text": "Negotiate new terms", "money": 200, "morale": 5, "fame": 0 },
+        { "text": "Cancel and find new venue", "money": -300, "morale": -5, "fame": -10 }
+      ]
+    },
+    {
+      "title": "Sound Engineer Conflict!",
+      "description": "Your sound engineer is making poor mixing decisions that hurt your live sound.",
+      "choices": [
+        { "text": "Fire them immediately", "money": -400, "morale": 15, "fame": -5 },
+        { "text": "Give them one more chance", "money": 0, "morale": 0, "fame": 0 },
+        { "text": "Hire a consultant ($600)", "money": -600, "morale": 10, "fame": 10 }
+      ]
+    },
+    {
+      "title": "Merchandise Counterfeiting!",
+      "description": "Bootleggers are selling fake band merchandise, cutting into your profits.",
+      "choices": [
+        { "text": "Hire lawyers to stop it", "money": -1000, "morale": 5, "fame": 10 },
+        { "text": "Release official merch cheaper", "money": -500, "morale": 10, "fame": 15 },
+        { "text": "Ignore it - free advertising", "money": 0, "morale": 0, "fame": 5 }
+      ]
+    },
+    {
+      "title": "Music Video Director Clash!",
+      "description": "The director wants to take your music video in a direction you don't agree with.",
+      "choices": [
+        { "text": "Stand your artistic ground", "money": -300, "morale": 15, "fame": 10 },
+        { "text": "Compromise on the vision", "money": -200, "morale": 5, "fame": 15 },
+        { "text": "Find a new director", "money": -600, "morale": 10, "fame": 5 }
+      ]
+    },
+    {
+      "title": "Record Store Day Exclusive!",
+      "description": "A record store chain wants an exclusive release for Record Store Day.",
+      "choices": [
+        { "text": "Create special edition", "money": -400, "morale": 15, "fame": 25 },
+        { "text": "Repress existing album", "money": -200, "morale": 10, "fame": 15 },
+        { "text": "Decline - stay digital", "money": 0, "morale": 0, "fame": -5 }
+      ]
+    },
+    {
+      "title": "Band Photo Shoot Gone Wrong!",
+      "description": "The photographer's artistic vision clashes with the band's image.",
+      "choices": [
+        { "text": "Trust the photographer", "money": 0, "morale": -5, "fame": 20 },
+        { "text": "Insist on your vision", "money": -200, "morale": 15, "fame": 10 },
+        { "text": "Reschedule with someone else", "money": -400, "morale": 10, "fame": 5 }
+      ]
+    },
+    {
+      "title": "Streaming Service Algorithm Change!",
+      "description": "Streaming algorithms changed, and your songs aren't being recommended anymore.",
+      "choices": [
+        { "text": "Hire a digital marketing expert", "money": -800, "morale": 5, "fame": 10 },
+        { "text": "Release new content to adapt", "money": -300, "morale": 10, "fame": 15 },
+        { "text": "Focus on live performances", "money": 0, "morale": 15, "fame": 5 }
+      ]
+    },
+    {
       "title": "Fan Art Inspiration!",
       "description": "Amazing fan art inspired you to create a concept album.",
       "choices": [
@@ -402,5 +465,142 @@
     "What's your relationship with your fans?",
     "How do you balance art and commerce?"
   ],
-  "tourCities": ["New York", "Los Angeles", "Chicago", "Boston", "Seattle", "Austin", "Nashville", "Portland", "Denver", "Atlanta", "Miami", "Detroit", "Minneapolis", "Vancouver", "Montreal"]
+  "tourCities": ["New York", "Los Angeles", "Chicago", "Boston", "Seattle", "Austin", "Nashville", "Portland", "Denver", "Atlanta", "Miami", "Detroit", "Minneapolis", "Vancouver", "Montreal"],
+  "modernEvents": [
+    {
+      "title": "TikTok Viral Moment!",
+      "description": "A 15-second clip of your song went viral on TikTok. Millions of views!",
+      "choices": [
+        { "text": "Release full version immediately", "money": -200, "morale": 15, "fame": 40, "special": "tiktokViral" },
+        { "text": "Let it grow organically", "money": 0, "morale": 10, "fame": 30 },
+        { "text": "Create more TikTok content", "money": -100, "morale": 5, "fame": 35 }
+      ]
+    },
+    {
+      "title": "Streaming Milestone!",
+      "description": "You just hit 1 million streams on a single track! Streaming platforms are featuring you.",
+      "choices": [
+        { "text": "Celebrate with fans", "money": -300, "morale": 20, "fame": 25, "special": "streamingMilestone" },
+        { "text": "Push for more streams", "money": -200, "morale": 10, "fame": 20 },
+        { "text": "Stay humble", "money": 0, "morale": 15, "fame": 15 }
+      ]
+    },
+    {
+      "title": "Podcast Interview!",
+      "description": "A popular music podcast wants to interview you about your creative process.",
+      "choices": [
+        { "text": "Do the interview", "money": 0, "morale": 10, "fame": 20 },
+        { "text": "Request payment", "money": 500, "morale": 5, "fame": 15 },
+        { "text": "Decline - too busy", "money": 0, "morale": 0, "fame": -5 }
+      ]
+    },
+    {
+      "title": "NFT Collection Offer!",
+      "description": "A crypto platform wants to release your music as NFTs. Controversial but potentially lucrative.",
+      "choices": [
+        { "text": "Launch NFT collection", "money": 2000, "morale": -5, "fame": 15, "special": "nftOffer" },
+        { "text": "Decline - not our thing", "money": 0, "morale": 10, "fame": 5 },
+        { "text": "Research first", "money": -200, "morale": 5, "fame": 10 }
+      ]
+    },
+    {
+      "title": "YouTube Channel Growth!",
+      "description": "Your YouTube channel is growing fast. Subscribers want more content.",
+      "choices": [
+        { "text": "Invest in better content", "money": -400, "morale": 10, "fame": 25 },
+        { "text": "Post more frequently", "money": -200, "morale": 5, "fame": 20 },
+        { "text": "Keep current pace", "money": 0, "morale": 0, "fame": 10 }
+      ]
+    },
+    {
+      "title": "Brand Partnership Opportunity!",
+      "description": "A major brand wants to sponsor your tour. Big money, but some fans might call it selling out.",
+      "choices": [
+        { "text": "Accept the sponsorship", "money": 5000, "morale": -10, "fame": 20, "special": "brandPartnership" },
+        { "text": "Negotiate better terms", "money": 3000, "morale": -5, "fame": 15 },
+        { "text": "Stay independent", "money": 0, "morale": 15, "fame": 10 }
+      ]
+    },
+    {
+      "title": "Sync Licensing Deal!",
+      "description": "A TV show wants to use your song in their season finale. Great exposure!",
+      "choices": [
+        { "text": "Accept the deal", "money": 3000, "morale": 10, "fame": 30, "special": "syncLicensing" },
+        { "text": "Negotiate for more", "money": 2000, "morale": 5, "fame": 25 },
+        { "text": "Decline - wrong fit", "money": 0, "morale": 0, "fame": 5 }
+      ]
+    },
+    {
+      "title": "Instagram Reels Challenge!",
+      "description": "Fans are doing dance challenges to your song on Instagram Reels. It's trending!",
+      "choices": [
+        { "text": "Join the challenge", "money": -100, "morale": 15, "fame": 30 },
+        { "text": "Let fans have fun", "money": 0, "morale": 10, "fame": 25 },
+        { "text": "Create official challenge", "money": -300, "morale": 5, "fame": 35 }
+      ]
+    },
+    {
+      "title": "Virtual Concert Platform!",
+      "description": "A virtual concert platform wants you to perform a live-streamed show.",
+      "choices": [
+        { "text": "Do the virtual concert", "money": 1500, "morale": 10, "fame": 25 },
+        { "text": "Hybrid virtual + in-person", "money": 800, "morale": 15, "fame": 30 },
+        { "text": "Prefer real venues", "money": 0, "morale": 5, "fame": 10 }
+      ]
+    },
+    {
+      "title": "Algorithm Boost!",
+      "description": "Streaming algorithms are suddenly pushing your music. Your streams are skyrocketing!",
+      "choices": [
+        { "text": "Ride the wave", "money": 0, "morale": 15, "fame": 35, "special": "algorithmBoost" },
+        { "text": "Release new music now", "money": -500, "morale": 10, "fame": 40 },
+        { "text": "Stay grounded", "money": 0, "morale": 20, "fame": 30 }
+      ]
+    },
+    {
+      "title": "Fan-Funded Project!",
+      "description": "Fans started a crowdfunding campaign to fund your next album. They've raised $5000!",
+      "choices": [
+        { "text": "Accept and deliver", "money": 5000, "morale": 25, "fame": 20, "special": "fanFunded" },
+        { "text": "Match their contribution", "money": 2500, "morale": 20, "fame": 25 },
+        { "text": "Thank them but decline", "money": 0, "morale": 15, "fame": 15 }
+      ]
+    },
+    {
+      "title": "Influencer Collaboration!",
+      "description": "A major influencer wants to feature your music in their content.",
+      "choices": [
+        { "text": "Collaborate", "money": -300, "morale": 10, "fame": 30 },
+        { "text": "Charge licensing fee", "money": 1000, "morale": 5, "fame": 20 },
+        { "text": "Decline - wrong audience", "money": 0, "morale": 0, "fame": 5 }
+      ]
+    },
+    {
+      "title": "AI-Generated Remix!",
+      "description": "An AI remix of your song is going viral. Do you embrace it or fight it?",
+      "choices": [
+        { "text": "Embrace the AI remix", "money": 0, "morale": 5, "fame": 20 },
+        { "text": "Release official remix", "money": -400, "morale": 10, "fame": 25 },
+        { "text": "Take legal action", "money": -1000, "morale": -10, "fame": -5 }
+      ]
+    },
+    {
+      "title": "Spotify Editorial Playlist!",
+      "description": "Spotify added your song to a major editorial playlist. Millions of new listeners!",
+      "choices": [
+        { "text": "Promote the placement", "money": -200, "morale": 15, "fame": 35, "special": "spotifyPlaylist" },
+        { "text": "Let it speak for itself", "money": 0, "morale": 10, "fame": 30 },
+        { "text": "Release follow-up single", "money": -500, "morale": 5, "fame": 40 }
+      ]
+    },
+    {
+      "title": "Twitch Streaming Partnership!",
+      "description": "Twitch wants you to stream your creative process and performances.",
+      "choices": [
+        { "text": "Start streaming regularly", "money": 1000, "morale": 15, "fame": 25 },
+        { "text": "Do occasional streams", "money": 500, "morale": 10, "fame": 20 },
+        { "text": "Not our style", "money": 0, "morale": 5, "fame": 5 }
+      ]
+    }
+  ]
 }

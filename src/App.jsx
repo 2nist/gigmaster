@@ -1,149 +1,27 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './styles.css';
-import { Activity, Zap, Music, Mic, Gem, FileText, AlertTriangle, Ambulance, AlertCircle, Guitar, Headphones, Radio, Trophy, Users, TrendingUp, DollarSign, BarChart3, ListMusic } from 'lucide-react';
+import { Activity, Zap, Music, Mic, Gem, FileText, AlertTriangle, Ambulance, AlertCircle, Guitar, Headphones, Radio, Trophy, Users, TrendingUp, DollarSign, BarChart3, ListMusic, Building2, Briefcase, Handshake, X, CheckCircle, Share2, Heart, MessageCircle, ThumbsUp, Sparkles } from 'lucide-react';
+import { 
+  STEPS, SCENARIOS, STUDIO_TIERS, TRANSPORT_TIERS, GEAR_TIERS, TOUR_TYPES, 
+  GEOGRAPHIC_REGIONS, DISTRIBUTION_TIERS, GIG_SUCCESS_DESCRIPTIONS, GIG_OKAY_DESCRIPTIONS, 
+  GIG_POOR_DESCRIPTIONS, ROLE_OPTIONS, GENRES, GENRE_THEMES, FIRST_NAMES, LAST_NAMES, initialState 
+} from './utils/constants';
+import { 
+  ensureFontLoaded, clampMorale, randomFrom, randStat, clampStat, 
+  getAvatarUrl, getBandLogoStyle, buildMember, memberDisplayName, calculateLogoStyle 
+} from './utils/helpers';
+import { useGameData } from './hooks/useGameData';
+import WriteSongModal from './components/Modals/WriteSongModal';
+import AlbumBuilderModal from './components/Modals/AlbumBuilderModal';
+import SaveModal from './components/Modals/SaveModal';
+import LoadModal from './components/Modals/LoadModal';
+import BandStatsModal from './components/Modals/BandStatsModal';
 
-const STEPS = {
-  WELCOME: 'WELCOME',
-  CREATE: 'CREATE',
-  LOGO: 'LOGO',
-  GAME: 'GAME'
-};
-
-const STUDIO_TIERS = [
-  { id: 0, name: 'Demo Studio', cost: 0, qualityBonus: 0, popBonus: 0, freshnessBonus: 0, recordCost: 80, desc: 'Basic 4-track recording' },
-  { id: 1, name: 'Professional Studio', cost: 600, qualityBonus: 8, popBonus: 1, freshnessBonus: 0, recordCost: 150, desc: '24-track with Pro Tools' },
-  { id: 2, name: 'Manor Residential', cost: 1500, qualityBonus: 15, popBonus: 2, freshnessBonus: 0.5, recordCost: 300, desc: 'Legendary analog suite' }
-];
-
-const TRANSPORT_TIERS = [
-  { id: 0, name: 'On Foot', cost: 0, gigBonus: 1.0, venueMult: 1.0, desc: 'Walking to local gigs', venueMin: 0 },
-  { id: 1, name: 'Beat-Up Van', cost: 800, gigBonus: 1.15, venueMult: 1.25, desc: 'Old but reliable transport', venueMin: 0 },
-  { id: 2, name: 'Tour Bus', cost: 2500, gigBonus: 1.35, venueMult: 1.6, desc: 'Professional touring vehicle', venueMin: 50 },
-  { id: 3, name: 'Luxury Coach', cost: 5000, gigBonus: 1.5, venueMult: 2.0, desc: 'Premium tour experience', venueMin: 150 }
-];
-
-const GEAR_TIERS = [
-  { id: 0, name: 'Pawn Shop Gear', cost: 0, qualityBonus: 0, soundBonus: 0, gigBonus: 1.0, desc: 'Borrowed instruments and cheap PA system', icon: Guitar },
-  { id: 1, name: 'Semi-Pro Equipment', cost: 700, qualityBonus: 5, soundBonus: 3, gigBonus: 1.12, desc: 'Decent guitars, drums, and decent sound system', icon: Mic },
-  { id: 2, name: 'Professional Gear', cost: 1800, qualityBonus: 12, soundBonus: 8, gigBonus: 1.25, desc: 'Quality instruments, pro-grade PA system', icon: Headphones },
-  { id: 3, name: 'Studio-Grade Instruments', cost: 4000, qualityBonus: 22, soundBonus: 15, gigBonus: 1.4, desc: 'Top-tier instruments and world-class equipment', icon: Trophy }
-];
-
-// Event description templates for vivid, engaging storytelling
-const GIG_SUCCESS_DESCRIPTIONS = [
-  (venue, crowd, pay, fame) => `The ${crowd} screaming fans at ${venue.name} went absolutely wild! Your band tore through the set with precision and fire. Crowd surfing, encores, the whole nine yards. The promoter counted out $${pay} and grinned—"We'll definitely book you again." You gained ${fame} fame.`,
-  (venue, crowd, pay, fame) => `${venue.name} was packed to the gills! The energy was electric, and your performance was flawless. Security could barely hold back the fans. Merch sold out. You walked away with $${pay} and serious street cred.`,
-  (venue, crowd, pay, fame) => `The crowd at ${venue.name} ate it up. Every song landed perfectly, and the mosh pit was absolutely bonkers. This kind of show is what rock and roll is made of. $${pay} richer and ${fame} fame points up.`,
-  (venue, crowd, pay, fame) => `Standing ovation at ${venue.name}! The ${crowd} fans chanted for an encore. Your band delivered. The venue owner handed you $${pay} and already wants to book you for a bigger slot next month.`
-];
-
-const GIG_OKAY_DESCRIPTIONS = [
-  (venue, crowd, pay, fame) => `The set at ${venue.name} went alright, though the crowd was a bit lukewarm. You made $${pay}, but felt like something was off. Maybe the gear, maybe the mood. You'll do better next time.`,
-  (venue, crowd, pay, fame) => `${venue.name} was half-full. You played competently, but the energy didn't quite ignite. The promoter paid you $${pay}, but seemed unimpressed.`,
-  (venue, crowd, pay, fame) => `The gig at ${venue.name} was... fine. Nothing terrible, nothing spectacular. $${pay} for a solid evening. Time to upgrade something and come back stronger.`
-];
-
-const GIG_POOR_DESCRIPTIONS = [
-  (venue, crowd, pay, fame) => `Oof. The set at ${venue.name} was rough. Your timing was off, the crowd was thin, and you only scraped together $${pay}. The promoter looked disappointed. You need better gear and tighter rehearsals.`,
-  (venue, crowd, pay, fame) => `${venue.name} was nearly empty. Your band sounded sloppy, and you barely earned $${pay}. Time to get back in the woodshed.`,
-  (venue, crowd, pay, fame) => `The performance at ${venue.name} was forgettable. You earned $${pay} and the crowd's indifference. This is a wake-up call to practice harder.`
-];
-
-const initialState = {
-  week: 1,
-  money: 1000,
-  fame: 0,
-  morale: 70,
-  fans: 0,
-  trainingCooldown: 0,
-  promoteCooldown: 0,
-  trend: null,
-  tourBan: 0,
-  staffManager: 'none', // none | dodgy | pro
-  staffLawyer: false,
-  studioTier: 0, // 0=demo, 1=pro, 2=manor
-  transportTier: 0, // 0=foot, 1=van, 2=bus, 3=coach
-  gearTier: 0, // 0=pawn, 1=semi, 2=pro, 3=studio
-  bandName: '',
-  genre: 'Synth Pop',
-  members: [],
-  songs: [],
-  equipment: {
-    instruments: 'basic',
-    soundSystem: 'basic',
-    transport: 'none'
-  },
-  log: [],
-  weeklyExpenses: 100,
-  totalRevenue: 0,
-  totalAlbumSales: 0,
-  totalMerchandise: 0,
-  logoFont: 'Arial',
-  logoBgColor: '#1a1a2e',
-  logoTextColor: '#ff6b6b'
-};
-
-const ROLE_OPTIONS = [
-  { key: 'vocals', label: 'Vocals' },
-  { key: 'guitar', label: 'Guitar' },
-  { key: 'bass', label: 'Bass' },
-  { key: 'drums', label: 'Drums' },
-  { key: 'synth', label: 'Synth' },
-  { key: 'dj', label: 'DJ' }
-];
-
-const GENRES = ['Synth Pop', 'Indie Rock', 'Hip-Hop', 'Metal', 'Blues', 'Pop', 'EDM', 'Experimental', 'Punk', 'Country', 'R&B', 'Funk', 'Jazz', 'Soul', 'Reggae', 'Classical'];
-
-const GENRE_THEMES = {
-  'Synth Pop': 'theme-neon',
-  'Indie Rock': 'theme-modern',
-  'Hip-Hop': 'theme-pop',
-  'Metal': 'theme-pop',
-  'Blues': 'theme-warm',
-  'Pop': 'theme-pop',
-  'EDM': 'theme-neon',
-  'Experimental': 'theme-neon',
-  'Punk': 'theme-pop',
-  'Country': 'theme-warm',
-  'R&B': 'theme-warm',
-  'Funk': 'theme-pop',
-  'Jazz': 'theme-modern',
-  'Soul': 'theme-warm',
-  'Reggae': 'theme-pop',
-  'Classical': 'theme-modern'
-};
-
-const FIRST_NAMES = ['Alex','Sam','Jordan','Taylor','Riley','Casey','Jamie','Logan','Quinn','Drew','Kai','Morgan','Reese','Jules','Avery'];
-const LAST_NAMES = ['Stone','Vale','Hart','Kade','Rex','Wilde','Fox','Storm','Ray','Knight','Cross','Shade','Frost','Voss','Lake'];
-
-function useGameData() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const [game, events] = await Promise.all([
-          fetch('/data/gameData.json').then(r => r.json()),
-          fetch('/data/events.json').then(r => r.json())
-        ]);
-        setData({ ...game, ...events });
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
-
-  return { data, loading, error };
-}
+// All constants have been moved to utils/constants.js
 
 function App() {
   const { data, loading, error } = useGameData();
-  const [step, setStep] = useState(STEPS.WELCOME);
+  const [step, setStep] = useState(STEPS.LANDING);
   const [state, setState] = useState(initialState);
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -156,42 +34,113 @@ function App() {
   const [showStudioModal, setShowStudioModal] = useState(false);
   const [showTransportModal, setShowTransportModal] = useState(false);
   const [showGearModal, setShowGearModal] = useState(false);
+  const [showAlbumBuilderModal, setShowAlbumBuilderModal] = useState(false);
+  const [showLabelNegotiation, setShowLabelNegotiation] = useState(false);
+  const [showWriteSongModal, setShowWriteSongModal] = useState(false);
+  const [newSongTitle, setNewSongTitle] = useState('');
+  const [labelOffer, setLabelOffer] = useState(null);
+  const [negotiationStep, setNegotiationStep] = useState('offer'); // offer, counter, accept
+  const [selectedBandStats, setSelectedBandStats] = useState(null); // For band stats modal
   const [currentTab, setCurrentTab] = useState('overview'); // overview, actions, band, music, upgrades, log
   const [leftTab, setLeftTab] = useState('snapshot'); // snapshot, meters, team, songs
   const [rightTab, setRightTab] = useState('topChart'); // topChart, albums, songChart
+  const [gigsView, setGigsView] = useState('local'); // 'local' or 'tours'
+  const [selectedTourType, setSelectedTourType] = useState(null);
+  const [selectedTourRegion, setSelectedTourRegion] = useState('us');
   const [theme, setTheme] = useState('theme-modern'); // theme-warm, theme-neon, theme-pop, theme-modern
   const [darkMode, setDarkMode] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showLoadModal, setShowLoadModal] = useState(false);
+  const [saveSlots, setSaveSlots] = useState(() => {
+    // Load save slots from localStorage
+    try {
+      const saved = localStorage.getItem('bandManager_saveSlots');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+  const [autoSaveEnabled, setAutoSaveEnabled] = useState(() => {
+    const saved = localStorage.getItem('bandManager_autoSave');
+    return saved === 'true';
+  });
+  const [showSettings, setShowSettings] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialStep, setTutorialStep] = useState(0);
+  const [showEventPopup, setShowEventPopup] = useState(false);
+  const [eventPopupData, setEventPopupData] = useState(null);
+  const [showWeeklyPopup, setShowWeeklyPopup] = useState(false);
+  const [weeklyPopupData, setWeeklyPopupData] = useState(null);
 
   // Apply theme to body
   useEffect(() => {
     document.body.className = `${theme} ${darkMode ? 'dark' : ''}`;
   }, [theme, darkMode]);
 
+  // Debug: Monitor songs changes
+  useEffect(() => {
+    console.log('[State Monitor] Songs updated:', state.songs?.length || 0, 'Titles:', state.songs?.map(s => s.title) || []);
+  }, [state.songs]);
+
   const [fontOptions, setFontOptions] = useState([
     'Arial',
+    // Heavy Metal & Hard Rock
+    'Metal Mania',
+    'New Rocker',
+    'Creepster',
+    'Russo One',
+    'Ultra',
+    'Shojumaru',
+    'Pirata One',
+    // Punk, Grunge & Garage Rock
+    'Underdog',
+    'Rock Salt',
+    'Special Elite',
+    'Bungee',
+    'Road Rage',
+    'Permanent Marker',
+    'Bangers',
+    // Indie, Alternative & Folk
+    'Syne',
+    'Space Grotesk',
+    'Indie Flower',
+    'Eczar',
+    'Arapey',
+    'Spectral',
+    'Smythe',
+    'Cormorant',
+    // Electronic, Synthwave & Pop
+    'Orbitron',
+    'Monoton',
+    'Righteous',
+    'DotGothic16',
+    'Tourney',
+    'Exo 2',
+    'Gugi',
+    'RocknRoll One',
+    // Modern Rock & Classic Professional
+    'Bebas Neue',
     'Anton',
     'Oswald',
-    'Metal Mania',
-    'Righteous',
     'Montserrat',
+    'Raleway',
+    'Archivo Black',
+    'Fjalla One',
+    'Alfa Slab One',
+    // Additional fonts
     'Poppins',
     'Syncopate',
-    'Syne',
     'Playfair Display',
     'Lobster',
     'Abril Fatface',
-    'Bungee',
     'Lora',
     'Libre Baskerville',
-    'Cormorant',
     'Pacifico',
-    'Orbitron',
     'Unbounded',
-    'Creepster',
-    'Bangers',
     'Inter',
     'Roboto',
-    'Space Grotesk',
     'Press Start 2P',
     'Fira Sans',
     'Nunito',
@@ -201,6 +150,70 @@ function App() {
     'Sora',
     'Kanit'
   ]);
+
+  // Auto-save functionality
+  useEffect(() => {
+    if (!autoSaveEnabled || step !== STEPS.GAME || !state.bandName) return;
+    
+    const autoSaveData = {
+      state,
+      rivals,
+      step,
+      theme,
+      timestamp: new Date().toISOString()
+    };
+    
+    try {
+      localStorage.setItem('bandManager_autoSave', JSON.stringify(autoSaveData));
+    } catch (err) {
+      console.warn('Auto-save failed:', err);
+    }
+  }, [state.week, state.money, state.fame, autoSaveEnabled, step, state.bandName, state, rivals, theme]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Only handle shortcuts when in game
+      if (step !== STEPS.GAME) return;
+      
+      // Ctrl/Cmd + S: Save
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        setShowSaveModal(true);
+      }
+      
+      // Ctrl/Cmd + L: Load
+      if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
+        e.preventDefault();
+        setShowLoadModal(true);
+      }
+      
+      // Number keys for tabs (1-7)
+      if (e.key >= '1' && e.key <= '7' && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey) {
+        const tabIndex = parseInt(e.key) - 1;
+        const tabs = ['overview', 'actions', 'music', 'social', 'gigs', 'analytics', 'upgrades'];
+        if (tabs[tabIndex]) {
+          setCurrentTab(tabs[tabIndex]);
+        }
+      }
+      
+      // Escape: Close modals
+      if (e.key === 'Escape') {
+        setShowSaveModal(false);
+        setShowLoadModal(false);
+        setShowSettings(false);
+        setShowAlbumBuilderModal(false);
+        setShowLabelNegotiation(false);
+        setShowStudioModal(false);
+        setShowTransportModal(false);
+        setShowGearModal(false);
+        setSelectedBandStats(null);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [step, currentTab]);
 
   useEffect(() => {
     if (!data) return;
@@ -212,14 +225,53 @@ function App() {
       'Satellite Choir', 'Neon District', 'Midnight Tenors'
     ];
     const pool = [...(data.bandNames || []), ...fallbackNames];
-    const seeded = pool.slice(0, 24).map(name => ({
+    const seeded = pool.slice(0, 24).map((name, idx) => {
+      const fame = Math.floor(Math.random() * 200) + 50;
+      const songCount = Math.floor(Math.random() * 8) + 3;
+      const albumCount = Math.floor(fame / 100);
+      
+      // Generate songs for this rival (popularity proportional to fame)
+      const songs = Array.from({ length: songCount }, (_, i) => {
+        const basePop = Math.floor(fame * 0.5) + Math.floor(Math.random() * 30);
+        const quality = Math.floor(60 + (fame / 5) + Math.random() * 20);
+        return {
+          title: `${data?.songTitles?.[idx * songCount + i] || `Song ${i + 1}`}`,
+          popularity: Math.min(100, basePop),
+          quality,
+          weeklyStreams: Math.floor(basePop * 50 + Math.random() * 2000),
+          age: Math.floor(Math.random() * 20),
+          inAlbum: false
+        };
+      });
+      
+      // Generate albums for this rival
+      const albums = Array.from({ length: albumCount }, (_, i) => {
+        const albumQuality = Math.floor(60 + (fame / 4) + Math.random() * 25);
+        const albumPop = Math.floor(fame * 0.6 + Math.random() * 30);
+        return {
+          name: `${name} ${i === 0 ? '' : `Vol. ${i + 1}`}`,
+          quality: Math.min(100, albumQuality),
+          popularity: Math.min(100, albumPop),
+          chartScore: Math.floor(albumQuality * 0.8 + albumPop * 0.3),
+          age: Math.floor(Math.random() * 30),
+          songs: 8 + Math.floor(Math.random() * 5),
+          promoBoost: Math.max(0, 10 - Math.floor(Math.random() * 8)),
+          week: Math.floor(Math.random() * state.week) || 1
+        };
+      });
+      
+      return {
       name,
-      fame: Math.floor(Math.random() * 200) + 50,
+        fame,
       chartPosition: null,
-      songs: Math.floor(Math.random() * 5) + 1
-    }));
+        songs,
+        albums,
+        totalStreams: songs.reduce((sum, s) => sum + (s.weeklyStreams || 0), 0) + 
+                     albums.reduce((sum, a) => sum + Math.floor((a.quality || 0) * 15), 0)
+      };
+    });
     setRivals(seeded);
-  }, [data]);
+  }, [data, state.week]);
 
   const availableVenues = useMemo(() => {
     if (!data) return [];
@@ -227,21 +279,77 @@ function App() {
   }, [data, state.fame]);
 
   const chartLeaders = useMemo(() => {
-    const pool = state.bandName
-      ? [...rivals, { name: state.bandName, fame: state.fame, isPlayer: true }]
-      : [...rivals];
+    const playerBand = state.bandName
+      ? {
+          name: state.bandName,
+          fame: state.fame,
+          isPlayer: true,
+          songs: state.songs || [],
+          albums: state.albums || [],
+          totalStreams: (state.songs || []).reduce((sum, s) => sum + (s.weeklyStreams || 0), 0) +
+                       (state.albums || []).reduce((sum, a) => {
+                         const albumStreams = Math.floor((a.quality || 0) * 150 + (a.popularity || 0) * 80) * Math.max(0.3, 1 - (a.age || 0) * 0.02);
+                         return sum + albumStreams;
+                       }, 0)
+        }
+      : null;
+    
+    const pool = playerBand ? [...rivals, playerBand] : [...rivals];
     const sorted = [...pool].sort((a, b) => b.fame - a.fame);
     return sorted.slice(0, 20).map((b, idx) => ({ ...b, position: idx + 1 }));
-  }, [rivals, state.bandName, state.fame]);
+  }, [rivals, state.bandName, state.fame, state.songs, state.albums]);
 
   const albumChart = useMemo(() => {
-    const scored = (state.albums || []).map((a) => ({
+    // Player albums
+    const playerAlbums = (state.albums || []).map((a) => ({
       ...a,
-      chartScore: a.chartScore ?? Math.max(0, Math.floor((a.quality || 0) * 0.6))
+      bandName: state.bandName || 'Your Band',
+      isPlayer: true,
+      chartScore: a.chartScore ?? Math.max(0, Math.floor((a.quality || 0) * 0.8 + (a.popularity || 0) * 0.3)),
+      totalStreams: Math.floor((a.quality || 0) * 150 + (a.popularity || 0) * 80) * (1 - (a.age || 0) * 0.02)
     }));
-    const sorted = scored.sort((a, b) => (b.chartScore || 0) - (a.chartScore || 0));
-    return sorted.slice(0, 10).map((a, idx) => ({ ...a, position: idx + 1 }));
-  }, [state.albums]);
+    
+    // Rival albums
+    const rivalAlbums = rivals.flatMap(r => 
+      (r.albums || []).map(a => ({
+        ...a,
+        bandName: r.name,
+        isPlayer: false,
+        chartScore: a.chartScore || Math.max(0, Math.floor((a.quality || 0) * 0.8 + (a.popularity || 0) * 0.3)),
+        totalStreams: Math.floor((a.quality || 0) * 150 + (a.popularity || 0) * 80) * Math.max(0.3, 1 - (a.age || 0) * 0.02)
+      }))
+    );
+    
+    // Combine and sort
+    const allAlbums = [...playerAlbums, ...rivalAlbums];
+    const sorted = allAlbums.sort((a, b) => (b.chartScore || 0) - (a.chartScore || 0));
+    return sorted.slice(0, 20).map((a, idx) => ({ ...a, position: idx + 1 }));
+  }, [state.albums, rivals, state.bandName]);
+
+  const songChart = useMemo(() => {
+    // Player songs
+    const playerSongs = (state.songs || []).map(s => ({
+      ...s,
+      bandName: state.bandName || 'Your Band',
+      isPlayer: true,
+      chartScore: (s.popularity || 0) * 10 + (s.weeklyStreams || 0) * 0.1
+    }));
+    
+    // Rival songs
+    const rivalSongs = rivals.flatMap(r => 
+      (r.songs || []).map(s => ({
+        ...s,
+        bandName: r.name,
+        isPlayer: false,
+        chartScore: (s.popularity || 0) * 10 + (s.weeklyStreams || 0) * 0.1
+      }))
+    );
+    
+    // Combine and sort
+    const allSongs = [...playerSongs, ...rivalSongs];
+    const sorted = allSongs.sort((a, b) => (b.chartScore || 0) - (a.chartScore || 0));
+    return sorted.slice(0, 30).map((s, idx) => ({ ...s, position: idx + 1 }));
+  }, [state.songs, rivals, state.bandName]);
 
   useEffect(() => {
     if (availableVenues.length && !selectedVenue) {
@@ -252,59 +360,106 @@ function App() {
     }
   }, [availableVenues, selectedVenue]);
 
-  const addLog = (entry) => {
+  const addLog = (entry, showPopup = false, popupData = null) => {
     setState((s) => ({
       ...s,
       log: [entry, ...s.log].slice(0, 12)
     }));
+    
+    // Show popup for important events
+    if (showPopup || popupData) {
+      setEventPopupData({
+        title: popupData?.title || 'Event',
+        message: entry,
+        details: popupData?.details || null,
+        type: popupData?.type || 'info', // 'info', 'success', 'warning', 'error'
+        choices: popupData?.choices || []
+      });
+      setShowEventPopup(true);
+    }
   };
 
-  const ensureFontLoaded = (fontName) => {
-    if (!fontName) return;
-    const id = `font-${fontName.replace(/\s+/g, '-')}`;
-    if (document.getElementById(id)) return;
-    const link = document.createElement('link');
-    link.id = id;
-    link.rel = 'stylesheet';
-    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontName)}:wght@400;700;900&display=swap`;
-    document.head.appendChild(link);
-  };
-
-  const clampMorale = (value) => Math.max(0, Math.min(100, value));
-
-  const randomFrom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const randStat = (min = 2.5, max = 6) => Math.round((min + Math.random() * (max - min)) * 10) / 10;
-  const clampStat = (v) => Math.max(1, Math.min(10, Math.round(v * 10) / 10));
-  const buildCandidate = (role, personalities = []) => buildMember(role, personalities);
-  const buildMember = (role, personalities = []) => {
-    const firstName = randomFrom(FIRST_NAMES);
-    const lastName = randomFrom(LAST_NAMES);
-    const personality = personalities.length ? randomFrom(personalities) : 'steady';
-    const stats = {
-      skill: randStat(2.5, 6),
-      creativity: randStat(2.5, 6),
-      stagePresence: randStat(2, 5.5),
-      reliability: randStat(2.5, 6),
-      morale: randStat(3, 6.5),
-      drama: randStat(2.5, 6)
-    };
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+  // Parse weekly summary into structured data
+  const parseWeeklySummary = (summary, week) => {
+    const parts = summary.split(' | ');
+    const mainInfo = parts[0] || summary;
+    const highlights = parts.slice(1).filter(p => p.trim());
+    
+    // Extract key metrics from main info
+    const expensesMatch = mainInfo.match(/expenses \$(\d+)/);
+    const royaltiesMatch = mainInfo.match(/royalties \$(\d+)/);
+    const fansMatch = mainInfo.match(/fans \+(\d+)/);
+    
     return {
-      id,
-      role,
-      firstName,
-      lastName,
-      nickname: '',
-      personality,
-      stats,
-      name: `${firstName} ${lastName}`
+      week,
+      expenses: expensesMatch ? parseInt(expensesMatch[1]) : 0,
+      royalties: royaltiesMatch ? parseInt(royaltiesMatch[1]) : 0,
+      fanGrowth: fansMatch ? parseInt(fansMatch[1]) : 0,
+      mainInfo,
+      highlights,
+      fullText: summary
     };
   };
 
-  const memberDisplayName = (m) => {
-    const base = [m.firstName, m.lastName].filter(Boolean).join(' ').trim();
-    return m.nickname?.trim() || base || m.name || 'Bandmate';
+  // Save game function
+  const saveGame = (slotName) => {
+    const saveData = {
+      state,
+      rivals,
+      step,
+      theme,
+      timestamp: new Date().toISOString(),
+      bandName: state.bandName,
+      week: state.week,
+      fame: state.fame,
+      money: state.money
+    };
+    
+    try {
+      const updatedSlots = { ...saveSlots, [slotName]: saveData };
+      setSaveSlots(updatedSlots);
+      localStorage.setItem('bandManager_saveSlots', JSON.stringify(updatedSlots));
+      addLog(`Game saved to slot: ${slotName}`);
+      setShowSaveModal(false);
+    } catch (err) {
+      alert('Failed to save game. LocalStorage may be full.');
+      console.error('Save error:', err);
+    }
   };
+
+  // Load game function
+  const loadGame = (slotName) => {
+    const saveData = saveSlots[slotName];
+    if (!saveData) {
+      alert('No save data found in this slot.');
+      return;
+    }
+    
+    try {
+      setState(saveData.state);
+      setRivals(saveData.rivals || []);
+      setStep(saveData.step || STEPS.GAME);
+      if (saveData.theme) setTheme(saveData.theme);
+      addLog(`Game loaded from slot: ${slotName} (Week ${saveData.state.week})`);
+      setShowLoadModal(false);
+    } catch (err) {
+      alert('Failed to load game. Save data may be corrupted.');
+      console.error('Load error:', err);
+    }
+  };
+
+  // Delete save slot
+  const deleteSave = (slotName) => {
+    if (!confirm(`Delete save slot "${slotName}"?`)) return;
+    
+    const updatedSlots = { ...saveSlots };
+    delete updatedSlots[slotName];
+    setSaveSlots(updatedSlots);
+    localStorage.setItem('bandManager_saveSlots', JSON.stringify(updatedSlots));
+  };
+
+  const buildCandidate = (role, personalities = []) => buildMember(role, personalities);
+
 
   const renderInstrumentIcon = (role) => {
     const stroke = '#c084fc';
@@ -418,83 +573,200 @@ function App() {
   };
 
   const logoStyle = useMemo(() => {
-    const bg = state.logoGradient
-      ? `linear-gradient(135deg, ${state.logoBgColor}, ${state.logoBgColor2 || state.logoBgColor})`
-      : state.logoBgColor;
-    const shadow = state.logoShadow === 'soft'
-      ? '0 2px 6px rgba(0,0,0,0.35)'
-      : state.logoShadow === 'strong'
-        ? '0 4px 12px rgba(0,0,0,0.5)'
-        : 'none';
-    const outline = state.logoOutline
-      ? `${state.logoOutlineWidth || 1}px ${state.logoOutlineColor || '#000'}`
-      : null;
-    return {
-      background: bg,
-      color: state.logoTextColor,
-      fontFamily: `'${state.logoFont}', Arial, sans-serif`,
-      textTransform: state.logoUpper ? 'uppercase' : 'none',
-      fontWeight: state.logoWeight || 700,
-      fontSize: `${state.logoSize || 28}px`,
-      letterSpacing: `${state.logoLetter || 0}px`,
-      lineHeight: state.logoLineHeight || 1.1,
-      textShadow: shadow,
-      WebkitTextStroke: outline,
-      fontVariationSettings: `'wght' ${state.logoWeight || 700}`
-    };
-  }, [state.logoBgColor, state.logoBgColor2, state.logoGradient, state.logoTextColor, state.logoFont, state.logoUpper, state.logoWeight, state.logoSize, state.logoLetter, state.logoLineHeight, state.logoShadow, state.logoOutline, state.logoOutlineWidth, state.logoOutlineColor]);
+    if (state.logoFont) {
+      ensureFontLoaded(state.logoFont);
+    }
+    return calculateLogoStyle(state);
+  }, [state.logoFont, state.logoWeight, state.logoSize, state.logoLetter, state.logoLineHeight, state.logoTextColor, state.logoBgColor, state.logoBgColor2, state.logoGradient, state.logoShadow, state.logoOutline, state.logoOutlineWidth, state.logoOutlineColor, state.logoUpper]);
 
   const processWeekEffects = (s) => {
-    const baseExpenses = 100;
-    const memberSalaries = s.members.length * 50;
-    const equipmentCosts = { basic: 20, good: 50, professional: 100 }[s.equipment.instruments] || 20;
-    const transportCosts = { none: 0, van: 50, bus: 150, tourBus: 300 }[s.equipment.transport] || 0;
-    const staffCosts =
+    // Difficulty multipliers
+    const difficulty = s.difficulty || 'normal';
+    const costMultiplier = difficulty === 'easy' ? 0.8 : difficulty === 'hard' ? 1.2 : 1;
+    const revenueMultiplier = difficulty === 'easy' ? 1.2 : difficulty === 'hard' ? 0.8 : 1;
+    
+    const baseExpenses = Math.floor(100 * costMultiplier);
+    const memberSalaries = Math.floor(s.members.length * 50 * costMultiplier);
+    const equipmentCosts = Math.floor(({ basic: 20, good: 50, professional: 100 }[s.equipment.instruments] || 20) * costMultiplier);
+    const transportCosts = Math.floor(({ none: 0, van: 50, bus: 150, tourBus: 300 }[s.equipment.transport] || 0) * costMultiplier);
+    const staffCosts = Math.floor((
       (s.staffManager === 'dodgy' ? 80 : s.staffManager === 'pro' ? 150 : 0) +
-      (s.staffLawyer ? 90 : 0);
-    const weeklyExpenses = baseExpenses + memberSalaries + equipmentCosts + transportCosts;
+      (s.staffLawyer ? 90 : 0)
+    ) * costMultiplier);
+    
+    // Label contract costs (independent has monthly fee)
+    let labelCosts = 0;
+    if (s.labelDeal) {
+      if (s.labelDeal.type === 'independent') {
+        labelCosts = Math.floor((s.labelDeal.monthlyFee || 20) * costMultiplier); // Monthly fee, roughly weekly
+      }
+      // Other label types don't have weekly fees, but take royalties (handled separately)
+    }
+    
+    const weeklyExpenses = baseExpenses + memberSalaries + equipmentCosts + transportCosts + labelCosts;
 
-    // Lightweight genre trend system that lasts a few weeks
+    // Enhanced genre trend system with dynamic shifts
     let newTrend = s.trend;
     const trendNotes = [];
+    
+    // Track genre trends history
+    const updatedGenreTrends = { ...(s.genreTrends || {}) };
+    if (!updatedGenreTrends[s.genre]) {
+      updatedGenreTrends[s.genre] = { popularity: 50, weeks: 0 };
+    }
+    
+    // Seasonal trends (summer hits, holiday albums)
+    const weekOfYear = s.week % 52;
+    let seasonalBoost = 0;
+    const seasonalNote = [];
+    
+    // Summer (weeks 20-35): Pop, Dance, Electronic get boost
+    if (weekOfYear >= 20 && weekOfYear <= 35) {
+      if (s.genre === 'Pop' || s.genre === 'Dance' || s.genre === 'Electronic') {
+        seasonalBoost = 8;
+        seasonalNote.push('Summer boost');
+      }
+    }
+    
+    // Holiday season (weeks 45-52, 1-5): Holiday music boost
+    if ((weekOfYear >= 45 && weekOfYear <= 52) || (weekOfYear >= 1 && weekOfYear <= 5)) {
+      if (s.genre === 'Pop' || s.genre === 'Rock') {
+        seasonalBoost = 5;
+        seasonalNote.push('Holiday season boost');
+      }
+    }
+    
+    // Dynamic genre trend system
     if (!newTrend || newTrend.weeks <= 0) {
-      if (Math.random() < 0.12) {
+      // 15% chance of new trend (slightly higher than before)
+      if (Math.random() < 0.15) {
         const genre = randomFrom(data?.genres || GENRES);
-        newTrend = { genre, modifier: 12 + Math.floor(Math.random() * 6), weeks: 4 + Math.floor(Math.random() * 3) };
-        trendNotes.push(`New trend: ${genre} hype for ${newTrend.weeks} weeks (+${newTrend.modifier}% popularity).`);
+        // Trends can be stronger or weaker
+        const trendStrength = Math.random() < 0.3 ? 'major' : Math.random() < 0.6 ? 'moderate' : 'minor';
+        const modifier = trendStrength === 'major' ? 18 + Math.floor(Math.random() * 8) :
+                        trendStrength === 'moderate' ? 12 + Math.floor(Math.random() * 6) :
+                        6 + Math.floor(Math.random() * 4);
+        const weeks = trendStrength === 'major' ? 6 + Math.floor(Math.random() * 3) :
+                     trendStrength === 'moderate' ? 4 + Math.floor(Math.random() * 2) :
+                     2 + Math.floor(Math.random() * 2);
+        newTrend = { genre, modifier, weeks, strength: trendStrength };
+        trendNotes.push(`${trendStrength === 'major' ? '🔥 Major' : trendStrength === 'moderate' ? '📈' : '📊'} ${genre} trend! Lasts ${weeks} weeks (+${modifier}% popularity).`);
+        
+        // Update genre popularity tracking
+        if (!updatedGenreTrends[genre]) {
+          updatedGenreTrends[genre] = { popularity: 50, weeks: 0 };
+        }
+        updatedGenreTrends[genre].popularity = Math.min(100, updatedGenreTrends[genre].popularity + 10);
+        updatedGenreTrends[genre].weeks = newTrend.weeks;
       }
     } else {
       newTrend = { ...newTrend, weeks: newTrend.weeks - 1 };
       if (newTrend.weeks === 0) {
         trendNotes.push(`${newTrend.genre} trend cooled off.`);
+        // Genre popularity decays when trend ends
+        if (updatedGenreTrends[newTrend.genre]) {
+          updatedGenreTrends[newTrend.genre].popularity = Math.max(30, updatedGenreTrends[newTrend.genre].popularity - 5);
+        }
         newTrend = null;
+      } else {
+        // Gradually reduce trend strength
+        const decayRate = newTrend.strength === 'major' ? 1.5 : newTrend.strength === 'moderate' ? 1 : 0.5;
+        newTrend.modifier = Math.max(2, newTrend.modifier - decayRate);
       }
     }
 
     let totalRoyalty = 0;
-    const seasonalBoost = (() => {
-      const phase = s.week % 13; // pseudo-season cycle
-      if (phase >= 9) return 6; // festival season spike
-      if (phase >= 5) return 3; // warm-up buzz
-      return 0;
-    })();
+    
+    // Album streaming revenue (2026: albums generate sustained streams)
+    const albumStreamingRevenue = (s.albums || []).reduce((total, album) => {
+      const albumAge = album.age || 0;
+      const albumPopularity = album.popularity || 0;
+      const albumQuality = album.quality || 0;
+      
+      // Albums generate streams based on quality and popularity
+      // Newer albums generate more streams (decay over time)
+      const freshness = Math.max(0.3, 1 - (albumAge * 0.02)); // Slow decay
+      const baseAlbumStreams = Math.floor((albumQuality * 150) + (albumPopularity * 80));
+      const albumStreams = Math.floor(baseAlbumStreams * freshness);
+      
+      // Album streams are distributed across all songs in the album
+      // But also generate direct album-level revenue
+      const albumStreamRevenue = Math.floor(albumStreams * 0.004); // Same rate as single streams
+      
+      return total + albumStreamRevenue;
+    }, 0);
+    
+    // Song streaming revenue (preliminary calculation using unprocessed songs)
+    // Note: Final calculation happens later using processed songs
+    const songStreamingRevenue = (s.songs || []).reduce((total, song) => {
+      // Estimate streams from popularity (this is refined later in the processed songs)
+      const estimatedStreams = Math.floor((song.popularity || 0) * 60);
+      return total + Math.floor(estimatedStreams * 0.004);
+    }, 0);
+    
+    // Apply difficulty revenue multiplier (preliminary - final calculation is later)
+    totalRoyalty = Math.floor((albumStreamingRevenue + songStreamingRevenue) * revenueMultiplier);
+
+    // Label marketing benefits (playlist pitches, radio promo boost popularity)
+    let labelMarketingBoost = 0;
+    if (s.labelDeal && s.labelDeal.marketingBudget > 0) {
+      // Marketing budget translates to popularity boost
+      labelMarketingBoost = Math.floor(s.labelDeal.marketingBudget / 10); // Rough conversion
+    }
 
     const albums = (s.albums || []).map((album) => {
       const age = (album.age || 0) + 1;
       const decay = Math.max(0, 14 - age); // stronger early weeks
-      const promo = Math.max(0, (album.promoBoost || 0) - 1);
-      const score = Math.max(0, Math.floor(album.quality * 0.8 + decay + promo));
+      let promo = Math.max(0, (album.promoBoost || 0) - 1);
+      
+      // Label marketing adds to promo boost
+      if (s.labelDeal && s.labelDeal.marketingBudget > 0) {
+        promo = Math.min(20, promo + Math.floor(s.labelDeal.marketingBudget / 100)); // Marketing sustains promo
+      }
+      
+      const score = Math.max(0, Math.floor(album.quality * 0.8 + decay + promo + labelMarketingBoost));
       return { ...album, age, promoBoost: promo, chartScore: score };
     });
-
-    const songs = s.songs.map((song) => {
+    console.log('[processWeekEffects] Processing songs, input count:', (s.songs || []).length, 'Titles:', (s.songs || []).map(s => s.title));
+    const songs = (s.songs || []).map((song) => {
       const basePopularity = song.popularity ?? Math.floor(song.quality * 0.6);
       const decayed = Math.max(0, basePopularity - 5 + Math.floor(Math.random() * 3));
+      
+      // Album boost: Songs in albums get popularity boost from album's promo
+      let albumBoost = 0;
+      if (song.inAlbum && s.albums && s.albums.length > 0) {
+        const containingAlbum = s.albums.find(a => a.songTitles && a.songTitles.includes(song.title));
+        if (containingAlbum) {
+          albumBoost = Math.floor((containingAlbum.promoBoost || 0) * 0.5);
+        }
+      }
+      
       const freshness = Math.max(0, 100 - (song.age || 0) * 3);
 
       const trendBonus = newTrend && song.genre === newTrend.genre ? newTrend.modifier : 0;
-      const seasonal = seasonalBoost;
-      let popularity = Math.max(0, Math.floor((decayed + freshness) / 2 + trendBonus + seasonal));
+      
+      // Regional boost based on geographic reputation (small boost if you're touring/have reputation)
+      const totalReputation = Object.values(s.geographicReputation || {}).reduce((sum, rep) => sum + rep, 0);
+      const regionalBoost = Math.min(5, Math.floor(totalReputation / 20)); // Max 5 point boost
+      
+      let popularity = Math.max(0, Math.floor((decayed + freshness) / 2 + trendBonus + seasonalBoost + albumBoost + regionalBoost));
+
+      // Label benefits: Playlist pitches and radio promo boost
+      if (s.labelDeal) {
+        if (s.labelDeal.playlistPitch && Math.random() < 0.15) {
+          // Label gets song on playlist (boost)
+          const playlistBoost = Math.floor(Math.random() * 15) + 5;
+          popularity = Math.min(100, popularity + playlistBoost);
+          if (playlistBoost > 10) {
+            trendNotes.push(`Label got "${song.title}" on a major playlist! +${playlistBoost} popularity.`);
+          }
+        }
+        if (s.labelDeal.radioPromo && Math.random() < 0.12) {
+          // Radio promotion boost
+          const radioBoost = Math.floor(Math.random() * 8) + 3;
+          popularity = Math.min(100, popularity + radioBoost);
+        }
+      }
 
       // Rare viral spike
       if (Math.random() < 0.03) {
@@ -505,13 +777,19 @@ function App() {
       const freshnessWeight = Math.max(0, 1 - ((song.age || 0) * 0.05));
       const streamBase = popularity * 60;
       const streamFresh = Math.floor(freshness * 6 * freshnessWeight);
-      const streamBonus = song.videoBoost ? 400 : 0;
+      
+      // Album boost: Songs in albums get streaming boost
+      let streamBonus = song.videoBoost ? 400 : 0;
+      if (song.inAlbum) {
+        streamBonus += Math.floor(streamBase * 0.15); // 15% boost for being in an album
+      }
+      
       const weeklyStreams = Math.max(0, Math.floor(streamBase + streamFresh + streamBonus));
       const streamRevenue = Math.floor(weeklyStreams * 0.004); // ~$0.004 per stream
 
       const radioPlays = Math.floor(popularity / 12);
       const royalty = radioPlays * 2;
-      totalRoyalty += royalty + streamRevenue;
+      
       return {
         ...song,
         popularity,
@@ -522,26 +800,311 @@ function App() {
         weeklyStreams
       };
     });
+    
+    // Calculate total royalties from songs (radio + streams)
+    const songRoyalties = songs.reduce((total, song) => {
+      const weeklyStreams = song.weeklyStreams || 0;
+      const streamRevenue = Math.floor(weeklyStreams * 0.004);
+      const radioPlays = Math.floor((song.popularity || 0) / 12);
+      const radioRevenue = radioPlays * 2;
+      return total + streamRevenue + radioRevenue;
+    }, 0);
+    
+    // Total gross revenue (before label split)
+    const grossRevenue = albumStreamingRevenue + songRoyalties;
+    
+    // Apply label royalty split if under contract
+    let labelRoyaltySplit = 0;
+    let netRevenue = grossRevenue;
+    if (s.labelDeal && s.labelDeal.type !== 'independent') {
+      labelRoyaltySplit = Math.floor(grossRevenue * (s.labelDeal.royaltySplit || 0) / 100);
+      netRevenue = grossRevenue - labelRoyaltySplit;
+    }
+    
+    totalRoyalty = netRevenue;
 
     const fameGrowth = Math.floor(s.fame / 10);
     const songBonus = songs.length > 0 ? 5 : 0;
     const fanGrowth = fameGrowth + songBonus;
+    
+    // Social media organic growth (passive follower growth)
+    const socialGrowth = {
+      tiktok: Math.floor((s.socialMedia?.tiktok?.followers || 0) * 0.01), // 1% weekly growth
+      instagram: Math.floor((s.socialMedia?.instagram?.followers || 0) * 0.008), // 0.8% weekly growth
+      twitter: Math.floor((s.socialMedia?.twitter?.followers || 0) * 0.005) // 0.5% weekly growth
+    };
+    
+    // Algorithm favor decay if not posting regularly
+    const lastPostWeek = Math.max(
+      s.socialMedia?.tiktok?.lastPost || 0,
+      s.socialMedia?.instagram?.lastPost || 0,
+      s.socialMedia?.twitter?.lastPost || 0
+    );
+    const weeksSincePost = s.week - lastPostWeek;
+    const algorithmDecay = weeksSincePost > 2 ? Math.min(2, (weeksSincePost - 2) * 0.5) : 0;
+    const newAlgorithmFavor = Math.max(0, (s.algorithmFavor || 0) - algorithmDecay);
+    
+    // Update social media with organic growth
+    const updatedSocialMedia = {
+      tiktok: {
+        ...(s.socialMedia?.tiktok || { followers: 0, engagementRate: 0, lastPost: 0 }),
+        followers: (s.socialMedia?.tiktok?.followers || 0) + socialGrowth.tiktok
+      },
+      instagram: {
+        ...(s.socialMedia?.instagram || { followers: 0, engagementRate: 0, lastPost: 0 }),
+        followers: (s.socialMedia?.instagram?.followers || 0) + socialGrowth.instagram
+      },
+      twitter: {
+        ...(s.socialMedia?.twitter || { followers: 0, engagementRate: 0, lastPost: 0 }),
+        followers: (s.socialMedia?.twitter?.followers || 0) + socialGrowth.twitter
+      }
+    };
+    
+    // Calculate monthly listeners from total followers and algorithm favor
+    const totalFollowers = (updatedSocialMedia.tiktok.followers || 0) + 
+                          (updatedSocialMedia.instagram.followers || 0) + 
+                          (updatedSocialMedia.twitter.followers || 0);
+    const newMonthlyListeners = Math.floor(totalFollowers * 0.3 + (newAlgorithmFavor * 50)); // Rough conversion
+
+    // Handle active tour progression
+    let updatedActiveTour = s.activeTour;
+    let tourRevenue = 0;
+    let tourReputationGain = {};
+    let tourCompleteNote = '';
+    
+    if (s.activeTour) {
+      const tour = { ...s.activeTour };
+      tour.currentWeek = (tour.currentWeek || 0) + 1;
+      
+      // Calculate weekly tour revenue (per city)
+      const regionRep = s.geographicReputation?.[tour.region] || 0;
+      const baseRevenue = Math.floor((s.fame * 20) + (regionRep * 30));
+      const weeklyRevenue = Math.floor(baseRevenue * (tour.cities / tour.duration));
+      tour.revenue = (tour.revenue || 0) + weeklyRevenue;
+      tourRevenue = weeklyRevenue;
+      
+      // Reputation gain from touring
+      if (!tourReputationGain[tour.region]) {
+        tourReputationGain[tour.region] = 0;
+      }
+      tourReputationGain[tour.region] += Math.floor(tour.cities / tour.duration);
+      
+      // Check if tour is complete
+      if (tour.currentWeek >= tour.duration) {
+        tourCompleteNote = ` | Completed ${tour.name}! Total revenue: $${tour.revenue}`;
+        const finalRepGain = Math.floor(tour.cities * 2);
+        tourReputationGain[tour.region] = finalRepGain;
+        
+        // Save to tour history
+        const completedTour = { ...tour, completedWeek: s.week };
+        updatedActiveTour = null;
+        trendNotes.push(`Tour complete: ${tour.name} in ${GEOGRAPHIC_REGIONS.find(r => r.id === tour.region)?.name || tour.region}. +${finalRepGain} reputation, $${tour.revenue} total.`);
+        
+        // Update tour history (will be set in return statement)
+        if (!s.tourHistory) s.tourHistory = [];
+        s.tourHistory.push(completedTour);
+      } else {
+        updatedActiveTour = tour;
+      }
+    }
+
+    // Update geographic reputation
+    const updatedGeographicReputation = { ...(s.geographicReputation || { us: 0, uk: 0, europe: 0, asia: 0 }) };
+    Object.keys(tourReputationGain).forEach(region => {
+      updatedGeographicReputation[region] = (updatedGeographicReputation[region] || 0) + tourReputationGain[region];
+    });
 
     // Merchandise sales (unlocks at 50 fame)
-    const merchandiseRevenue = s.fame >= 50 ? Math.floor((s.fame * 0.25) + (s.fans * 0.15)) : 0;
+    const merchandiseRevenue = s.fame >= 50 ? Math.floor(((s.fame * 0.25) + (s.fans * 0.15)) * revenueMultiplier) : 0;
     const merchandiseNote = merchandiseRevenue > 0 ? `, merch $${merchandiseRevenue}` : '';
 
-    const summary = [`Week ${s.week}: expenses $${weeklyExpenses}, royalties $${totalRoyalty}${merchandiseNote}, fans +${fanGrowth}`, ...trendNotes].join(' | ');
+    // Handle label contract expiration
+    let updatedLabelDeal = s.labelDeal;
+    let labelExpiryNote = '';
+    if (s.labelDeal && s.labelDeal.weeksRemaining !== undefined) {
+      const newWeeksRemaining = Math.max(0, (s.labelDeal.weeksRemaining || 0) - 1);
+      if (newWeeksRemaining === 0 && s.labelDeal.weeksRemaining > 0) {
+        // Contract expired
+        labelExpiryNote = ` | Contract with ${s.labelDeal.name} expired. You're independent again.`;
+        updatedLabelDeal = null;
+        trendNotes.push(`Contract expired: ${s.labelDeal.name}. You're independent again.`);
+      } else if (newWeeksRemaining > 0) {
+        updatedLabelDeal = { ...s.labelDeal, weeksRemaining: newWeeksRemaining };
+      } else {
+        updatedLabelDeal = null;
+      }
+    }
+    
+    const labelNote = labelRoyaltySplit > 0 ? ` (label took $${labelRoyaltySplit})` : '';
+    const summary = [`Week ${s.week}: expenses $${weeklyExpenses}, royalties $${totalRoyalty}${labelNote}${merchandiseNote}${tourCompleteNote}, fans +${fanGrowth}${labelExpiryNote}`, ...trendNotes].join(' | ');
+
+    // Check goals and achievements
+    let updatedGoals = s.goals || [];
+    let newAchievements = [];
+    const totalStreams = (s.songs || []).reduce((sum, song) => sum + (song.streams || 0), 0) + 
+                         (s.albums || []).reduce((sum, album) => {
+                           const albumStreams = Math.floor((album.quality || 0) * 150 + (album.popularity || 0) * 80) * Math.max(0.3, 1 - (album.age || 0) * 0.02);
+                           return sum + albumStreams;
+                         }, 0);
+    const totalHits = (s.songs || []).filter(song => (song.popularity || 0) > 60).length;
+    
+    // Calculate chart position (simplified - check if player band exists and fame ranking)
+    const playerFame = s.bandName ? s.fame : 0;
+    const chartPosition = playerFame > 0 ? Math.max(1, Math.floor(20 - (playerFame / 20))) : 21;
+    
+    // Check for #1 album (simplified check)
+    const hasNumberOneAlbum = s.albums && s.albums.some(album => (album.popularity || 0) >= 90);
+    
+    updatedGoals = updatedGoals.map(goal => {
+      if (goal.completed) return goal;
+      
+      let progress = goal.progress || 0;
+      let completed = false;
+      
+      switch (goal.type) {
+        case 'totalStreams':
+          progress = totalStreams;
+          completed = totalStreams >= goal.target;
+          break;
+        case 'stayIndependent':
+          completed = !s.labelDeal || s.labelDeal.type === 'independent';
+          break;
+        case 'signMajorLabel':
+          completed = s.labelDeal && s.labelDeal.type === 'major';
+          break;
+        case 'numberOneAlbum':
+          completed = hasNumberOneAlbum;
+          break;
+        case 'tourRegions':
+          const touredRegions = new Set();
+          (s.tourHistory || []).forEach(tour => {
+            if (tour.region) touredRegions.add(tour.region);
+          });
+          progress = touredRegions.size;
+          completed = touredRegions.size >= goal.target;
+          break;
+        case 'goViral':
+          completed = (s.viralMoments || []).some(m => m.platform === 'TikTok');
+          break;
+        case 'withinWeeks':
+          completed = (s.week - (s.scenarioStartWeek || 1)) <= goal.target;
+          break;
+        case 'surviveWeeks':
+          progress = s.week;
+          completed = s.week >= goal.target;
+          break;
+        case 'maintainFame':
+          completed = s.fame >= goal.target;
+          break;
+        case 'totalHits':
+          progress = totalHits;
+          completed = totalHits >= goal.target;
+          break;
+      }
+      
+      if (completed && !goal.completed) {
+        newAchievements.push({ id: goal.id, name: goal.label, week: s.week });
+        trendNotes.push(`✓ Goal achieved: ${goal.label}!`);
+      }
+      
+      return { ...goal, progress, completed };
+    });
+
+    // Check for general achievements
+    const existingAchievements = (s.achievements || []).map(a => a.id);
+    
+    if (!existingAchievements.includes('firstMillion') && totalStreams >= 1000000) {
+      newAchievements.push({ id: 'firstMillion', name: 'First Million Streams', week: s.week });
+      trendNotes.push('🎉 Achievement: First Million Streams!');
+    }
+    
+    if (!existingAchievements.includes('top10') && chartPosition > 0 && chartPosition <= 10) {
+      newAchievements.push({ id: 'top10', name: 'Top 10 Chart Position', week: s.week });
+      trendNotes.push('🎉 Achievement: Top 10!');
+    }
+    
+    if (!existingAchievements.includes('numberOne') && chartPosition === 1) {
+      newAchievements.push({ id: 'numberOne', name: '#1 on Charts', week: s.week });
+      trendNotes.push('🏆 Achievement: #1 on Charts!');
+    }
+    
+    if (!existingAchievements.includes('majorLabel') && s.labelDeal && s.labelDeal.type === 'major') {
+      newAchievements.push({ id: 'majorLabel', name: 'Major Label Deal', week: s.week });
+      trendNotes.push('🎉 Achievement: Major Label Deal!');
+    }
+    
+    if (!existingAchievements.includes('viral') && (s.viralMoments || []).length > 0) {
+      newAchievements.push({ id: 'viral', name: 'Viral Moment', week: s.week });
+      trendNotes.push('🎉 Achievement: Viral Moment!');
+    }
+
+    // Check if all scenario goals are complete
+    const scenarioComplete = updatedGoals.length > 0 && updatedGoals.every(g => g.completed);
+    if (scenarioComplete && !s.scenarioComplete) {
+      trendNotes.push(`🏆 SCENARIO COMPLETE! You achieved all goals for ${SCENARIOS.find(sc => sc.id === s.scenario)?.name || 'your scenario'}!`);
+    }
+
+    // Update career stats
+    const updatedCareerStats = {
+      ...(s.careerStats || {}),
+      totalWeeks: (s.careerStats?.totalWeeks || 0) + 1,
+      totalRevenue: (s.totalRevenue || 0) + totalRoyalty + merchandiseRevenue + tourRevenue,
+      totalStreams: ((s.songs || []).reduce((sum, song) => sum + (song.streams || 0), 0) + 
+                     (s.albums || []).reduce((sum, album) => sum + (album.streams || 0), 0)),
+      albumsReleased: (s.albums || []).length,
+      songsReleased: (s.songs || []).length,
+      toursCompleted: (s.tourHistory || []).length,
+      awardsWon: (s.achievements || []).length,
+      peakFame: Math.max(s.fame, s.careerStats?.peakFame || 0),
+      peakFans: Math.max(s.fans, s.careerStats?.peakFans || 0),
+      peakChartPosition: Math.min(chartPosition, s.careerStats?.peakChartPosition || 21)
+    };
+
+    // Legacy tier and hall of fame (based on career achievements)
+    let newLegacyTier = s.legacyTier || 'none';
+    let hallOfFame = s.hallOfFame || false;
+    
+    if (!hallOfFame && updatedCareerStats.peakFame >= 500 && updatedCareerStats.totalRevenue >= 5000000) {
+      hallOfFame = true;
+      newLegacyTier = 'legend';
+      trendNotes.push('🏆 HALL OF FAME! You are a music legend!');
+    } else if (updatedCareerStats.peakFame >= 300 && updatedCareerStats.totalRevenue >= 2000000) {
+      newLegacyTier = 'icon';
+    } else if (updatedCareerStats.peakFame >= 150 && updatedCareerStats.totalRevenue >= 500000) {
+      newLegacyTier = 'star';
+    }
+
+    // Band status (active by default unless set otherwise)
+    const bandStatus = s.bandStatus || 'active';
+
+    // Ensure songs array is preserved (should include all songs from s.songs including newly added ones)
+    const finalSongs = Array.isArray(songs) && songs.length > 0 ? songs : (s.songs || []);
+    console.log('[processWeekEffects] Returning songs, final count:', finalSongs.length, 'Titles:', finalSongs.map(s => s.title));
 
     return {
       next: {
         ...s,
         albums,
-        songs,
+        songs: finalSongs,
+        labelDeal: updatedLabelDeal,
+        socialMedia: updatedSocialMedia,
+        algorithmFavor: newAlgorithmFavor,
+        monthlyListeners: newMonthlyListeners,
+        activeTour: updatedActiveTour,
+        geographicReputation: updatedGeographicReputation,
+        tourHistory: updatedActiveTour === null && s.activeTour ? [...(s.tourHistory || []), { ...s.activeTour, completedWeek: s.week }] : (s.tourHistory || []),
+        goals: updatedGoals,
+        achievements: [...(s.achievements || []), ...newAchievements],
+        scenarioComplete: scenarioComplete || s.scenarioComplete,
+        genreTrends: updatedGenreTrends,
+        careerStats: updatedCareerStats,
+        legacyTier: newLegacyTier,
+        hallOfFame: hallOfFame,
+        bandStatus: bandStatus,
         weeklyExpenses: weeklyExpenses + staffCosts,
-        money: s.money - (weeklyExpenses + staffCosts) + totalRoyalty + merchandiseRevenue,
+        money: s.money - (weeklyExpenses + staffCosts) + totalRoyalty + merchandiseRevenue + tourRevenue,
         fans: s.fans + fanGrowth,
-        totalRevenue: (s.totalRevenue || 0) + totalRoyalty + merchandiseRevenue,
+        totalRevenue: (s.totalRevenue || 0) + totalRoyalty + merchandiseRevenue + tourRevenue,
         totalMerchandise: (s.totalMerchandise || 0) + merchandiseRevenue,
         trend: newTrend && newTrend.weeks > 0 ? newTrend : null,
         trainingCooldown: Math.max(0, (s.trainingCooldown || 0) - 1),
@@ -559,16 +1122,96 @@ function App() {
       const pick = data.dramaEvents[Math.floor(Math.random() * data.dramaEvents.length)];
       setCurrentEvent(pick);
       addLog(`Drama: ${pick.title}`);
+      
+      // Show popup for drama events with choices
+      setEventPopupData({
+        title: pick.title,
+        message: pick.description,
+        type: 'warning',
+        choices: pick.choices || [],
+        isEvent: true
+      });
+      setShowEventPopup(true);
     }
   };
 
-  const driftRivalsWeekly = () => {
+  const driftRivalsWeekly = (currentWeek) => {
     setRivals((prev) => prev.map((r) => {
       const smallDrift = (Math.random() * 12) - 6; // -6 to +6
       const surge = Math.random() < 0.12 ? Math.random() * 25 : 0;
       const slump = Math.random() < 0.1 ? -(Math.random() * 18) : 0;
       const nextFame = Math.max(20, Math.floor(r.fame + smallDrift + surge + slump));
-      return { ...r, fame: nextFame };
+      
+      // Update songs (popularity decay/growth, new releases)
+      const updatedSongs = (r.songs || []).map(song => {
+        const decay = Math.random() < 0.3 ? -2 : Math.random() < 0.6 ? 0 : 1;
+        const newPop = Math.max(0, Math.min(100, (song.popularity || 0) + decay));
+        const newAge = (song.age || 0) + 1;
+        const streamBase = newPop * 50;
+        const weeklyStreams = Math.floor(streamBase + Math.random() * 2000);
+        return {
+          ...song,
+          popularity: newPop,
+          age: newAge,
+          weeklyStreams
+        };
+      });
+      
+      // Occasionally add new songs (famous bands release more)
+      if (Math.random() < (0.05 + (nextFame / 2000))) {
+        const basePop = Math.floor(nextFame * 0.5) + Math.floor(Math.random() * 30);
+        const titles = data?.songTitles || ['New Song'];
+        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+        updatedSongs.push({
+          title: randomTitle,
+          popularity: Math.min(100, basePop),
+          quality: Math.floor(60 + (nextFame / 5) + Math.random() * 20),
+          weeklyStreams: Math.floor(basePop * 50 + Math.random() * 2000),
+          age: 0,
+          inAlbum: false
+        });
+      }
+      
+      // Update albums (age, promo decay)
+      const updatedAlbums = (r.albums || []).map(album => {
+        const newAge = (album.age || 0) + 1;
+        const newPromo = Math.max(0, (album.promoBoost || 0) - 0.5);
+        const decay = Math.max(0, 14 - newAge);
+        const newScore = Math.floor((album.quality || 0) * 0.8 + decay + newPromo);
+        return {
+          ...album,
+          age: newAge,
+          promoBoost: newPromo,
+          chartScore: newScore
+        };
+      });
+      
+      // Occasionally release new albums (famous bands release more)
+      if (Math.random() < (0.02 + (nextFame / 5000)) && updatedSongs.length >= 8) {
+        const albumQuality = Math.floor(60 + (nextFame / 4) + Math.random() * 25);
+        const albumPop = Math.floor(nextFame * 0.6 + Math.random() * 30);
+        updatedAlbums.push({
+          name: `${r.name} ${updatedAlbums.length === 0 ? '' : `Vol. ${updatedAlbums.length + 1}`}`,
+          quality: Math.min(100, albumQuality),
+          popularity: Math.min(100, albumPop),
+          chartScore: Math.floor(albumQuality * 0.8 + albumPop * 0.3),
+          age: 0,
+          songs: 8 + Math.floor(Math.random() * 5),
+          promoBoost: 12,
+          week: currentWeek || 1
+        });
+      }
+      
+      const totalStreams = updatedSongs.reduce((sum, s) => sum + (s.weeklyStreams || 0), 0) + 
+                          updatedAlbums.reduce((sum, a) => sum + Math.floor((a.quality || 0) * 15 * Math.max(0.3, 1 - (a.age || 0) * 0.02)), 0);
+      
+      return { 
+        ...r, 
+        fame: nextFame,
+        songs: updatedSongs,
+        albums: updatedAlbums,
+        totalStreams
+      };
     }));
   };
 
@@ -594,24 +1237,68 @@ function App() {
   }, [state.members, state.fame, state.morale, state.tourBan]);
 
   const advanceWeek = (updater, entry, context = 'neutral') => {
+    try {
     let weeklySummary = null;
+      let newWeek = 0;
     setState((s) => {
-      const withWeek = { ...s, week: s.week + 1 };
+        try {
+          const withWeek = { ...s, week: (s.week || 0) + 1 };
+          newWeek = withWeek.week;
       const updated = updater(withWeek);
-      updated.members = adjustMemberStats(updated.members, updated.morale, context);
+          // Ensure members is always an array
+          if (!updated.members || !Array.isArray(updated.members)) {
+            updated.members = s.members || [];
+          }
+          updated.members = adjustMemberStats(updated.members, updated.morale || 50, context);
       const { next, summary } = processWeekEffects(updated);
       weeklySummary = summary;
       return next;
+        } catch (error) {
+          console.error('Error in advanceWeek setState:', error);
+          // Return current state on error to prevent crash
+          return s;
+        }
     });
     if (entry) addLog(entry);
-    if (weeklySummary) addLog(weeklySummary);
-    driftRivalsWeekly();
+    if (weeklySummary) {
+      addLog(weeklySummary);
+      
+      // Show weekly summary popup
+      const parsedSummary = parseWeeklySummary(weeklySummary, newWeek);
+      setWeeklyPopupData(parsedSummary);
+      setShowWeeklyPopup(true);
+    }
+      driftRivalsWeekly(newWeek);
     maybeTriggerEvent(dramaChance);
+      maybeSyncLicensing();
+      maybeBrandPartnership();
+      maybePlaylistPlacement();
+      maybeIndustryAward();
+      maybeChartBattle();
+      maybeModernEvent();
     maybeMemberQuit();
     maybeTroubleEvent();
+      maybeReunionTour();
+      maybeSoloCareer();
+    } catch (error) {
+      console.error('Error in advanceWeek:', error);
+      addLog(`Error advancing week: ${error.message || 'Unknown error'}`);
+    }
   };
 
-  const startGame = () => setStep(STEPS.CREATE);
+  const startGame = () => {
+    // If no scenario selected, default to sandbox
+    if (!state.scenario) {
+      const sandbox = SCENARIOS.find(s => s.id === 'sandbox');
+      setState((s) => ({
+        ...s,
+        scenario: 'sandbox',
+        goals: [],
+        achievements: []
+      }));
+    }
+    setStep(STEPS.CREATE);
+  };
   const toggleRole = (role) => {
     setDesiredRoles((prev) => {
       if (prev.includes(role)) {
@@ -675,30 +1362,51 @@ function App() {
     fontOptions.filter((f) => f.toLowerCase() !== 'arial').forEach(ensureFontLoaded);
   }, [fontOptions]);
 
-  const writeSong = () => {
+  useEffect(() => {
+    // Ensure current logo font is loaded when on logo screen
+    if (step === STEPS.LOGO && state.logoFont) {
+      ensureFontLoaded(state.logoFont);
+    }
+  }, [step, state.logoFont]);
+
+  const writeSong = (customTitle = null) => {
     const studio = STUDIO_TIERS[state.studioTier];
-    const cost = studio.recordCost;
+    const difficulty = state.difficulty || 'normal';
+    const costMultiplier = difficulty === 'easy' ? 0.8 : difficulty === 'hard' ? 1.2 : 1;
+    const cost = Math.floor(studio.recordCost * costMultiplier);
     
     if (state.money < cost) {
-      setState((s) => ({ ...s, log: [...s.log, `Not enough money to record (need $${cost})`] }));
+      addLog(`Not enough money to record (need $${cost})`, true, {
+        title: 'Insufficient Funds',
+        message: `You need $${cost} to record a song at ${studio.name}.`,
+        type: 'warning'
+      });
       return;
     }
 
     const titles = data?.songTitles || ['New Song'];
     const unusedTitles = titles.filter((t) => !state.songs.find((s) => s.title === t));
-    const title = unusedTitles.length
+    const defaultTitle = unusedTitles.length
       ? unusedTitles[Math.floor(Math.random() * unusedTitles.length)]
       : titles[Math.floor(Math.random() * titles.length)] + ' (Remix)';
+    
+    const title = customTitle && customTitle.trim() ? customTitle.trim() : defaultTitle;
+    
+    // Check if title already exists
+    if (state.songs && state.songs.find((s) => s.title === title)) {
+      addLog(`A song with the title "${title}" already exists. Please choose a different title.`, true, {
+        title: 'Duplicate Title',
+        message: `A song with the title "${title}" already exists. Please choose a different title.`,
+        type: 'warning'
+      });
+      return;
+    }
     
     const baseQuality = Math.floor(58 + Math.random() * 26);
     const quality = Math.min(100, baseQuality + studio.qualityBonus);
     const popularity = Math.floor(quality * 0.6) + studio.popBonus;
     
-    advanceWeek(
-      (s) => ({
-        ...s,
-        money: s.money - cost,
-        songs: [...s.songs, { 
+    const newSong = { 
           title, 
           quality, 
           popularity, 
@@ -708,13 +1416,165 @@ function App() {
           streams: 0,
           weeklyStreams: 0,
           freshness: 80 + studio.freshnessBonus * 10,
-          videoBoost: false
-        }],
+      videoBoost: false,
+      inAlbum: false // Track if song is part of an album
+    };
+
+    // Advance week and add the song - the song will be processed by processWeekEffects
+    console.log('[writeSong] Adding song:', title, 'Current songs count:', state.songs?.length || 0);
+    
+    advanceWeek(
+      (s) => {
+        // Ensure we have a valid songs array and add the new song
+        const currentSongs = Array.isArray(s.songs) ? s.songs : [];
+        const updatedSongs = [...currentSongs, newSong];
+        
+        console.log('[writeSong updater] Current songs:', currentSongs.length, 'After adding:', updatedSongs.length, 'Song titles:', updatedSongs.map(s => s.title));
+        
+        return {
+          ...s,
+          money: s.money - cost,
+          songs: updatedSongs, // This will be processed by processWeekEffects
         morale: clampMorale(s.morale + 4)
-      }),
+        };
+      },
       `Laid down "${title}" at ${studio.name}. The track has solid quality (${quality}%) and should get decent radio play. -$${cost}`,
       'write'
     );
+    
+    // Close modal and reset
+    setShowWriteSongModal(false);
+    setNewSongTitle('');
+  };
+
+  const recordAlbum = (selectedSongTitles) => {
+    if (selectedSongTitles.length < 8) {
+      alert('Need at least 8 songs to release an album (maximum 12).');
+      return;
+    }
+    if (selectedSongTitles.length > 12) {
+      alert('Albums can have at most 12 songs.');
+      return;
+    }
+
+    const studio = STUDIO_TIERS[state.studioTier];
+    const selectedSongs = state.songs.filter(s => selectedSongTitles.includes(s.title));
+    
+    // Check if any songs are already in an album
+    const alreadyInAlbum = selectedSongs.some(s => s.inAlbum);
+    if (alreadyInAlbum) {
+      alert('One or more selected songs are already part of another album.');
+      return;
+    }
+
+    // Calculate album quality (average of song qualities + studio bonus)
+    const avgQuality = selectedSongs.reduce((sum, s) => sum + (s.quality || 0), 0) / selectedSongs.length;
+    const albumQuality = Math.min(100, Math.floor(avgQuality + studio.qualityBonus * 1.5));
+    
+    // Album popularity starts higher than individual songs
+    const avgPopularity = selectedSongs.reduce((sum, s) => sum + (s.popularity || 0), 0) / selectedSongs.length;
+    const albumPopularity = Math.min(100, Math.floor(avgPopularity * 1.2 + studio.popBonus * 2));
+    
+    // Album release cost: higher than single recording
+    const baseCost = studio.recordCost * selectedSongs.length * 0.8; // Slight discount vs individual
+    const albumReleaseCost = Math.floor(baseCost * 1.5); // Extra cost for mastering, artwork, etc.
+    
+    if (state.money < albumReleaseCost) {
+      alert(`Need $${albumReleaseCost} to release an album (includes mastering, artwork, distribution).`);
+      return;
+    }
+
+    // Generate album name - mix of band name, song titles, and made-up titles
+    const albumType = Math.random();
+    let albumName;
+    
+    if (albumType < 0.33) {
+      // 33% chance: Use band name (self-titled albums)
+      const selfTitledVariants = [
+        `${state.bandName}`,
+        `${state.bandName} - Self-Titled`,
+        `${state.bandName} (Self-Titled)`,
+        `The ${state.bandName} Album`,
+        `${state.bandName} Vol. ${(state.albums?.length || 0) + 1}`
+      ];
+      albumName = randomFrom(selfTitledVariants);
+    } else if (albumType < 0.66) {
+      // 33% chance: Use a song title from the album
+      const titleSong = randomFrom(selectedSongs);
+      const songTitleVariants = [
+        titleSong.title,
+        `${titleSong.title} (and Other Songs)`,
+        `Songs from ${titleSong.title}`,
+        `The ${titleSong.title} Album`
+      ];
+      albumName = randomFrom(songTitleVariants);
+    } else {
+      // 34% chance: Made-up creative titles
+      const madeUpTitles = [
+        `The ${state.genre} Sessions`,
+        `Live at ${randomFrom(['Studio', 'The Basement', 'Electric Dreams', 'Analog Heaven', 'Midnight', 'The Garage'])}`,
+        `The ${randomFrom(['Great', 'Long', 'Strange', 'Wild', 'Dark', 'Bright', 'Lost', 'Found'])} ${randomFrom(['Road', 'Trip', 'Night', 'Day', 'Journey', 'Dream', 'Awakening'])}`,
+        `${randomFrom(['Midnight', 'Dawn', 'Twilight', 'Eclipse', 'Solstice'])} ${randomFrom(['Sessions', 'Tales', 'Stories', 'Chronicles', 'Legends'])}`,
+        `${randomFrom(['Electric', 'Acoustic', 'Digital', 'Analog', 'Neon'])} ${randomFrom(['Dreams', 'Reality', 'Fantasy', 'Escape', 'Return'])}`,
+        `The ${randomFrom(['First', 'Second', 'Third', 'Final', 'Next'])} ${randomFrom(['Chapter', 'Act', 'Movement', 'Phase', 'Era'])}`,
+        `${randomFrom(['Between', 'Beyond', 'Within', 'Without'])} ${randomFrom(['Lines', 'Time', 'Space', 'Reality'])}`,
+        `The ${randomFrom(['Sound', 'Voice', 'Echo', 'Silence'])} of ${randomFrom(['Tomorrow', 'Yesterday', 'Now', 'Forever'])}`,
+        `${randomFrom(['Colors', 'Shades', 'Hues', 'Tones'])} of ${randomFrom(['Sound', 'Music', 'Life', 'Time'])}`,
+        `In ${randomFrom(['Search', 'Pursuit', 'Memory', 'Honor'])} of ${randomFrom(['Truth', 'Beauty', 'Freedom', 'Love'])}`
+      ];
+      albumName = randomFrom(madeUpTitles);
+    }
+
+    advanceWeek(
+      (s) => {
+        // Mark songs as being in an album
+        const updatedSongs = s.songs.map(song => 
+          selectedSongTitles.includes(song.title)
+            ? { ...song, inAlbum: true }
+            : song
+        );
+
+        // Create album entry
+        const newAlbum = {
+          name: albumName,
+          week: s.week,
+          quality: albumQuality,
+          popularity: albumPopularity,
+          chartScore: albumPopularity,
+          age: 0,
+          promoBoost: 12, // Initial promo boost from release
+          songs: selectedSongTitles.length,
+          songTitles: selectedSongTitles
+        };
+
+        // Update label contract obligations if under contract
+        let updatedLabelDeal = s.labelDeal;
+        if (s.labelDeal && s.labelDeal.obligations) {
+          updatedLabelDeal = {
+            ...s.labelDeal,
+            obligations: {
+              ...s.labelDeal.obligations,
+              albumsDelivered: (s.labelDeal.obligations.albumsDelivered || 0) + 1
+            }
+          };
+        }
+
+        return {
+          ...s,
+          money: s.money - albumReleaseCost,
+          songs: updatedSongs,
+          albums: [...(s.albums || []), newAlbum],
+          labelDeal: updatedLabelDeal,
+          morale: clampMorale(s.morale + 8), // Big morale boost
+          fame: s.fame + Math.floor(albumPopularity * 0.15) // Fame boost from album release
+        };
+      },
+      `Released "${albumName}"! ${selectedSongTitles.length} tracks, quality ${albumQuality}%. Album release generates buzz and boosts all included songs. -$${albumReleaseCost}`,
+      'album'
+    );
+
+    setShowAlbumBuilderModal(false);
+    setSelectedSongsForAlbum([]);
   };
 
   const upgradeStudio = (tierId) => {
@@ -799,45 +1659,188 @@ function App() {
     );
   };
 
+  const startTour = (tourType, region) => {
+    if (state.activeTour) {
+      addLog('Already on a tour! Finish current tour first.');
+      return;
+    }
+    
+    if (state.money < tourType.cost) {
+      addLog(`Need $${tourType.cost} to start ${tourType.name}.`);
+      return;
+    }
+
+    const tour = {
+      type: tourType.id,
+      name: tourType.name,
+      region: region,
+      cities: tourType.cities,
+      startWeek: state.week,
+      duration: tourType.duration,
+      currentWeek: 0,
+      revenue: 0,
+      reputationGain: 0
+    };
+
+    setState((s) => ({
+      ...s,
+      money: s.money - tourType.cost,
+      activeTour: tour
+    }));
+
+    addLog(`Started ${tourType.name} in ${GEOGRAPHIC_REGIONS.find(r => r.id === region)?.name || region}! Touring for ${tourType.duration} weeks. -$${tourType.cost}`);
+  };
+
   const bookGig = (venue) => {
-    const transport = TRANSPORT_TIERS[state.transportTier];
-    const gear = GEAR_TIERS[state.gearTier];
-    const basePay = venue.basePay + Math.floor(state.fame * 1.5);
-    const transportMultiplier = transport.gigBonus;
-    const gearMultiplier = gear.gigBonus;
+    if (!venue) {
+      addLog('Error: Invalid venue selected.');
+      return;
+    }
+    
+    // Safety checks for transport and gear tiers
+    const transportTier = state.transportTier ?? 0;
+    const gearTier = state.gearTier ?? 0;
+    const transport = TRANSPORT_TIERS[transportTier] || TRANSPORT_TIERS[0];
+    const gear = GEAR_TIERS[gearTier] || GEAR_TIERS[0];
+    
+    if (!transport || !gear) {
+      addLog('Error: Invalid equipment configuration.');
+      return;
+    }
+    
+    // Safety checks for venue properties
+    const venueBasePay = venue.basePay || 0;
+    const venueCapacity = venue.capacity || 0;
+    
+    const basePay = venueBasePay + Math.floor((state.fame || 0) * 1.5);
+    const transportMultiplier = transport.gigBonus || 1.0;
+    const gearMultiplier = gear.gigBonus || 1.0;
     const pay = Math.floor(basePay * transportMultiplier * gearMultiplier);
-    const fameGain = Math.max(2, Math.floor(venue.capacity / 80) + 3);
-    const fanGain = Math.floor(venue.capacity / 28);
+    const fameGain = Math.max(2, Math.floor(venueCapacity / 80) + 3);
+    const fanGain = Math.floor(venueCapacity / 28);
     
     // Calculate performance quality based on equipment, morale, and band state
-    const equipmentQuality = (state.gearTier * 0.25) + (state.transportTier * 0.1);
-    const moraleBonus = Math.max(-1, (state.morale - 50) / 50); // -1 to +1
+    const equipmentQuality = ((state.gearTier || 0) * 0.25) + ((state.transportTier || 0) * 0.1);
+    const moraleBonus = Math.max(-1, ((state.morale || 50) - 50) / 50); // -1 to +1
     const bandQuality = Math.min(1, Math.max(0, equipmentQuality + moraleBonus * 0.2 + Math.random() * 0.2));
     
     // Select description based on performance quality
     let description;
+    try {
+      const venueName = venue?.name || 'the venue';
     if (bandQuality > 0.65) {
-      description = randomFrom(GIG_SUCCESS_DESCRIPTIONS)(venue, venue.capacity, pay, fameGain);
+        const descFunc = randomFrom(GIG_SUCCESS_DESCRIPTIONS);
+        description = descFunc(venue, venueCapacity, pay, fameGain);
     } else if (bandQuality > 0.35) {
-      description = randomFrom(GIG_OKAY_DESCRIPTIONS)(venue, venue.capacity, pay, fameGain);
+        const descFunc = randomFrom(GIG_OKAY_DESCRIPTIONS);
+        description = descFunc(venue, venueCapacity, pay, fameGain);
     } else {
-      description = randomFrom(GIG_POOR_DESCRIPTIONS)(venue, venue.capacity, pay, fameGain);
+        const descFunc = randomFrom(GIG_POOR_DESCRIPTIONS);
+        description = descFunc(venue, venueCapacity, pay, fameGain);
+      }
+      // Fallback if description is undefined or empty
+      if (!description || description.trim() === '') {
+        description = `Played a gig at ${venueName}. Earned $${pay} and gained ${fameGain} fame.`;
+      }
+    } catch (error) {
+      console.error('Error generating gig description:', error);
+      const venueName = venue?.name || 'the venue';
+      description = `Played a gig at ${venueName}. Earned $${pay} and gained ${fameGain} fame.`;
     }
     
+    try {
     advanceWeek(
       (s) => ({
         ...s,
-        money: s.money + pay,
-        fame: s.fame + fameGain,
-        morale: clampMorale(s.morale + 4),
-        fans: s.fans + fanGain
+          money: (s.money || 0) + pay,
+          fame: (s.fame || 0) + fameGain,
+          morale: clampMorale((s.morale || 50) + 4),
+          fans: (s.fans || 0) + fanGain
       }),
       description,
       'gig'
     );
+      
+      // Show popup with gig results
+      addLog(description, true, {
+        title: `Gig at ${venue?.name || 'Venue'}`,
+        message: description,
+        details: {
+          earnings: `$${pay.toLocaleString()}`,
+          fameGain: `+${fameGain}`,
+          fanGain: `+${fanGain}`,
+          moraleGain: '+4'
+        },
+        type: bandQuality > 0.65 ? 'success' : bandQuality > 0.35 ? 'info' : 'warning'
+      });
+    } catch (error) {
+      console.error('Error in bookGig advanceWeek:', error);
+      addLog(`Error playing gig: ${error.message || 'Unknown error'}`, true, {
+        title: 'Error',
+        message: `Error playing gig: ${error.message || 'Unknown error'}`,
+        type: 'error'
+      });
+    }
+  };
+
+  const generateLabelOffer = (fame) => {
+    // Determine what label tier to offer based on fame
+    let availableTiers = DISTRIBUTION_TIERS.filter(tier => fame >= tier.fameReq);
+    if (availableTiers.length === 0) availableTiers = [DISTRIBUTION_TIERS[0]]; // At least offer independent
+    
+    // Higher fame = better offers
+    let tierIndex = 0;
+    if (fame >= 300) tierIndex = 3; // Major
+    else if (fame >= 150) tierIndex = 2; // 360
+    else if (fame >= 50) tierIndex = 1; // Distribution
+    else tierIndex = 0; // Independent
+    
+    const baseTier = DISTRIBUTION_TIERS[tierIndex];
+    
+    // Label makes initial offer (may be worse than base tier)
+    const negotiationRange = Math.random();
+    let offerTier = baseTier;
+    
+    if (negotiationRange < 0.3 && tierIndex > 0) {
+      // Label offers tier below (tries to lowball)
+      offerTier = DISTRIBUTION_TIERS[tierIndex - 1];
+    }
+    
+    // Vary the terms within the tier
+    const advanceVariance = 0.8 + (Math.random() * 0.4); // 80% to 120% of base
+    const royaltyVariance = (Math.random() * 10) - 5; // ±5% from base
+    
+    const labelNames = ['Crimson Records', 'Neon Label', 'Electric Sound', 'Underground Music Co', 'Digital Distribution', 'Indie Collective'];
+    const labelName = labelNames[Math.floor(Math.random() * labelNames.length)];
+    
+    return {
+      type: offerTier.id,
+      name: labelName,
+      advance: Math.floor(offerTier.advance * advanceVariance),
+      royaltySplit: Math.max(0, Math.min(70, offerTier.royaltySplit + royaltyVariance)), // Max 70% (you get minimum 30%)
+      marketingBudget: Math.floor(offerTier.marketingBudget * (0.9 + Math.random() * 0.2)),
+      contractLength: offerTier.contractLength,
+      ...offerTier
+    };
   };
 
   const resolveEvent = (choice) => {
+    // Handle Record Label Interest specially - trigger negotiation
+    if (currentEvent?.title === 'Record Label Interest!') {
+      if (choice.text.includes('Negotiate') || choice.text.includes('Sign')) {
+        const offer = generateLabelOffer(state.fame);
+        setLabelOffer(offer);
+        setShowLabelNegotiation(true);
+        setNegotiationStep('offer');
+        setCurrentEvent(null);
+        return;
+      } else if (choice.text.includes('Stay independent')) {
+        addLog('Stayed independent. Keeping full control but no label backing.');
+        setCurrentEvent(null);
+        return;
+      }
+    }
+    
     const applySpecial = (special) => {
       if (!special) return { money: 0, morale: 0, fame: 0, note: null };
       switch (special) {
@@ -863,6 +1866,71 @@ function App() {
           return { money: -350, morale: -4, fame: 4, note: 'Paid fine, press coverage boosts notoriety.' };
         case 'bustedFight':
           return { money: -500, morale: -6, fame: 6, note: 'Legal fight; short ban applied.' };
+        case 'syncLicensing':
+          return { money: 0, morale: 5, fame: 0, note: 'Song placed in media. Great exposure!' };
+        case 'brandPartnership':
+          return { money: 0, morale: 10, fame: 0, note: 'Brand partnership boosts visibility and credibility.' };
+        case 'playlistPlacement':
+          return { money: 0, morale: 10, fame: 0, note: 'Playlist placement will boost streams significantly!' };
+        case 'awardNomination':
+          return { money: 0, morale: 10, fame: 0, note: 'Award nomination boosts credibility and exposure.' };
+        case 'awardWin':
+          return { money: 0, morale: 15, fame: 0, note: 'Winning an award is huge for your career!' };
+        case 'chartBattle':
+          return { money: 0, morale: 5, fame: 5, note: 'Chart battle pushes you to #1!' };
+        case 'reunionTour':
+          setState((s) => ({
+            ...s,
+            bandStatus: 'active', // Temporarily reactivate
+            reunionTours: [...(s.reunionTours || []), { week: s.week, duration: choice.reunionDuration }]
+          }));
+          return { money: 0, morale: 15, fame: 0, note: 'Reunion tour brings the band back together!' };
+        case 'soloCareerLeave':
+          setState((s) => ({
+            ...s,
+            members: s.members.filter(m => m.id !== choice.memberId)
+          }));
+          return { money: 0, morale: 10, fame: -5, note: 'Member left for solo career. Band continues.' };
+        case 'soloCareerStay':
+          return { money: -500, morale: -5, fame: 0, note: 'Member stays but morale dips slightly.' };
+        case 'soloCareerDual':
+          return { money: -1000, morale: 5, fame: 5, note: 'Supporting member\'s solo career while staying in band!' };
+        case 'tiktokViral':
+          setState((s) => ({
+            ...s,
+            viralMoments: [...(s.viralMoments || []), { type: 'tiktok', week: s.week, impact: 'major' }],
+            algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + 10)
+          }));
+          return { money: 0, morale: 0, fame: 0, note: 'TikTok viral moment boosts algorithm favor!' };
+        case 'streamingMilestone':
+          setState((s) => ({
+            ...s,
+            monthlyListeners: (s.monthlyListeners || 0) + Math.floor(Math.random() * 50000) + 25000
+          }));
+          return { money: 0, morale: 0, fame: 0, note: 'Streaming milestone increases monthly listeners!' };
+        case 'nftOffer':
+          return { money: 0, morale: 0, fame: 0, note: 'NFT collection launched. Controversial but profitable.' };
+        case 'algorithmBoost':
+          setState((s) => ({
+            ...s,
+            algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + 15),
+            monthlyListeners: (s.monthlyListeners || 0) + Math.floor(Math.random() * 100000) + 50000
+          }));
+          return { money: 0, morale: 0, fame: 0, note: 'Algorithm boost significantly increases listeners and favor!' };
+        case 'fanFunded':
+          return { money: 0, morale: 0, fame: 0, note: 'Fan-funded project shows strong fan support!' };
+        case 'spotifyPlaylist':
+          setState((s) => ({
+            ...s,
+            playlistPlacements: [...(s.playlistPlacements || []), { 
+              playlistName: 'Spotify Editorial', 
+              type: 'editorial', 
+              week: s.week, 
+              boost: 25 
+            }],
+            algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + 8)
+          }));
+          return { money: 0, morale: 0, fame: 0, note: 'Spotify editorial playlist placement boosts streams!' };
         default:
           return { money: 0, morale: 0, fame: 0, note: null };
       }
@@ -905,6 +1973,7 @@ function App() {
       money: s.money + (choice.fineOverride ? -choice.fineOverride : 0) + (choice.money || 0) + (special.money || 0),
       morale: clampMorale(s.morale + (choice.morale || 0) + (special.morale || 0)),
       fame: s.fame + (choice.fame || 0) + (special.fame || 0),
+      fans: s.fans + (choice.fans || 0),
       tourBan: choice.specialBan ? Math.max(s.tourBan || 0, choice.specialBan) : s.tourBan,
       members: adjustMembers(s.members)
     }));
@@ -912,6 +1981,68 @@ function App() {
     const logNote = special.note ? ` (${special.note})` : '';
     addLog(`${currentEvent.title}: ${choice.text}${logNote}`);
     setCurrentEvent(null);
+  };
+
+  const signLabelDeal = (offer, isCounterOffer = false) => {
+    const deal = {
+      type: offer.type,
+      name: offer.name,
+      advance: offer.advance,
+      royaltySplit: offer.royaltySplit,
+      marketingBudget: offer.marketingBudget,
+      contractLength: offer.contractLength,
+      weeksRemaining: offer.contractLength,
+      obligations: {
+        albumsDelivered: 0,
+        albumsRequired: Math.floor(offer.contractLength / 26), // Roughly 1 album per 6 months
+        toursRequired: Math.floor(offer.contractLength / 52) // At least 1 tour per year
+      },
+      playlistPitch: offer.playlistPitch,
+      syncLicensing: offer.syncLicensing,
+      radioPromo: offer.radioPromo
+    };
+
+    setState((s) => ({
+      ...s,
+      labelDeal: deal,
+      money: s.money + offer.advance,
+      morale: clampMorale(s.morale + 10),
+      fame: s.fame + Math.floor(offer.advance / 50) // Fame boost from signing
+    }));
+
+    addLog(`Signed with ${offer.name}! ${offer.type === 'independent' ? 'DIY distribution' : `${offer.type} deal`}. Advance: $${offer.advance}. Contract: ${offer.contractLength} weeks.`);
+    setShowLabelNegotiation(false);
+    setLabelOffer(null);
+    setNegotiationStep('offer');
+  };
+
+  const counterOffer = () => {
+    if (!labelOffer) return;
+    
+    // Improve terms slightly (label might accept)
+    const improvedOffer = {
+      ...labelOffer,
+      advance: Math.floor(labelOffer.advance * 1.1), // +10% advance
+      royaltySplit: Math.max(0, labelOffer.royaltySplit - 3), // -3% royalty (you keep more)
+      marketingBudget: Math.floor(labelOffer.marketingBudget * 1.05) // +5% marketing
+    };
+    
+    // 60% chance label accepts counter, 40% they walk away or make final offer
+    if (Math.random() < 0.6) {
+      setLabelOffer(improvedOffer);
+      setNegotiationStep('accept');
+      addLog(`Label accepted your counter-offer! Better terms secured.`);
+    } else {
+      // Label makes final "take it or leave it" offer
+      const finalOffer = {
+        ...labelOffer,
+        advance: Math.floor(labelOffer.advance * 1.05), // Slight improvement
+        royaltySplit: Math.max(0, labelOffer.royaltySplit - 1.5) // Small improvement
+      };
+      setLabelOffer(finalOffer);
+      setNegotiationStep('final');
+      addLog(`Label made a final offer. Take it or leave it.`);
+    }
   };
 
   const maybeMemberQuit = () => {
@@ -935,7 +2066,400 @@ function App() {
       buildCandidate(randomFrom(ROLE_OPTIONS).key, personalities)
     ];
     setRecruitOptions(options);
+    
+    // Show popup for member quit
+    setEventPopupData({
+      title: '🚨 Band Member Quit!',
+      message: `${memberDisplayName(quitter)} quit the band due to tension and low morale. You'll need to find a replacement to fill their role.`,
+      type: 'warning',
+      choices: [
+        {
+          text: 'View Replacement Candidates',
+          money: 0,
+          morale: 0,
+          fame: 0,
+          onClick: () => {
+            // The recruit options are already set, just close popup
+            setShowEventPopup(false);
+          }
+        },
+        {
+          text: 'Continue Without Replacement (for now)',
+          money: 0,
+          morale: 0,
+          fame: 0,
+          onClick: () => {
+            setShowEventPopup(false);
+          }
+        }
+      ]
+    });
+    setShowEventPopup(true);
     addLog(`${memberDisplayName(quitter)} quit the band due to tension. Two candidates are available to audition.`);
+  };
+
+  const maybeSyncLicensing = () => {
+    // Sync licensing opportunities (TV/film/games) - more likely with labels
+    if (state.songs.length === 0) return;
+    
+    const baseChance = state.labelDeal?.syncLicensing ? 0.08 : 0.02; // Much higher with label
+    const fameBoost = state.fame > 200 ? 0.03 : state.fame > 100 ? 0.02 : 0;
+    const chance = baseChance + fameBoost;
+    
+    if (Math.random() >= chance) return;
+    
+    const syncTypes = [
+      { type: 'TV Show', basePay: 5000, fame: 15 },
+      { type: 'Film', basePay: 8000, fame: 25 },
+      { type: 'Video Game', basePay: 3000, fame: 10 },
+      { type: 'Commercial', basePay: 12000, fame: 20 }
+    ];
+    
+    const sync = syncTypes[Math.floor(Math.random() * syncTypes.length)];
+    const topSongs = [...state.songs].sort((a,b) => (b.popularity || 0) - (a.popularity || 0));
+    const selectedSong = topSongs[0];
+    
+    if (!selectedSong) return;
+    
+    // Label takes cut if you have a label deal
+    const labelCut = state.labelDeal && state.labelDeal.type !== 'independent' 
+      ? Math.floor(sync.basePay * (state.labelDeal.royaltySplit || 0) / 100)
+      : 0;
+    const netPay = sync.basePay - labelCut;
+    
+    const eventData = {
+      title: `Sync Licensing Opportunity: ${sync.type}`,
+      titleIcon: Music,
+      description: `A ${sync.type.toLowerCase()} wants to license "${selectedSong.title}" for their production. They're offering $${sync.basePay.toLocaleString()} for the rights.${labelCut > 0 ? ` Your label takes $${labelCut.toLocaleString()} (${state.labelDeal.royaltySplit}%), leaving you $${netPay.toLocaleString()}.` : ''}`,
+      choices: [
+        { 
+          text: `Accept ($${netPay.toLocaleString()}${labelCut > 0 ? ' net' : ''})`, 
+          money: netPay, 
+          morale: 5, 
+          fame: sync.fame,
+          special: 'syncLicensing'
+        },
+        { 
+          text: 'Decline - too low', 
+          money: 0, 
+          morale: 0, 
+          fame: 0 
+        }
+      ]
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'success',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
+  };
+
+  const maybeBrandPartnership = () => {
+    // Brand partnership opportunities - unlocks with higher fame
+    if (state.fame < 100) return; // Need some fame for brands to notice
+    
+    const baseChance = state.labelDeal ? 0.06 : 0.02;
+    const fameBoost = Math.min(0.08, (state.fame - 100) / 2000);
+    const chance = baseChance + fameBoost;
+    
+    if (Math.random() >= chance) return;
+    
+    const brands = [
+      { name: 'Energy Drink', basePay: 15000, fame: 30, fans: 200 },
+      { name: 'Fashion Brand', basePay: 20000, fame: 25, fans: 300 },
+      { name: 'Tech Company', basePay: 25000, fame: 35, fans: 400 },
+      { name: 'Streaming Service', basePay: 18000, fame: 40, fans: 500 }
+    ];
+    
+    const brand = brands[Math.floor(Math.random() * brands.length)];
+    
+    // Label takes cut if 360 deal or major label
+    const labelCut = (state.labelDeal?.type === '360' || state.labelDeal?.type === 'major')
+      ? Math.floor(brand.basePay * (state.labelDeal.royaltySplit || 0) / 100)
+      : 0;
+    const netPay = brand.basePay - labelCut;
+    
+    const eventData = {
+      title: `Brand Partnership: ${brand.name}`,
+      titleIcon: Briefcase,
+      description: `${brand.name} wants to partner with your band for a campaign. They're offering $${brand.basePay.toLocaleString()} for sponsored content, product placement, and social media promotion.${labelCut > 0 ? ` Your label takes $${labelCut.toLocaleString()} (${state.labelDeal.royaltySplit}%), leaving you $${netPay.toLocaleString()}.` : ''}`,
+      choices: [
+        { 
+          text: `Accept Partnership ($${netPay.toLocaleString()}${labelCut > 0 ? ' net' : ''}, +${brand.fans} fans)`, 
+          money: netPay, 
+          morale: 10, 
+          fame: brand.fame,
+          fans: brand.fans,
+          special: 'brandPartnership'
+        },
+        { 
+          text: 'Decline - stay authentic', 
+          money: 0, 
+          morale: 5, 
+          fame: 0 
+        }
+      ]
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'success',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
+  };
+
+  const maybeIndustryAward = () => {
+    // Industry award events (Grammys, etc.) - requires fame and quality releases
+    if (state.fame < 100) return; // Need some fame for nominations
+    if (state.songs.length === 0 && state.albums.length === 0) return;
+    
+    const baseChance = state.fame > 200 ? 0.08 : state.fame > 150 ? 0.05 : 0.03;
+    if (Math.random() >= baseChance) return;
+    
+    const awards = [
+      { name: 'Grammy Awards', type: 'nomination', fame: 30, money: 0, nominationChance: 0.4 },
+      { name: 'Brit Awards', type: 'nomination', fame: 25, money: 0, nominationChance: 0.45 },
+      { name: 'MTV Music Awards', type: 'nomination', fame: 20, money: 500, nominationChance: 0.5 },
+      { name: 'Billboard Music Awards', type: 'nomination', fame: 22, money: 0, nominationChance: 0.45 }
+    ];
+    
+    const award = awards[Math.floor(Math.random() * awards.length)];
+    const isNomination = Math.random() < award.nominationChance;
+    
+    if (isNomination) {
+      // Nomination - chance to win
+      const won = Math.random() < 0.3; // 30% chance to win after nomination
+      
+      if (won) {
+        const eventData = {
+          title: `🏆 ${award.name} - WINNER!`,
+          titleIcon: Trophy,
+          description: `Congratulations! You won at the ${award.name}! This is huge for your career - massive exposure and credibility.`,
+          choices: [
+            { 
+              text: `Amazing! (+${award.fame * 2} fame, +$${award.money + 5000})`, 
+              money: award.money + 5000, 
+              morale: 15, 
+              fame: award.fame * 2,
+              special: 'awardWin'
+            }
+          ]
+        };
+        setCurrentEvent(eventData);
+        // Show popup
+        setEventPopupData({
+          title: eventData.title,
+          message: eventData.description,
+          type: 'success',
+          choices: eventData.choices,
+          isEvent: true
+        });
+        setShowEventPopup(true);
+      } else {
+        const eventData = {
+          title: `${award.name} - Nominated!`,
+          titleIcon: Trophy,
+          description: `You've been nominated for ${award.name}! Great recognition for your work. The ceremony is next week - fingers crossed!`,
+          choices: [
+            { 
+              text: `Honored! (+${award.fame} fame)`, 
+              money: award.money, 
+              morale: 10, 
+              fame: award.fame,
+              special: 'awardNomination'
+            }
+          ]
+        };
+        setCurrentEvent(eventData);
+        // Show popup
+        setEventPopupData({
+          title: eventData.title,
+          message: eventData.description,
+          type: 'success',
+          choices: eventData.choices,
+          isEvent: true
+        });
+        setShowEventPopup(true);
+      }
+      
+      // Track in industry events
+      setState((s) => ({
+        ...s,
+        industryEvents: [...(s.industryEvents || []), {
+          name: award.name,
+          type: won ? 'win' : 'nomination',
+          week: s.week
+        }]
+      }));
+    }
+  };
+
+  const maybeChartBattle = () => {
+    // Chart battle mechanics - when close to #1 position
+    if (!state.bandName || state.fame < 50) return;
+    
+    // Calculate player position (simplified - based on fame ranking)
+    const playerFame = state.fame;
+    const playerPosition = playerFame > 0 ? Math.max(1, Math.floor(20 - (playerFame / 15))) : 21;
+    
+    if (playerPosition < 2 || playerPosition > 5) return; // Only trigger if in top 5
+    
+    // 8% chance when in contention zone
+    if (Math.random() >= 0.08) return;
+    
+    // Find a nearby rival
+    const nearbyRivals = rivals.filter(r => Math.abs(r.fame - playerFame) < playerFame * 0.3);
+    if (nearbyRivals.length === 0) return;
+    
+    const rival = randomFrom(nearbyRivals);
+    const battleType = playerPosition === 1 ? 'defend' : 'climb';
+    
+    const eventData = {
+      title: `📊 Chart Battle: ${rival.name}`,
+      titleIcon: TrendingUp,
+      description: `${battleType === 'defend' ? 'You\'re at #1, but' : 'You\'re close to #1 and'} ${rival.name} is challenging your position! Both bands are releasing new material and competing for chart dominance.`,
+      choices: [
+        { 
+          text: 'Push Harder (+5 fame, -$300 promo cost)', 
+          money: -300, 
+          morale: 5, 
+          fame: 5,
+          special: 'chartBattle'
+        },
+        { 
+          text: 'Play It Cool (maintain position)', 
+          money: 0, 
+          morale: 3, 
+          fame: 2
+        }
+      ]
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'info',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
+    
+    setState((s) => ({
+      ...s,
+      chartBattles: [...(s.chartBattles || []), {
+        rival: rival.name,
+        week: s.week,
+        type: battleType
+      }]
+    }));
+  };
+
+  const maybePlaylistPlacement = () => {
+    // Playlist placement opportunities - higher chance with label and algorithm favor
+    if (state.songs.length === 0) return;
+    
+    const baseChance = state.labelDeal?.playlistPitch ? 0.12 : 0.04;
+    const algorithmBoost = (state.algorithmFavor || 0) / 1000; // Up to 10% boost
+    const fameBoost = state.fame > 200 ? 0.03 : state.fame > 100 ? 0.02 : 0;
+    const chance = baseChance + algorithmBoost + fameBoost;
+    
+    if (Math.random() >= chance) return;
+    
+    const playlistTypes = [
+      { name: 'Discover Weekly', type: 'algorithmic', boost: 15 },
+      { name: 'Release Radar', type: 'algorithmic', boost: 20 },
+      { name: 'Today\'s Top Hits', type: 'editorial', boost: 30 },
+      { name: 'Rock Classics', type: 'editorial', boost: 25 },
+      { name: 'New Music Friday', type: 'editorial', boost: 35 },
+      { name: 'Indie Mix', type: 'user-generated', boost: 10 },
+      { name: 'Viral Hits', type: 'algorithmic', boost: 25 }
+    ];
+    
+    const playlist = playlistTypes[Math.floor(Math.random() * playlistTypes.length)];
+    const topSongs = [...state.songs].sort((a,b) => (b.popularity || 0) - (a.popularity || 0));
+    const selectedSong = topSongs[0];
+    
+    if (!selectedSong) return;
+    
+    const eventData = {
+      title: `Playlist Placement: ${playlist.name}`,
+      titleIcon: ListMusic,
+      description: `Your song "${selectedSong.title}" was added to ${playlist.name} (${playlist.type} playlist)! This will boost your streams by ${playlist.boost}% for the next few weeks.`,
+      choices: [
+        { 
+          text: 'Amazing!', 
+          money: 0, 
+          morale: 10, 
+          fame: Math.floor(playlist.boost / 2),
+          special: 'playlistPlacement'
+        }
+      ]
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'success',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
+    
+    // Add to playlist placements
+    setState((s) => ({
+      ...s,
+      playlistPlacements: [...(s.playlistPlacements || []), {
+        playlistName: playlist.name,
+        type: playlist.type,
+        week: s.week,
+        boost: playlist.boost
+      }],
+      algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + 3)
+    }));
+  };
+
+  const maybeModernEvent = () => {
+    // Modern events (TikTok, streaming, social media, etc.)
+    if (!data?.modernEvents || !data.modernEvents.length) return;
+    if (state.songs.length === 0) return; // Need music for modern events
+    
+    const baseChance = 0.05; // 5% base chance
+    const fameBoost = state.fame > 100 ? 0.03 : state.fame > 50 ? 0.02 : 0.01;
+    const socialBoost = (state.socialMedia?.tiktok || 0) > 10000 ? 0.02 : 0;
+    const chance = baseChance + fameBoost + socialBoost;
+    
+    if (Math.random() >= chance) return;
+    
+    const event = randomFrom(data.modernEvents);
+    const eventData = {
+      title: event.title,
+      description: event.description,
+      choices: event.choices.map(choice => ({
+        ...choice,
+        onClick: () => resolveEvent(choice)
+      }))
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'info',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
   };
 
   const maybeTroubleEvent = () => {
@@ -950,27 +2474,47 @@ function App() {
     const member = randomFrom(state.members);
     const crisisRoll = Math.random();
     if (crisisRoll < 0.5) {
-      setCurrentEvent({
+      const eventData = {
         title: 'HOSPITAL RUN',
         titleIcon: Ambulance,
         description: `${memberDisplayName(member)} collapsed after a rough night of partying. The rest of the band found them passed out backstage. Get them proper medical attention ($200), or risk serious backlash and health problems.`,
         memberId: member.id,
         choices: [
-          { text: 'Pay Hospital ($200)', money: 0, morale: 0, fame: 0, special: 'hospitalCare' },
+          { text: 'Pay Hospital ($200)', money: -200, morale: 0, fame: 0, special: 'hospitalCare' },
           { text: 'Skip the Bill', money: 0, morale: 0, fame: 0, special: 'hospitalSkip' }
         ]
+      };
+      setCurrentEvent(eventData);
+      // Show popup
+      setEventPopupData({
+        title: eventData.title,
+        message: eventData.description,
+        type: 'warning',
+        choices: eventData.choices,
+        isEvent: true
       });
+      setShowEventPopup(true);
     } else if (crisisRoll < 0.8) {
-      setCurrentEvent({
+      const eventData = {
         title: 'REHAB INTERVENTION',
         titleIcon: AlertTriangle,
         description: `${memberDisplayName(member)}'s substance abuse is spiraling out of control. They're missing rehearsals, showing up late to gigs, and the drama is affecting everyone. A close friend suggests professional rehab ($400). It'll cost time and money, but could save the band.`,
         memberId: member.id,
         choices: [
-          { text: 'Send to Rehab ($400)', money: 0, morale: 0, fame: 0, special: 'rehabPay' },
+          { text: 'Send to Rehab ($400)', money: -400, morale: 0, fame: 0, special: 'rehabPay' },
           { text: 'Let Them Figure It Out', money: 0, morale: 0, fame: 0, special: 'rehabSkip' }
         ]
+      };
+      setCurrentEvent(eventData);
+      // Show popup
+      setEventPopupData({
+        title: eventData.title,
+        message: eventData.description,
+        type: 'warning',
+        choices: eventData.choices,
+        isEvent: true
       });
+      setShowEventPopup(true);
     } else {
       const managerFactor = state.staffManager === 'pro' ? 0.9 : state.staffManager === 'dodgy' ? 1.1 : 1;
       const lawyerFactor = state.staffLawyer ? 0.8 : 1;
@@ -978,16 +2522,140 @@ function App() {
       const banReduce = state.staffLawyer ? 1 : 0;
       const finePay = Math.max(150, Math.round(350 * fineFactor));
       const fineFight = Math.max(200, Math.round(500 * fineFactor));
-      setCurrentEvent({
+      const eventData = {
         title: 'BUSTED BY POLICE',
         titleIcon: AlertCircle,
         description: `Vice squad raided the tour van outside a nightclub. Found some controlled substances. The tabloids are already on it. The cops want money NOW. You can pay the fine and move on, or fight it in court—which will be messier but might reduce the ban.`,
         choices: [
-          { text: `Pay Fine ($${finePay}) - Quick Resolution`, money: 0, morale: 0, fame: 0, special: 'bustedFine', specialBan: Math.max(0, 1 - banReduce), fineOverride: finePay },
-          { text: `Fight in Court ($${fineFight}) - Risky But Defiant`, money: 0, morale: 0, fame: 0, special: 'bustedFight', specialBan: Math.max(0, 2 - banReduce), fineOverride: fineFight }
+          { text: `Pay Fine ($${finePay}) - Quick Resolution`, money: -finePay, morale: 0, fame: 0, special: 'bustedFine', specialBan: Math.max(0, 1 - banReduce), fineOverride: finePay },
+          { text: `Fight in Court ($${fineFight}) - Risky But Defiant`, money: -fineFight, morale: 0, fame: 0, special: 'bustedFight', specialBan: Math.max(0, 2 - banReduce), fineOverride: fineFight }
         ]
+      };
+      setCurrentEvent(eventData);
+      // Show popup
+      setEventPopupData({
+        title: eventData.title,
+        message: eventData.description,
+        type: 'error',
+        choices: eventData.choices,
+        isEvent: true
       });
+      setShowEventPopup(true);
     }
+  };
+
+  const maybeReunionTour = () => {
+    // Reunion tour opportunities after band break-up or retirement
+    if (state.bandStatus !== 'broken_up' && state.bandStatus !== 'retired') return;
+    if (state.fame < 100) return; // Need some legacy fame
+    
+    // Only trigger if band was broken up or retired for a while
+    const weeksSinceBreakup = state.week - (state.careerStats?.breakupWeek || state.week);
+    if (weeksSinceBreakup < 10) return; // Must be broken up for at least 10 weeks
+    
+    const baseChance = state.fame > 300 ? 0.12 : state.fame > 200 ? 0.08 : 0.05;
+    if (Math.random() >= baseChance) return;
+    
+    const reunionTypes = [
+      { name: 'One-Off Reunion Show', duration: 1, revenue: state.fame * 50 },
+      { name: 'Reunion Tour', duration: 4, revenue: state.fame * 200 },
+      { name: 'Full Reunion Tour', duration: 8, revenue: state.fame * 400 }
+    ];
+    
+    const reunion = reunionTypes[Math.floor(Math.random() * reunionTypes.length)];
+    
+    const eventData = {
+      title: '🎤 Reunion Tour Offer',
+      titleIcon: Mic,
+      description: `After ${weeksSinceBreakup} weeks apart, there's demand for a ${reunion.name.toLowerCase()}! This could be a chance to reunite temporarily and capitalize on your legacy. Estimated revenue: $${reunion.revenue.toLocaleString()}.`,
+      choices: [
+        { 
+          text: `Accept - Reunite! (+${reunion.duration} weeks, $${reunion.revenue.toLocaleString()})`, 
+          money: reunion.revenue, 
+          morale: 15, 
+          fame: Math.floor(state.fame * 0.1),
+          special: 'reunionTour',
+          reunionDuration: reunion.duration
+        },
+        { 
+          text: 'Decline - We\'re done', 
+          money: 0, 
+          morale: 0, 
+          fame: 0
+        }
+      ]
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'success',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
+  };
+
+  const maybeSoloCareer = () => {
+    // Members leaving for solo careers - only if band is successful
+    if (state.bandStatus !== 'active') return;
+    if (state.members.length <= 2) return; // Can't leave if only 2 members
+    if (state.fame < 150) return; // Need significant fame for solo offers
+    
+    const baseChance = state.fame > 300 ? 0.06 : state.fame > 200 ? 0.04 : 0.02;
+    if (Math.random() >= baseChance) return;
+    
+    // Pick a member with high stage presence or creativity (solo artist traits)
+    const soloCandidates = state.members
+      .filter(m => (m.stats?.stagePresence || 0) > 7 || (m.stats?.creativity || 0) > 7)
+      .sort((a, b) => ((b.stats?.stagePresence || 0) + (b.stats?.creativity || 0)) - ((a.stats?.stagePresence || 0) + (a.stats?.creativity || 0)));
+    
+    if (soloCandidates.length === 0) return;
+    
+    const member = soloCandidates[0];
+    const soloFame = Math.floor(state.fame * 0.3); // Solo career starts with fraction of band fame
+    
+    const eventData = {
+      title: `🎸 Solo Career Opportunity: ${member.firstName} ${member.lastName}`,
+      titleIcon: User,
+      description: `${member.firstName} ${member.lastName} has been offered a solo career opportunity. They're considering leaving the band to pursue it. They could start with ${soloFame} fame based on their band success. What do you do?`,
+      memberId: member.id,
+      choices: [
+        { 
+          text: 'Let them go - Good luck! (-1 member, +10 morale for rest)', 
+          money: 0, 
+          morale: 10, 
+          fame: -5,
+          special: 'soloCareerLeave',
+          memberId: member.id
+        },
+        { 
+          text: 'Convince them to stay (+$500 bonus, -5 morale)', 
+          money: -500, 
+          morale: -5, 
+          fame: 0,
+          special: 'soloCareerStay'
+        },
+        { 
+          text: 'Support solo while staying in band (+$1000, +5 morale)', 
+          money: -1000, 
+          morale: 5, 
+          fame: 5,
+          special: 'soloCareerDual'
+        }
+      ]
+    };
+    setCurrentEvent(eventData);
+    // Show popup
+    setEventPopupData({
+      title: eventData.title,
+      message: eventData.description,
+      type: 'warning',
+      choices: eventData.choices,
+      isEvent: true
+    });
+    setShowEventPopup(true);
   };
 
   const latestAlbum = useMemo(() => {
@@ -996,6 +2664,9 @@ function App() {
   }, [state.albums]);
 
   const adjustMemberStats = (members, bandMorale, context) => {
+    if (!members || !Array.isArray(members)) {
+      return [];
+    }
     return members.map((m) => {
       const stats = { ...m.stats };
       const moraleNow = stats.morale ?? 5;
@@ -1062,6 +2733,10 @@ function App() {
         if (m.id !== id) return m;
         const next = { ...m, ...updates };
         next.name = `${next.firstName} ${next.lastName}`;
+        // Update avatar seed when name changes
+        if (updates.firstName || updates.lastName) {
+          next.avatarSeed = `${next.firstName} ${next.lastName}`;
+        }
         return next;
       })
     }));
@@ -1084,22 +2759,190 @@ function App() {
     });
   };
 
-  if (loading) return <div className="screen"><p>Loading game data...</p></div>;
+  if (loading) return (
+    <div className="screen" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+      <div className="spinner"></div>
+      <p style={{ marginTop: '20px', color: '#94a3b8' }}>Loading game data...</p>
+    </div>
+  );
   if (error) return <div className="screen"><p>Error loading data: {error.message}</p></div>;
 
   return (
     <div className="app">
       <header className="header">
-        <h1 style={logoStyle}>{state.bandName || 'Rockstar Band Manager'}</h1>
-        <p className="subtitle">Welcome → Band → Logo → Game</p>
+        <div className="header-content">
+          <div className="header-left">
+            <h1 style={{ ...logoStyle, background: '#000000' }}>{state.bandName || 'GIGMASTER'}</h1>
+            <p className="subtitle">GIGMASTER → Band → Logo → Game</p>
+          </div>
+          {step === STEPS.GAME && (
+            <div className="header-actions">
+              {!state.tutorialCompleted && (
+                <button className="btn-secondary mobile-btn" onClick={() => setShowTutorial(true)} title="Tutorial">
+                  <span className="mobile-hide-text">Tutorial</span>
+                  <span className="mobile-show-text">?</span>
+                </button>
+              )}
+              <button className="btn-secondary mobile-btn" onClick={() => setShowSaveModal(true)} title="Save game (Ctrl+S)">
+                Save
+              </button>
+              <button className="btn-secondary mobile-btn" onClick={() => setShowLoadModal(true)} title="Load game (Ctrl+L)">
+                Load
+              </button>
+              <button className="btn-secondary mobile-btn" onClick={() => setShowSettings(true)} title="Settings">
+                <span className="mobile-hide-text">Settings</span>
+                <span className="mobile-show-text">⚙</span>
+              </button>
+            </div>
+          )}
+        </div>
       </header>
 
-      {step === STEPS.WELCOME && (
-        <section className="screen card">
-          <h2>Welcome</h2>
-          <p>Create your band, design your logo, and hit the stage.</p>
+      {step === STEPS.LANDING && (
+        <div className="landing-page">
+          <div className="landing-sky">
+            {Array.from({ length: 50 }).map((_, i) => (
+              <div
+                key={`star-${i}`}
+                className="star"
+                style={{
+                  left: `${10 + (i * 7.3) % 80}%`,
+                  top: `${5 + (i * 3.7) % 25}%`,
+                  animationDelay: `${(i * 0.1) % 2}s`,
+                  animationDuration: `${2 + (i % 3)}s`
+                }}
+              />
+            ))}
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div
+                key={`streak-${i}`}
+                className="light-streak"
+                style={{
+                  left: `${10 + i * 12}%`,
+                  top: `${5 + (i % 3) * 8}%`,
+                  transform: `rotate(${-35 + i * 8}deg)`,
+                  opacity: 0.3 + (i % 3) * 0.1
+                }}
+              />
+            ))}
+          </div>
           
-          <button className="btn" onClick={startGame}>Start New Game</button>
+          <div className="landing-grid">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div key={`h-${i}`} className="grid-line grid-line-horizontal" style={{ top: `${30 + i * 3.5}%` }} />
+            ))}
+            {Array.from({ length: 15 }).map((_, i) => {
+              const baseAngle = -25;
+              const angle = baseAngle + (i * 4);
+              return (
+                <div
+                  key={`d-${i}`}
+                  className={`grid-line grid-line-diagonal ${i % 2 === 0 ? 'grid-blue' : 'grid-pink'}`}
+                  style={{ 
+                    transform: `rotate(${angle}deg)`,
+                    transformOrigin: '50% 100%',
+                    bottom: '20%',
+                    left: `${40 + (i - 7) * 2}%`
+                  }}
+                />
+              );
+            })}
+          </div>
+          
+          <div className="landing-horizon" />
+          
+          <div className="landing-content">
+            <h1 className="gigmaster-logo">GIGMASTER</h1>
+            <div className="landing-options">
+              <div className="landing-buttons">
+                <button 
+                  className="landing-btn landing-btn-primary"
+                  onClick={() => setStep(STEPS.SCENARIO)}
+                >
+                  Start Game
+                </button>
+                <button 
+                  className="landing-btn landing-btn-secondary"
+                  onClick={() => setShowLoadModal(true)}
+                >
+                  Load Game
+                </button>
+              </div>
+              <div className="landing-difficulty">
+                <select 
+                  value={state.difficulty || 'normal'} 
+                  onChange={(e) => setState((s) => ({ ...s, difficulty: e.target.value }))}
+                  className="landing-select"
+                >
+                  <option value="easy">Easy</option>
+                  <option value="normal">Normal</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {step === STEPS.SCENARIO && (
+        <section className="screen card">
+          <h2>Choose Your Scenario</h2>
+          <p style={{ color: '#94a3b8', marginBottom: '20px' }}>
+            Select a scenario to define your goals and starting conditions, or play in sandbox mode for free play.
+          </p>
+          <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+            {SCENARIOS.map((scenario) => (
+              <div 
+                key={scenario.id} 
+                className="mini-card" 
+                style={{
+                  border: '1px solid #334155',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, border-color 0.2s'
+                }}
+                onClick={() => {
+                  setState((s) => ({
+                    ...s,
+                    scenario: scenario.id,
+                    money: scenario.initialMoney,
+                    fame: scenario.initialFame,
+                    goals: scenario.goals.map(g => ({ ...g, completed: false, progress: 0 })),
+                    achievements: [],
+                    scenarioStartWeek: 1
+                  }));
+                  setStep(STEPS.CREATE);
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.borderColor = '#7c3aed';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = '#334155';
+                }}
+              >
+                <h3 style={{ marginTop: 0 }}>{scenario.name}</h3>
+                <p style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '12px' }}>
+                  {scenario.description}
+                </p>
+                <div style={{ fontSize: '0.85em', marginBottom: '12px', padding: '8px', background: '#000000', borderRadius: '4px' }}>
+                  <div>Starting Money: <strong>${scenario.initialMoney}</strong></div>
+                  <div>Starting Fame: <strong>{scenario.initialFame}</strong></div>
+                </div>
+                {scenario.goals.length > 0 && (
+                  <div style={{ fontSize: '0.85em', color: '#64748b' }}>
+                    <strong>Goals:</strong>
+                    <ul style={{ margin: '4px 0 0 0', paddingLeft: '20px' }}>
+                      {scenario.goals.map((goal, idx) => (
+                        <li key={idx}>{goal.label}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </section>
       )}
 
@@ -1109,14 +2952,14 @@ function App() {
           <label>Band Name</label>
           <input
             value={state.bandName}
-            onChange={(e) => setState({ ...state, bandName: e.target.value })}
+            onChange={(e) => setState((s) => ({ ...s, bandName: e.target.value }))}
             placeholder="Enter band name"
           />
           <label>Genre</label>
           <select value={state.genre} onChange={(e) => {
             const newGenre = e.target.value;
             const newTheme = GENRE_THEMES[newGenre] || 'theme-modern';
-            setState({ ...state, genre: newGenre });
+            setState((s) => ({ ...s, genre: newGenre }));
             setTheme(newTheme);
           }}>
             {(data?.genres || GENRES).map(g => (
@@ -1348,8 +3191,20 @@ function App() {
                     <div><span>Morale</span><strong>{state.morale}%</strong></div>
                     <div><span>Expenses</span><strong>${state.weeklyExpenses}</strong></div>
                     <div><span>Staff</span><strong>{state.staffManager !== 'none' ? `${state.staffManager} mgr` : 'none'}{state.staffLawyer ? ' + lawyer' : ''}</strong></div>
+                    <div><span>Label</span><strong>{state.labelDeal ? state.labelDeal.type : 'Independent'}</strong></div>
                     <div><span>Transport</span><strong>{TRANSPORT_TIERS[state.transportTier].name}</strong></div>
                     <div><span>Studio</span><strong>{STUDIO_TIERS[state.studioTier].name}</strong></div>
+                    {state.labelDeal && (
+                      <div style={{ gridColumn: '1 / -1', background: '#1e3a8a', borderColor: '#3b82f6', fontSize: '0.85em', padding: '8px', borderRadius: '4px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                          <strong>{state.labelDeal.name}</strong>
+                          <span>{state.labelDeal.weeksRemaining || 0}w left</span>
+                        </div>
+                        <div style={{ fontSize: '0.75em', color: '#94a3b8' }}>
+                          {100 - (state.labelDeal.royaltySplit || 0)}% royalties • ${state.labelDeal.marketingBudget || 0}/wk marketing
+                        </div>
+                      </div>
+                    )}
                     {state.fame >= 50 && (
                       <div style={{ gridColumn: '1 / -1', background: '#064e3b', borderColor: '#10b981', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><DollarSign size={12} /> Merch Sales</span>
@@ -1427,7 +3282,24 @@ function App() {
                             onClick={() => setEditingMemberId(editing ? null : m.id)}
                           >
                             <div className="member-top">
+                              {m.avatarSeed && (
+                                <img 
+                                  src={getAvatarUrl(m.avatarSeed, m.avatarStyle || 'open-peeps', m.role)} 
+                                  alt={memberDisplayName(m)}
+                                  style={{ 
+                                    width: '48px', 
+                                    height: '48px', 
+                                    borderRadius: '50%',
+                                    border: '2px solid #334155',
+                                    backgroundColor: '#1e293b',
+                                    objectFit: 'cover',
+                                    filter: 'grayscale(100%)'
+                                  }}
+                                />
+                              )}
+                              {!m.avatarSeed && (
                               <div className="instrument-icon">{renderInstrumentIcon(m.role)}</div>
+                              )}
                               <div>
                                 <div className="member-name">{memberDisplayName(m)}</div>
                                 <div className="member-role">{roleLabel} • {m.personality}</div>
@@ -1455,6 +3327,21 @@ function App() {
                                       {ROLE_OPTIONS.map((r) => (
                                         <option key={r.key} value={r.key}>{r.label}</option>
                                       ))}
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <label>Avatar Style</label>
+                                    <select 
+                                      value={m.avatarStyle || 'open-peeps'} 
+                                      onChange={(e) => updateMember(m.id, { avatarStyle: e.target.value })}
+                                    >
+                                      <option value="lorelei">Lorelei (Musician Style)</option>
+                                      <option value="open-peeps">Open Peeps (Human)</option>
+                                      <option value="avataaars">Avataaars (Human)</option>
+                                      <option value="personas">Personas (Human)</option>
+                                      <option value="adventurer">Adventurer (Human)</option>
+                                      <option value="pixel-art">Pixel Art</option>
+                                      <option value="notionists">Notionists</option>
                                     </select>
                                   </div>
                                 </div>
@@ -1497,32 +3384,48 @@ function App() {
               <div className="card" style={{ marginBottom: '16px' }}>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', borderBottom: '1px solid #334155', paddingBottom: '12px' }}>
                   {[
-                    { id: 'overview', label: 'Overview', icon: Activity },
-                    { id: 'actions', label: 'Actions', icon: Zap },
-                    { id: 'music', label: 'Music', icon: Music },
-                    { id: 'gigs', label: 'Gigs', icon: Mic },
-                    { id: 'upgrades', label: 'Upgrades', icon: Gem },
-                    { id: 'log', label: 'Log', icon: FileText }
+                    { id: 'overview', label: 'Overview', icon: Activity, tooltip: 'View your band stats, goals, and achievements (1)', shortLabel: 'Overview' },
+                    { id: 'actions', label: 'Actions', icon: Zap, tooltip: 'Record songs, release albums, and take actions (2)', shortLabel: 'Actions' },
+                    { id: 'music', label: 'Music', icon: Music, tooltip: 'View your songs and albums (3)', shortLabel: 'Music' },
+                    { id: 'social', label: 'Social', icon: Share2, tooltip: 'Manage social media and engagement (4)', shortLabel: 'Social' },
+                    { id: 'gigs', label: 'Gigs', icon: Mic, tooltip: 'Book gigs and plan tours (5)', shortLabel: 'Gigs' },
+                    { id: 'analytics', label: 'Analytics', icon: BarChart3, tooltip: 'View revenue breakdown and statistics (6)', shortLabel: 'Analytics' },
+                    { id: 'upgrades', label: 'Upgrades', icon: Gem, tooltip: 'Upgrade studio, transport, and gear (7)', shortLabel: 'Upgrades' },
+                    { id: 'log', label: 'Log', icon: FileText, tooltip: 'View game event log', shortLabel: 'Log' }
                   ].map(tab => (
                     <button
                       key={tab.id}
+                      className="tab-button"
                       onClick={() => setCurrentTab(tab.id)}
+                      onMouseEnter={(e) => {
+                        if (tab.tooltip) {
+                          setShowTooltip(tab.tooltip);
+                          const rect = e.target.getBoundingClientRect();
+                          setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top - 10 });
+                        }
+                      }}
+                      onMouseLeave={() => setShowTooltip(null)}
                       style={{
-                        padding: '8px 12px',
+                        padding: '10px 12px',
                         border: 'none',
                         background: currentTab === tab.id ? '#1e40af' : '#334155',
                         color: '#fff',
                         cursor: 'pointer',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         fontSize: '0.9em',
                         fontWeight: currentTab === tab.id ? 'bold' : 'normal',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '6px'
+                        justifyContent: 'center',
+                        gap: '6px',
+                        minHeight: '44px',
+                        flex: '1 1 calc(50% - 4px)',
+                        minWidth: 'calc(50% - 4px)'
                       }}
                     >
                       <tab.icon size={16} />
-                      {tab.label}
+                      <span className="tab-label-full">{tab.label}</span>
+                      <span className="tab-label-short">{tab.shortLabel || tab.label}</span>
                     </button>
                   ))}
                 </div>
@@ -1531,6 +3434,135 @@ function App() {
               {/* OVERVIEW TAB */}
               {currentTab === 'overview' && (
                 <>
+                  {state.scenario && state.goals && state.goals.length > 0 && (
+                    <div className="card" style={{ marginBottom: '16px', background: '#064e3b', borderColor: '#10b981' }}>
+                      <h2>Scenario Goals</h2>
+                      <p style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '12px' }}>
+                        {SCENARIOS.find(s => s.id === state.scenario)?.name || 'Scenario'}
+                      </p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {state.goals.map((goal, idx) => {
+                          const progress = goal.type === 'totalStreams' || goal.type === 'tourRegions' || goal.type === 'surviveWeeks' || goal.type === 'totalHits'
+                            ? Math.min(100, (goal.progress / goal.target) * 100)
+                            : goal.completed ? 100 : 0;
+                          return (
+                            <div key={idx} style={{ 
+                              padding: '10px', 
+                              background: '#000000', 
+                              borderRadius: '6px',
+                              border: goal.completed ? '1px solid #10b981' : '1px solid #334155'
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                                <span style={{ fontWeight: goal.completed ? 'bold' : 'normal', color: goal.completed ? '#10b981' : '#e2e8f0' }}>
+                                  {goal.completed && '✓ '}{goal.label}
+                                </span>
+                                {goal.type === 'totalStreams' || goal.type === 'tourRegions' || goal.type === 'surviveWeeks' || goal.type === 'totalHits' && (
+                                  <span style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                    {goal.progress}/{goal.target}
+                                  </span>
+                                )}
+                              </div>
+                              {(goal.type === 'totalStreams' || goal.type === 'tourRegions' || goal.type === 'surviveWeeks' || goal.type === 'totalHits') && !goal.completed && (
+                                <div className="meter" style={{ marginTop: '4px' }}>
+                                  <div className="meter-fill" style={{ 
+                                    width: `${progress}%`,
+                                    background: progress >= 100 ? '#10b981' : '#3b82f6'
+                                  }} />
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {state.scenarioComplete && (
+                        <div style={{ 
+                          marginTop: '12px', 
+                          padding: '12px', 
+                          background: '#10b981', 
+                          borderRadius: '6px',
+                          textAlign: 'center',
+                          fontWeight: 'bold',
+                          color: '#0a1120'
+                        }}>
+                          🏆 SCENARIO COMPLETE! All goals achieved!
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {(state.achievements || []).length > 0 && (
+                    <div className="card" style={{ marginBottom: '16px' }}>
+                      <h2>Achievements</h2>
+                      <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px' }}>
+                        {[...(state.achievements || [])]
+                          .sort((a, b) => (b.week || 0) - (a.week || 0))
+                          .map((achievement, idx) => (
+                            <div key={idx} style={{ 
+                              padding: '8px', 
+                              background: '#000000', 
+                              borderRadius: '6px',
+                              border: '1px solid #334155',
+                              textAlign: 'center'
+                            }}>
+                              <div style={{ fontSize: '1.5em', marginBottom: '4px' }}>🏆</div>
+                              <div style={{ fontSize: '0.85em', fontWeight: 'bold' }}>{achievement.name}</div>
+                              <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '2px' }}>
+                                Week {achievement.week || 0}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {state.trend && (
+                    <div className="card" style={{ marginBottom: '16px', background: '#064e3b', borderColor: '#10b981' }}>
+                      <h2>Current Genre Trend</h2>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{ fontSize: '1.5em' }}>
+                          {state.trend.strength === 'major' ? '🔥' : state.trend.strength === 'moderate' ? '📈' : '📊'}
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 'bold', fontSize: '1.1em' }}>{state.trend.genre}</div>
+                          <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            +{state.trend.modifier}% popularity • {state.trend.weeks} weeks remaining
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {(state.industryEvents || []).length > 0 && (
+                    <div className="card" style={{ marginBottom: '16px' }}>
+                      <h2>Industry Events</h2>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {[...(state.industryEvents || [])]
+                          .sort((a, b) => (b.week || 0) - (a.week || 0))
+                          .slice(0, 5)
+                          .map((event, idx) => (
+                            <div key={idx} style={{ 
+                              padding: '10px', 
+                              background: event.type === 'win' ? '#064e3b' : '#0a1120', 
+                              borderRadius: '6px',
+                              border: `1px solid ${event.type === 'win' ? '#10b981' : '#334155'}`
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Trophy size={20} color={event.type === 'win' ? '#10b981' : '#94a3b8'} />
+                                <div>
+                                  <div style={{ fontWeight: 'bold' }}>
+                                    {event.type === 'win' ? '🏆 Won' : '📋 Nominated'}: {event.name}
+                                  </div>
+                                  <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                    Week {event.week || 0}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="stats">
                     <div className="stat">Money: ${state.money}</div>
                     <div className="stat">Fame: {state.fame}</div>
@@ -1547,17 +3579,17 @@ function App() {
                   <div className="card">
                     <h2>Upgrades Summary</h2>
                     <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
-                      <div style={{ padding: '12px', background: '#1e293b', borderRadius: '4px', border: '1px solid #334155' }}>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '4px', border: '1px solid #334155' }}>
                         <p style={{ color: '#94a3b8', fontSize: '0.9em', display: 'flex', alignItems: 'center', gap: '6px' }}><Radio size={14} /> Studio</p>
                         <p style={{ fontWeight: 'bold' }}>{STUDIO_TIERS[state.studioTier].name}</p>
                         <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Quality +{STUDIO_TIERS[state.studioTier].qualityBonus}%</p>
                       </div>
-                      <div style={{ padding: '12px', background: '#1e293b', borderRadius: '4px', border: '1px solid #334155' }}>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '4px', border: '1px solid #334155' }}>
                         <p style={{ color: '#94a3b8', fontSize: '0.9em', display: 'flex', alignItems: 'center', gap: '6px' }}><TrendingUp size={14} /> Transport</p>
                         <p style={{ fontWeight: 'bold' }}>{TRANSPORT_TIERS[state.transportTier].name}</p>
                         <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Earnings ×{TRANSPORT_TIERS[state.transportTier].gigBonus.toFixed(2)}</p>
                       </div>
-                      <div style={{ padding: '12px', background: '#1e293b', borderRadius: '4px', border: '1px solid #334155' }}>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '4px', border: '1px solid #334155' }}>
                         <p style={{ color: '#94a3b8', fontSize: '0.9em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                           {React.createElement(GEAR_TIERS[state.gearTier].icon, { size: 14 })} Gear
                         </p>
@@ -1576,9 +3608,122 @@ function App() {
                       </div>
                       <div>
                         <p><strong>Lawyer:</strong> {state.staffLawyer ? 'Yes ($90/wk)' : 'No'}</p>
+                        <p><strong>Label:</strong> {state.labelDeal ? `${state.labelDeal.name} (${state.labelDeal.type})` : 'Independent'}</p>
                         <p><strong>Albums:</strong> {(state.albums || []).length}</p>
                         <p><strong>Tour Ban:</strong> {state.tourBan > 0 ? `${state.tourBan} week(s)` : 'None'}</p>
+                        {state.labelDeal && (
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Contract: {state.labelDeal.weeksRemaining}/{state.labelDeal.contractLength} weeks remaining
+                          </p>
+                        )}
                       </div>
+                    </div>
+                  </div>
+                  
+                  <div className="card">
+                    <h2>Revenue Breakdown (This Week)</h2>
+                    <div style={{ display: 'grid', gap: '12px' }}>
+                      {(() => {
+                        // Calculate estimated weekly revenue
+                        const songStreams = (state.songs || []).reduce((sum, s) => sum + (s.weeklyStreams || 0), 0);
+                        const albumStreams = (state.albums || []).reduce((sum, a) => {
+                          const freshness = Math.max(0.3, 1 - (a.age || 0) * 0.02);
+                          return sum + Math.floor(((a.quality || 0) * 150 + (a.popularity || 0) * 80) * freshness);
+                        }, 0);
+                        const totalStreams = songStreams + albumStreams;
+                        const grossStreamRevenue = Math.floor(totalStreams * 0.004);
+                        const grossRadioRevenue = (state.songs || []).reduce((sum, s) => {
+                          return sum + (Math.floor((s.popularity || 0) / 12) * 2);
+                        }, 0);
+                        const grossRevenue = grossStreamRevenue + grossRadioRevenue;
+                        const labelCut = state.labelDeal && state.labelDeal.type !== 'independent'
+                          ? Math.floor(grossRevenue * (state.labelDeal.royaltySplit || 0) / 100)
+                          : 0;
+                        const netRevenue = grossRevenue - labelCut;
+                        const merchRevenue = state.fame >= 50 ? Math.floor((state.fame * 0.25) + (state.fans * 0.15)) : 0;
+                        
+                        return (
+                          <>
+                            <div style={{ 
+                              padding: '10px', 
+                              background: '#000000', 
+                              borderRadius: '6px',
+                              border: '1px solid #334155'
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                <span style={{ color: '#94a3b8' }}>💰 Streaming Revenue</span>
+                                <strong>${grossStreamRevenue.toLocaleString()}</strong>
+                              </div>
+                              <div style={{ fontSize: '0.8em', color: '#64748b' }}>
+                                {(totalStreams / 1000).toFixed(1)}k streams × $0.004
+                              </div>
+                            </div>
+                            
+                            <div style={{ 
+                              padding: '10px', 
+                              background: '#000000', 
+                              borderRadius: '6px',
+                              border: '1px solid #334155'
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                <span style={{ color: '#94a3b8' }}>📻 Radio Revenue</span>
+                                <strong>${grossRadioRevenue.toLocaleString()}</strong>
+                              </div>
+                            </div>
+                            
+                            {state.labelDeal && state.labelDeal.type !== 'independent' && labelCut > 0 && (
+                              <div style={{ 
+                                padding: '10px', 
+                                background: '#7c2d12', 
+                                borderRadius: '6px',
+                                border: '1px solid #f59e0b'
+                              }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                  <span style={{ color: '#fbbf24' }}>📉 Label Royalty Split</span>
+                                  <strong style={{ color: '#f59e0b' }}>-${labelCut.toLocaleString()}</strong>
+                                </div>
+                                <div style={{ fontSize: '0.8em', color: '#fbbf24' }}>
+                                  {state.labelDeal.royaltySplit}% to {state.labelDeal.name}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {merchRevenue > 0 && (
+                              <div style={{ 
+                                padding: '10px', 
+                                background: '#000000', 
+                                borderRadius: '6px',
+                                border: '1px solid #334155'
+                              }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                  <span style={{ color: '#94a3b8' }}>🛍️ Merchandise</span>
+                                  <strong>${merchRevenue.toLocaleString()}</strong>
+                                </div>
+                              </div>
+                            )}
+                            
+                            <div style={{ 
+                              padding: '12px', 
+                              background: '#064e3b', 
+                              borderRadius: '6px',
+                              border: '2px solid #10b981',
+                              marginTop: '8px'
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ fontWeight: 'bold', color: '#10b981' }}>Net Weekly Income</span>
+                                <strong style={{ fontSize: '1.2em', color: '#10b981' }}>
+                                  ${(netRevenue + merchRevenue).toLocaleString()}
+                                </strong>
+                              </div>
+                              {state.labelDeal && state.labelDeal.marketingBudget > 0 && (
+                                <div style={{ fontSize: '0.85em', color: '#94a3b8', marginTop: '6px' }}>
+                                  + Label marketing boost: ${state.labelDeal.marketingBudget}/wk
+                                </div>
+                              )}
+                            </div>
+                          </>
+                        );
+                      })()}
                     </div>
                   </div>
                 </>
@@ -1590,23 +3735,177 @@ function App() {
                   <h2>Weekly Actions</h2>
                   <div className="grid">
                     <div className="mini-card">
-                      <h3>Record Song</h3>
-                      <p>Record at {STUDIO_TIERS[state.studioTier].name}</p>
+                      <h3>Write & Record Song</h3>
+                      <p>Record a new single at {STUDIO_TIERS[state.studioTier].name}</p>
                       <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Cost: ${STUDIO_TIERS[state.studioTier].recordCost} | Quality +{STUDIO_TIERS[state.studioTier].qualityBonus}</p>
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <button className="btn" onClick={writeSong} style={{ flex: 1 }}>Record</button>
+                        <button className="btn" onClick={() => {
+                          const studio = STUDIO_TIERS[state.studioTier];
+                          const difficulty = state.difficulty || 'normal';
+                          const costMultiplier = difficulty === 'easy' ? 0.8 : difficulty === 'hard' ? 1.2 : 1;
+                          const cost = Math.floor(studio.recordCost * costMultiplier);
+                          
+                          if (state.money < cost) {
+                            addLog(`Not enough money to record (need $${cost})`, true, {
+                              title: 'Insufficient Funds',
+                              message: `You need $${cost} to record a song at ${studio.name}.`,
+                              type: 'warning'
+                            });
+                            return;
+                          }
+                          
+                          // Generate a default title
+                          const titles = data?.songTitles || ['New Song'];
+                          const unusedTitles = titles.filter((t) => !state.songs.find((s) => s.title === t));
+                          const defaultTitle = unusedTitles.length
+                            ? unusedTitles[Math.floor(Math.random() * unusedTitles.length)]
+                            : titles[Math.floor(Math.random() * titles.length)] + ' (Remix)';
+                          
+                          setNewSongTitle(defaultTitle);
+                          setShowWriteSongModal(true);
+                        }} style={{ flex: 1 }}>Write Song</button>
                         <button className="btn-secondary" onClick={() => setShowStudioModal(true)}>Studios</button>
                       </div>
+                    </div>
+                    <div className="mini-card">
+                      <h3>Release Album</h3>
+                      <p>Compile 8-12 songs into an album</p>
+                      <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                        {state.songs.filter(s => !s.inAlbum).length} available songs • Albums provide sustained streaming revenue
+                      </p>
+                      <button 
+                        className="btn" 
+                        onClick={() => {
+                          if (state.songs.filter(s => !s.inAlbum).length < 8) {
+                            alert('You need at least 8 songs that aren\'t already in an album to release one.');
+                            return;
+                          }
+                          setShowAlbumBuilderModal(true);
+                        }}
+                        disabled={state.songs.filter(s => !s.inAlbum).length < 8}
+                        style={{ width: '100%' }}
+                      >
+                        {state.songs.filter(s => !s.inAlbum).length < 8 ? 'Need 8+ Songs' : 'Build Album'}
+                      </button>
+                    </div>
+                    <div className="mini-card">
+                      <h3>Label & Distribution</h3>
+                      {state.labelDeal ? (
+                        <>
+                          <p><strong>{state.labelDeal.name}</strong></p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8', marginTop: '4px' }}>
+                            {state.labelDeal.type} • {state.labelDeal.weeksRemaining || 0} weeks left
+                          </p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            You keep {100 - (state.labelDeal.royaltySplit || 0)}% royalties
+                          </p>
+                          <p style={{ fontSize: '0.85em', color: '#3b82f6' }}>
+                            Marketing: ${state.labelDeal.marketingBudget || 0}/wk
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Currently Independent</p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Label offers appear as random events. Higher fame = better deals.
+                          </p>
+                        </>
+                      )}
+                    </div>
+                    <div className="mini-card">
+                      <h3>Do Nothing</h3>
+                      <p>Take a week off. Rest, recover, let things settle.</p>
+                      <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                        Rest can improve morale and health. Sometimes less is more.
+                      </p>
+                      <button 
+                        className="btn-secondary" 
+                        onClick={() => {
+                          advanceWeek(
+                            (s) => ({
+                              ...s,
+                              morale: Math.min(100, s.morale + 2 + Math.floor(Math.random() * 3)),
+                              fans: Math.max(0, s.fans - Math.floor(s.fans * 0.02)) // Small fan decay
+                            }),
+                            'You took a week off. Band morale improved, but some fans lost interest.'
+                          );
+                        }}
+                        style={{ width: '100%' }}
+                      >
+                        Take Week Off
+                      </button>
+                    </div>
+                    <div className="mini-card">
+                      <h3>Collaboration</h3>
+                      <p>Feature another artist on a track for cross-promotion.</p>
+                      <button className="btn" onClick={() => {
+                        if (state.songs.length === 0) {
+                          alert('You need at least one song to collaborate on!');
+                          return;
+                        }
+                        if (state.fame < 50) {
+                          alert('You need at least 50 fame for other artists to want to collaborate.');
+                          return;
+                        }
+                        
+                        const baseCost = 600;
+                        const difficulty = state.difficulty || 'normal';
+                        const costMultiplier = difficulty === 'easy' ? 0.8 : difficulty === 'hard' ? 1.2 : 1;
+                        const finalCost = Math.floor(baseCost * costMultiplier);
+                        
+                        if (state.money < finalCost) {
+                          alert(`Need $${finalCost} for collaboration (includes production and artist fee).`);
+                          return;
+                        }
+                        
+                        const topSong = [...state.songs].sort((a,b) => (b.popularity||0) - (a.popularity||0))[0];
+                        const collaboratorNames = ['Ava Martinez', 'Jake Rivers', 'Luna Chen', 'Max Powers', 'Zoe Black', 'Ryan Stone', 'Maya Patel', 'Alex Cross'];
+                        const collaborator = collaboratorNames[Math.floor(Math.random() * collaboratorNames.length)];
+                        
+                        advanceWeek(
+                          (s) => {
+                            const songs = s.songs.map(song => 
+                              song.title === topSong.title
+                                ? { 
+                                    ...song, 
+                                    popularity: Math.min(100, (song.popularity || 0) + 15),
+                                    title: `${song.title} (feat. ${collaborator})`
+                                  }
+                                : song
+                            );
+                            
+                            const newCollaboration = {
+                              songTitle: topSong.title,
+                              collaborator,
+                              week: s.week,
+                              cost: finalCost,
+                              popularityBoost: 15
+                            };
+                            
+                            return {
+                              ...s,
+                              songs,
+                              money: s.money - finalCost,
+                              fame: s.fame + 8,
+                              collaborations: [...(s.collaborations || []), newCollaboration]
+                            };
+                          },
+                          `Collaborated with ${collaborator} on "${topSong.title}"! Cross-promotion boosts popularity. -$${finalCost}, +8 fame.`,
+                          'collaboration'
+                        );
+                      }} disabled={state.songs.length === 0 || state.fame < 50 || state.money < 600}>
+                        Collaborate (${state.difficulty === 'easy' ? 480 : state.difficulty === 'hard' ? 720 : 600})
+                      </button>
+                      {state.collaborations && state.collaborations.length > 0 && (
+                        <p style={{ fontSize: '0.85em', color: '#94a3b8', marginTop: '8px' }}>
+                          {state.collaborations.length} collaboration{state.collaborations.length !== 1 ? 's' : ''}
+                        </p>
+                      )}
                     </div>
                     <div className="mini-card">
                       <h3>Rehearse</h3>
                       <p>Sharpen performance. Small fame bump.</p>
                       <button className="btn" onClick={rehearse}>Rehearse</button>
-                    </div>
-                    <div className="mini-card">
-                      <h3>Rest</h3>
-                      <p>Recover morale to keep the band happy.</p>
-                      <button className="btn" onClick={rest}>Rest</button>
                     </div>
                     <div className="mini-card">
                       <h3>Training</h3>
@@ -1650,19 +3949,72 @@ function App() {
               {currentTab === 'music' && (
                 <>
                   <div className="card">
+                    <h2>Your Albums</h2>
+                    {(!state.albums || state.albums.length === 0) ? (
+                      <p style={{ color: '#94a3b8' }}>No albums yet. Release one when you have 8+ songs ready!</p>
+                    ) : (
+                      <div className="members" style={{ marginBottom: '20px' }}>
+                        {[...(state.albums || [])].sort((a,b) => (b.week || 0) - (a.week || 0)).map((album) => (
+                          <div key={album.name + album.week} className="member" style={{ 
+                            border: latestAlbum && album.name === latestAlbum.name ? '2px solid #3b82f6' : '1px solid #334155',
+                            background: latestAlbum && album.name === latestAlbum.name ? '#1e3a8a' : '#000000'
+                          }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <strong>{album.name}</strong>
+                              {latestAlbum && album.name === latestAlbum.name && (
+                                <span style={{ fontSize: '0.75em', color: '#60a5fa', background: '#1e40af', padding: '2px 6px', borderRadius: '4px' }}>LATEST</span>
+                              )}
+                            </div>
+                            <div style={{ fontSize: 12, color: '#94a3b8', marginTop: '4px' }}>
+                              {album.songs || 0} tracks • Q{album.quality || 0} • Pop {album.popularity || 0} • Age {album.age || 0}w
+                            </div>
+                            <div style={{ fontSize: 11, color: '#64748b', marginTop: '4px' }}>
+                              Chart Score: {album.chartScore || 0} • Promo: +{album.promoBoost || 0}
+                            </div>
+                            {album.songTitles && album.songTitles.length > 0 && (
+                              <details style={{ marginTop: '6px' }}>
+                                <summary style={{ fontSize: '11px', color: '#64748b', cursor: 'pointer' }}>View Tracklist</summary>
+                                <div style={{ marginTop: '4px', paddingLeft: '12px', fontSize: '11px', color: '#94a3b8' }}>
+                                  {album.songTitles.slice(0, 5).map((title, idx) => (
+                                    <div key={idx}>• {title}</div>
+                                  ))}
+                                  {album.songTitles.length > 5 && <div>... and {album.songTitles.length - 5} more</div>}
+                                </div>
+                              </details>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="card">
                     <h2>Your Songs</h2>
                     {state.songs.length === 0 && <p>No songs yet. Record something in the Actions tab!</p>}
                     {state.songs.length > 0 && (
+                      <>
+                        <div style={{ marginBottom: '12px', fontSize: '0.9em', color: '#94a3b8' }}>
+                          {state.songs.filter(s => !s.inAlbum).length} singles available for albums • {state.songs.filter(s => s.inAlbum).length} in albums
+                        </div>
                       <div className="members">
                         {[...state.songs].sort((a,b) => (b.popularity||0) - (a.popularity||0)).map((s) => (
-                          <div key={s.title} className="member">
-                            <div><strong>{s.title}</strong></div>
+                            <div key={s.title} className="member" style={{
+                              opacity: s.inAlbum ? 0.6 : 1,
+                              borderColor: s.inAlbum ? '#475569' : undefined
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <strong>{s.title}</strong>
+                                {s.inAlbum && (
+                                  <span style={{ fontSize: '0.7em', color: '#64748b', background: '#000000', padding: '2px 6px', borderRadius: '4px' }}>IN ALBUM</span>
+                                )}
+                              </div>
                             <div style={{ fontSize: 12, color: '#94a3b8' }}>
                               Q{Math.round(s.quality)} • Pop {s.popularity || 0} • Age {s.age || 0}w • Streams {s.streams || 0} (wk {s.weeklyStreams || 0}) • Plays {s.plays || 0}
                             </div>
                           </div>
                         ))}
                       </div>
+                      </>
                     )}
                   </div>
                   <div className="card">
@@ -1698,29 +4050,60 @@ function App() {
                       </div>
                       <div className="mini-card">
                         <h3>Music Video</h3>
-                        <p>Film a video for your top single to slow decay.</p>
+                        <p>Film a video for your top single to slow decay and boost streams.</p>
                         <button className="btn" onClick={() => {
                           if (!state.songs.length) return;
-                          const cost = 400;
+                          const topSong = [...state.songs].sort((a,b) => (b.popularity||0) - (a.popularity||0))[0];
+                          const baseCost = 400;
+                          const difficultyMultiplier = state.difficulty === 'easy' ? 0.8 : state.difficulty === 'hard' ? 1.2 : 1;
+                          const finalCost = Math.floor(baseCost * difficultyMultiplier);
+                          
                           advanceWeek(
                             (s) => {
                               const songs = [...s.songs].sort((a,b) => (b.popularity||0) - (a.popularity||0));
                               if (songs.length) {
-                                songs[0] = { ...songs[0], popularity: Math.min(100, (songs[0].popularity || 0) + 10), age: Math.max(0, (songs[0].age || 0) - 1), videoBoost: true };
+                                const videoBoost = Math.floor(10 + (s.fame / 20)); // Better videos with more fame
+                                songs[0] = { 
+                                  ...songs[0], 
+                                  popularity: Math.min(100, (songs[0].popularity || 0) + videoBoost), 
+                                  age: Math.max(0, (songs[0].age || 0) - 2), 
+                                  videoBoost: true 
+                                };
                               }
                               const albums = [...(s.albums || [])];
                               if (albums.length) {
                                 const latest = [...albums].sort((a,b) => (b.week||0) - (a.week||0))[0];
                                 latest.promoBoost = Math.min(18, (latest.promoBoost || 0) + 6);
                               }
-                              return { ...s, songs, albums, money: s.money - cost, fame: s.fame + 4 };
+                              
+                              // Track music video
+                              const newVideo = {
+                                songTitle: songs[0]?.title || 'Unknown',
+                                week: s.week,
+                                cost: finalCost,
+                                views: Math.floor((s.fame * 100) + (songs[0]?.popularity || 0) * 50)
+                              };
+                              
+                              return { 
+                                ...s, 
+                                songs, 
+                                albums, 
+                                money: s.money - finalCost, 
+                                fame: s.fame + 4,
+                                musicVideos: [...(s.musicVideos || []), newVideo]
+                              };
                             },
-                            'Shot a music video: top single gains popularity and freshness. +$400 cost, +4 fame.',
+                            `Shot a music video for "${topSong.title}": gains popularity and freshness. -$${finalCost}, +4 fame.`,
                             'video'
                           );
-                        }} disabled={!state.songs.length}>
-                          Shoot Video (-$400)
+                        }} disabled={!state.songs.length || state.money < 400}>
+                          Shoot Video (-${state.difficulty === 'easy' ? 320 : state.difficulty === 'hard' ? 480 : 400})
                         </button>
+                        {state.musicVideos && state.musicVideos.length > 0 && (
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8', marginTop: '8px' }}>
+                            {state.musicVideos.length} video{state.musicVideos.length !== 1 ? 's' : ''} produced
+                          </p>
+                        )}
                       </div>
                       <div className="mini-card">
                         <h3>Media Push</h3>
@@ -1763,12 +4146,332 @@ function App() {
                 </>
               )}
 
+              {/* SOCIAL TAB */}
+              {currentTab === 'social' && (
+                <>
+                  <div className="card">
+                    <h2>Social Media & Engagement</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '20px' }}>
+                      <div style={{ 
+                        padding: '16px', 
+                        background: '#000000', 
+                        borderRadius: '8px',
+                        border: '1px solid #334155'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                          <Sparkles size={20} color="#ff0050" />
+                          <h3 style={{ margin: 0, fontSize: '1.1em' }}>TikTok</h3>
+                        </div>
+                        <div style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '4px' }}>Followers</div>
+                        <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#ff0050' }}>
+                          {(state.socialMedia?.tiktok?.followers || 0).toLocaleString()}
+                        </div>
+                        <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '4px' }}>
+                          Engagement: {((state.socialMedia?.tiktok?.engagementRate || 0) * 100).toFixed(1)}%
+                        </div>
+                      </div>
+
+                      <div style={{ 
+                        padding: '16px', 
+                        background: '#000000', 
+                        borderRadius: '8px',
+                        border: '1px solid #334155'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                          <Heart size={20} color="#E4405F" />
+                          <h3 style={{ margin: 0, fontSize: '1.1em' }}>Instagram</h3>
+                        </div>
+                        <div style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '4px' }}>Followers</div>
+                        <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#E4405F' }}>
+                          {(state.socialMedia?.instagram?.followers || 0).toLocaleString()}
+                        </div>
+                        <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '4px' }}>
+                          Engagement: {((state.socialMedia?.instagram?.engagementRate || 0) * 100).toFixed(1)}%
+                        </div>
+                      </div>
+
+                      <div style={{ 
+                        padding: '16px', 
+                        background: '#000000', 
+                        borderRadius: '8px',
+                        border: '1px solid #334155'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                          <MessageCircle size={20} color="#1DA1F2" />
+                          <h3 style={{ margin: 0, fontSize: '1.1em' }}>Twitter/X</h3>
+                        </div>
+                        <div style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '4px' }}>Followers</div>
+                        <div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#1DA1F2' }}>
+                          {(state.socialMedia?.twitter?.followers || 0).toLocaleString()}
+                        </div>
+                        <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '4px' }}>
+                          Engagement: {((state.socialMedia?.twitter?.engagementRate || 0) * 100).toFixed(1)}%
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card" style={{ marginBottom: '20px' }}>
+                      <h3>Algorithm Favor</h3>
+                      <p style={{ color: '#94a3b8', marginTop: -4, marginBottom: '12px' }}>
+                        Higher favor increases playlist placement chances and viral potential.
+                      </p>
+                      <div className="meter">
+                        <div className="meter-fill" style={{ 
+                          width: `${state.algorithmFavor || 0}%`,
+                          background: state.algorithmFavor >= 70 ? 'linear-gradient(135deg, #10b981, #059669)' : 
+                                     state.algorithmFavor >= 40 ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : 
+                                     'linear-gradient(135deg, #64748b, #475569)'
+                        }} />
+                      </div>
+                      <p style={{ fontWeight: 700, marginTop: '8px' }}>
+                        {state.algorithmFavor || 0}/100
+                        {state.algorithmFavor >= 70 && ' • Excellent!'}
+                        {state.algorithmFavor >= 40 && state.algorithmFavor < 70 && ' • Good'}
+                        {state.algorithmFavor < 40 && ' • Building'}
+                      </p>
+                      <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '4px' }}>
+                        Boosted by: Consistent posting, engagement, playlist placements
+                      </div>
+                    </div>
+
+                    <div className="card" style={{ marginBottom: '20px' }}>
+                      <h3>Streaming Stats</h3>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px' }}>
+                        <div>
+                          <div style={{ color: '#94a3b8', fontSize: '0.85em' }}>Monthly Listeners</div>
+                          <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#3b82f6' }}>
+                            {(state.monthlyListeners || 0).toLocaleString()}
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{ color: '#94a3b8', fontSize: '0.85em' }}>Playlist Placements</div>
+                          <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#8b5cf6' }}>
+                            {(state.playlistPlacements || []).length}
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{ color: '#94a3b8', fontSize: '0.85em' }}>Viral Moments</div>
+                          <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#f59e0b' }}>
+                            {(state.viralMoments || []).length}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card">
+                      <h3>Create Content</h3>
+                      <div className="grid">
+                        <div className="mini-card">
+                          <h3>TikTok Video</h3>
+                          <p>Create a short video. Low cost, high viral potential.</p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Cost: $50-150 (quality dependent)</p>
+                          <button className="btn" onClick={() => {
+                            const cost = 50 + Math.floor(Math.random() * 100);
+                            if (state.money < cost) {
+                              addLog(`Need $${cost} to create TikTok content.`);
+                              return;
+                            }
+                            advanceWeek(
+                              (s) => {
+                                const quality = Math.floor(Math.random() * 40) + 40; // 40-80
+                                const viralChance = (quality / 100) * (s.algorithmFavor / 100) * 0.15;
+                                const wentViral = Math.random() < viralChance;
+                                
+                                const followerGain = wentViral 
+                                  ? Math.floor(500 + Math.random() * 2000)
+                                  : Math.floor(10 + Math.random() * 50);
+                                
+                                const engagementBoost = wentViral ? 0.05 : 0.01;
+                                
+                                return {
+                                  ...s,
+                                  money: s.money - cost,
+                                  socialMedia: {
+                                    ...s.socialMedia,
+                                    tiktok: {
+                                      followers: (s.socialMedia?.tiktok?.followers || 0) + followerGain,
+                                      engagementRate: Math.min(1, (s.socialMedia?.tiktok?.engagementRate || 0) + engagementBoost),
+                                      lastPost: s.week
+                                    }
+                                  },
+                                  algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + (wentViral ? 5 : 1)),
+                                  viralMoments: wentViral ? [...(s.viralMoments || []), { platform: 'TikTok', week: s.week }] : (s.viralMoments || [])
+                                };
+                              },
+                              `Posted TikTok video. ${Math.random() < 0.15 ? 'WENT VIRAL! +' + Math.floor(500 + Math.random() * 2000) + ' followers!' : 'Gained some followers.'} -$${cost}`
+                            );
+                          }}>
+                            Post TikTok Video
+                          </button>
+                        </div>
+
+                        <div className="mini-card">
+                          <h3>Instagram Post</h3>
+                          <p>Visual content for branding and fan engagement.</p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Cost: $80-200</p>
+                          <button className="btn" onClick={() => {
+                            const cost = 80 + Math.floor(Math.random() * 120);
+                            if (state.money < cost) {
+                              addLog(`Need $${cost} to create Instagram content.`);
+                              return;
+                            }
+                            advanceWeek(
+                              (s) => {
+                                const followerGain = Math.floor(20 + Math.random() * 80);
+                                const engagementBoost = 0.015;
+                                
+                                return {
+                                  ...s,
+                                  money: s.money - cost,
+                                  socialMedia: {
+                                    ...s.socialMedia,
+                                    instagram: {
+                                      followers: (s.socialMedia?.instagram?.followers || 0) + followerGain,
+                                      engagementRate: Math.min(1, (s.socialMedia?.instagram?.engagementRate || 0) + engagementBoost),
+                                      lastPost: s.week
+                                    }
+                                  },
+                                  algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + 1)
+                                };
+                              },
+                              `Posted on Instagram. Gained ${Math.floor(20 + Math.random() * 80)} followers. -$${cost}`
+                            );
+                          }}>
+                            Post to Instagram
+                          </button>
+                        </div>
+
+                        <div className="mini-card">
+                          <h3>Twitter/X Post</h3>
+                          <p>Direct communication with fans. Can spark controversy.</p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Cost: $30-80</p>
+                          <button className="btn" onClick={() => {
+                            const cost = 30 + Math.floor(Math.random() * 50);
+                            if (state.money < cost) {
+                              addLog(`Need $${cost} to post on Twitter.`);
+                              return;
+                            }
+                            advanceWeek(
+                              (s) => {
+                                const controversial = Math.random() < 0.1; // 10% chance
+                                const followerGain = controversial 
+                                  ? Math.floor(100 + Math.random() * 200) // Controversy = more followers
+                                  : Math.floor(10 + Math.random() * 40);
+                                
+                                const engagementBoost = controversial ? 0.02 : 0.01;
+                                
+                                return {
+                                  ...s,
+                                  money: s.money - cost,
+                                  socialMedia: {
+                                    ...s.socialMedia,
+                                    twitter: {
+                                      followers: (s.socialMedia?.twitter?.followers || 0) + followerGain,
+                                      engagementRate: Math.min(1, (s.socialMedia?.twitter?.engagementRate || 0) + engagementBoost),
+                                      lastPost: s.week
+                                    }
+                                  },
+                                  algorithmFavor: Math.min(100, (s.algorithmFavor || 0) + (controversial ? 2 : 1)),
+                                  fame: s.fame + (controversial ? 3 : 0) // Controversy can boost fame
+                                };
+                              },
+                              `Posted on Twitter/X. ${Math.random() < 0.1 ? 'Sparked some controversy! Gained attention.' : 'Engaged with fans.'} -$${cost}`
+                            );
+                          }}>
+                            Post to Twitter/X
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {(state.playlistPlacements || []).length > 0 && (
+                      <div className="card">
+                        <h3>Recent Playlist Placements</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {[...(state.playlistPlacements || [])]
+                            .sort((a, b) => (b.week || 0) - (a.week || 0))
+                            .slice(0, 5)
+                            .map((placement, idx) => (
+                              <div key={idx} style={{ 
+                                padding: '10px', 
+                                background: '#000000', 
+                                borderRadius: '6px',
+                                border: '1px solid #334155'
+                              }}>
+                                <div style={{ fontWeight: 'bold' }}>{placement.playlistName}</div>
+                                <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                  {placement.type} • Week {placement.week} • +{placement.boost}% stream boost
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {(state.viralMoments || []).length > 0 && (
+                      <div className="card">
+                        <h3>Viral Moments</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {[...(state.viralMoments || [])]
+                            .sort((a, b) => (b.week || 0) - (a.week || 0))
+                            .slice(0, 5)
+                            .map((moment, idx) => (
+                              <div key={idx} style={{ 
+                                padding: '10px', 
+                                background: '#064e3b', 
+                                borderRadius: '6px',
+                                border: '1px solid #10b981'
+                              }}>
+                                <div style={{ fontWeight: 'bold', color: '#10b981' }}>
+                                  <Sparkles size={14} style={{ display: 'inline', marginRight: '4px' }} />
+                                  {moment.platform} Viral Moment
+                                </div>
+                                <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                  Week {moment.week} • Massive follower boost!
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
               {/* GIGS TAB */}
               {currentTab === 'gigs' && (
                 <>
                   <div className="card">
-                    <h2>Book Gig</h2>
-                    <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Transport: {TRANSPORT_TIERS[state.transportTier].name} • Gear: {GEAR_TIERS[state.gearTier].name}</p>
+                    <h2>Tours & Gigs</h2>
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', borderBottom: '1px solid #334155', paddingBottom: '12px' }}>
+                      <button 
+                        className="btn" 
+                        onClick={() => setGigsView('local')}
+                        style={{ 
+                          background: gigsView === 'local' ? '#1e40af' : '#334155',
+                          opacity: gigsView === 'local' ? 1 : 0.7
+                        }}
+                      >
+                        Local Gigs
+                      </button>
+                      <button 
+                        className="btn" 
+                        onClick={() => setGigsView('tours')}
+                        style={{ 
+                          background: gigsView === 'tours' ? '#1e40af' : '#334155',
+                          opacity: gigsView === 'tours' ? 1 : 0.7
+                        }}
+                      >
+                        Tours
+                      </button>
+                    </div>
+                  </div>
+
+                  {gigsView === 'local' && (
+                    <>
+                      <div className="card">
+                        <h2>Book Local Gig</h2>
+                    <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>Transport: {TRANSPORT_TIERS[state.transportTier || 0]?.name || 'Unknown'} • Gear: {GEAR_TIERS[state.gearTier || 0]?.name || 'Unknown'}</p>
                     {state.tourBan > 0 && <p style={{ color: '#f97316' }}>Gig booking locked for {state.tourBan} week(s) after a bust.</p>}
                     {availableVenues.length === 0 && <p>No venues yet. Build fame!</p>}
                     {availableVenues.length > 0 && (
@@ -1781,13 +4484,13 @@ function App() {
                           }}
                         >
                           {availableVenues.map((v) => {
-                            const transport = TRANSPORT_TIERS[state.transportTier];
-                            const gear = GEAR_TIERS[state.gearTier];
-                            const basePay = v.basePay + Math.floor(state.fame * 1.5);
-                            const finalPay = Math.floor(basePay * transport.gigBonus * gear.gigBonus);
+                            const transport = TRANSPORT_TIERS[state.transportTier || 0] || TRANSPORT_TIERS[0];
+                            const gear = GEAR_TIERS[state.gearTier || 0] || GEAR_TIERS[0];
+                            const basePay = (v.basePay || 0) + Math.floor((state.fame || 0) * 1.5);
+                            const finalPay = Math.floor(basePay * (transport?.gigBonus || 1.0) * (gear?.gigBonus || 1.0));
                             return (
                               <option key={v.name} value={v.name}>
-                                {v.name} — ${finalPay} ({transport.name} ×{transport.gigBonus.toFixed(2)} × {gear.name} ×{gear.gigBonus.toFixed(2)})
+                                {v.name} — ${finalPay} ({transport?.name || 'Unknown'} ×{(transport?.gigBonus || 1.0).toFixed(2)} × {gear?.name || 'Unknown'} ×{(gear?.gigBonus || 1.0).toFixed(2)})
                               </option>
                             );
                           })}
@@ -1816,6 +4519,171 @@ function App() {
                       ))}
                     </div>
                   </div>
+                    </>
+                  )}
+
+                  {gigsView === 'tours' && (
+                    <>
+                      {state.activeTour && (
+                        <div className="card" style={{ background: '#064e3b', borderColor: '#10b981' }}>
+                          <h2>Active Tour: {TOUR_TYPES.find(t => t.id === state.activeTour.type)?.name}</h2>
+                          <p>
+                            <strong>{state.activeTour.region}</strong> • {state.activeTour.cities} cities • 
+                            Week {state.week - state.activeTour.startWeek + 1}/{state.activeTour.duration}
+                          </p>
+                          <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Revenue so far: ${state.activeTour.revenue || 0}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="card">
+                        <h2>Plan Tour</h2>
+                        <div className="grid">
+                          {TOUR_TYPES.filter(tour => {
+                            // Filter by fame requirement
+                            if (state.fame < tour.fameReq) return false;
+                            // Filter by unlock requirements
+                            if (tour.unlockReq) {
+                              const rep = state.geographicReputation?.[tour.unlockReq.reputation] || 0;
+                              if (rep < tour.unlockReq.value) return false;
+                            }
+                            return true;
+                          }).map((tour) => {
+                            const canAfford = state.money >= tour.cost;
+                            const isUnlocked = !tour.unlockReq || (state.geographicReputation?.[tour.unlockReq.reputation] || 0) >= tour.unlockReq.value;
+                            return (
+                              <div key={tour.id} className="mini-card" style={{
+                                opacity: canAfford && isUnlocked ? 1 : 0.6,
+                                border: selectedTourType === tour.id ? '2px solid #7c3aed' : '1px solid #334155'
+                              }}>
+                                <h3>{tour.name}</h3>
+                                <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>{tour.desc}</p>
+                                <div style={{ fontSize: '0.9em', marginTop: '8px' }}>
+                                  <div>Cost: <strong>${tour.cost}</strong></div>
+                                  <div>Cities: <strong>{tour.cities}</strong></div>
+                                  <div>Duration: <strong>{tour.duration} weeks</strong></div>
+                                  {!isUnlocked && tour.unlockReq && (
+                                    <div style={{ color: '#f59e0b', fontSize: '0.85em', marginTop: '4px' }}>
+                                      Need {tour.unlockReq.reputation.toUpperCase()} rep: {tour.unlockReq.value}
+                                    </div>
+                                  )}
+                                  {state.fame < tour.fameReq && (
+                                    <div style={{ color: '#f59e0b', fontSize: '0.85em', marginTop: '4px' }}>
+                                      Need fame: {tour.fameReq}
+                                    </div>
+                                  )}
+                                </div>
+                                <button 
+                                  className="btn" 
+                                  onClick={() => {
+                                    if (tour.id === 'local' || tour.id === 'virtual') {
+                                      // Single week tours
+                                      startTour(tour, 'us');
+                                    } else {
+                                      setSelectedTourType(tour.id);
+                                    }
+                                  }}
+                                  disabled={!canAfford || !isUnlocked || state.activeTour !== null || state.fame < tour.fameReq}
+                                  style={{ width: '100%', marginTop: '8px' }}
+                                >
+                                  {tour.id === 'local' || tour.id === 'virtual' ? 'Start Tour' : 'Select Tour'}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {selectedTourType && selectedTourType !== 'local' && selectedTourType !== 'virtual' && (
+                        <div className="card">
+                          <h2>Select Region</h2>
+                          <div className="grid">
+                            {GEOGRAPHIC_REGIONS.filter(region => {
+                              const tour = TOUR_TYPES.find(t => t.id === selectedTourType);
+                              if (!tour?.unlockReq) return true;
+                              return (state.geographicReputation?.[region.id] || 0) >= tour.unlockReq.value || region.id === 'us';
+                            }).map((region) => {
+                              const rep = state.geographicReputation?.[region.id] || 0;
+                              const tour = TOUR_TYPES.find(t => t.id === selectedTourType);
+                              const estimatedRevenue = Math.floor(tour.cost * 1.5 + (rep * tour.cities * 50));
+                              return (
+                                <div key={region.id} className="mini-card" style={{
+                                  border: selectedTourRegion === region.id ? '2px solid #3b82f6' : '1px solid #334155'
+                                }}>
+                                  <h3>{region.name}</h3>
+                                  <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                    Reputation: <strong>{rep}</strong>
+                                  </p>
+                                  <p style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                    Est. Revenue: <strong>${estimatedRevenue}</strong>
+                                  </p>
+                                  <button 
+                                    className="btn" 
+                                    onClick={() => {
+                                      startTour(tour, region.id);
+                                      setSelectedTourType(null);
+                                      setSelectedTourRegion('us');
+                                    }}
+                                    style={{ width: '100%', marginTop: '8px' }}
+                                  >
+                                    Start {tour.name} in {region.name}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="card">
+                        <h2>Geographic Reputation</h2>
+                        <div className="grid">
+                          {GEOGRAPHIC_REGIONS.map((region) => {
+                            const rep = state.geographicReputation?.[region.id] || 0;
+                            return (
+                              <div key={region.id} className="mini-card">
+                                <h3>{region.name}</h3>
+                                <div style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#3b82f6', marginTop: '8px' }}>
+                                  {rep}
+                                </div>
+                                <div style={{ fontSize: '0.85em', color: '#64748b', marginTop: '4px' }}>
+                                  {rep < 20 && 'Unknown'}
+                                  {rep >= 20 && rep < 50 && 'Building'}
+                                  {rep >= 50 && rep < 80 && 'Established'}
+                                  {rep >= 80 && 'Major'}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {(state.tourHistory || []).length > 0 && (
+                        <div className="card">
+                          <h2>Tour History</h2>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {[...(state.tourHistory || [])]
+                              .sort((a, b) => (b.completedWeek || 0) - (a.completedWeek || 0))
+                              .slice(0, 5)
+                              .map((tour, idx) => (
+                                <div key={idx} style={{ 
+                                  padding: '10px', 
+                                  background: '#000000', 
+                                  borderRadius: '6px',
+                                  border: '1px solid #334155'
+                                }}>
+                                  <div style={{ fontWeight: 'bold' }}>{tour.name}</div>
+                                  <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                                    {GEOGRAPHIC_REGIONS.find(r => r.id === tour.region)?.name || tour.region} • {tour.cities} cities • Revenue: ${tour.revenue || 0} • Completed week {tour.completedWeek || 0}
+                                  </div>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </>
               )}
 
@@ -1854,6 +4722,119 @@ function App() {
                     </button>
                   </div>
                 </div>
+              )}
+
+              {/* ANALYTICS TAB */}
+              {currentTab === 'analytics' && (
+                <>
+                  <div className="card" style={{ marginBottom: '16px' }}>
+                    <h2>Revenue Breakdown</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Total Revenue</div>
+                        <div style={{ fontSize: '1.5em', fontWeight: 'bold' }}>${(state.totalRevenue || 0).toLocaleString()}</div>
+                      </div>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Streaming Revenue</div>
+                        <div style={{ fontSize: '1.2em', fontWeight: 'bold' }}>
+                          ${((state.songs || []).reduce((sum, s) => sum + (s.earnings || 0), 0) + 
+                              (state.albums || []).reduce((sum, a) => {
+                                const albumStreams = Math.floor((a.quality || 0) * 150 + (a.popularity || 0) * 80) * Math.max(0.3, 1 - (a.age || 0) * 0.02);
+                                return sum + Math.floor(albumStreams * 0.004);
+                              }, 0)).toLocaleString()}
+                        </div>
+                      </div>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Merchandise</div>
+                        <div style={{ fontSize: '1.2em', fontWeight: 'bold' }}>${(state.totalMerchandise || 0).toLocaleString()}</div>
+                      </div>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Tour Revenue</div>
+                        <div style={{ fontSize: '1.2em', fontWeight: 'bold' }}>
+                          ${((state.tourHistory || []).reduce((sum, t) => sum + (t.revenue || 0), 0)).toLocaleString()}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card" style={{ marginBottom: '16px' }}>
+                    <h2>Streaming Analytics</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '12px' }}>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Total Streams</div>
+                        <div style={{ fontSize: '1.3em', fontWeight: 'bold' }}>
+                          {((state.songs || []).reduce((sum, s) => sum + (s.streams || 0), 0) + 
+                            (state.albums || []).reduce((sum, a) => {
+                              const albumStreams = Math.floor((a.quality || 0) * 150 + (a.popularity || 0) * 80) * Math.max(0.3, 1 - (a.age || 0) * 0.02);
+                              return sum + albumStreams;
+                            }, 0)).toLocaleString()}
+                        </div>
+                        <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>
+                          Weekly: {((state.songs || []).reduce((sum, s) => sum + (s.weeklyStreams || 0), 0)).toLocaleString()}
+                        </div>
+                      </div>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Monthly Listeners</div>
+                        <div style={{ fontSize: '1.3em', fontWeight: 'bold' }}>{(state.monthlyListeners || 0).toLocaleString()}</div>
+                      </div>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Top Song Streams</div>
+                        <div style={{ fontSize: '1.1em', fontWeight: 'bold' }}>
+                          {state.songs.length > 0 ? [...state.songs].sort((a,b) => (b.streams || 0) - (a.streams || 0))[0].title : 'N/A'}
+                        </div>
+                        <div style={{ fontSize: '0.9em', color: '#64748b', marginTop: '4px' }}>
+                          {state.songs.length > 0 ? [...state.songs].sort((a,b) => (b.streams || 0) - (a.streams || 0))[0].streams.toLocaleString() : 0} streams
+                        </div>
+                      </div>
+                      <div style={{ padding: '12px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                        <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Playlist Placements</div>
+                        <div style={{ fontSize: '1.3em', fontWeight: 'bold' }}>{(state.playlistPlacements || []).length}</div>
+                        <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>
+                          {state.playlistPlacements && state.playlistPlacements.length > 0 && 
+                            state.playlistPlacements[state.playlistPlacements.length - 1].playlistName}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card">
+                    <h2>Career Timeline</h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {state.albums && state.albums.length > 0 && (
+                        <div style={{ padding: '10px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>📀 Albums Released: {state.albums.length}</div>
+                          <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Latest: {state.albums.sort((a,b) => (b.week || 0) - (a.week || 0))[0]?.name || 'N/A'}
+                          </div>
+                        </div>
+                      )}
+                      {state.tourHistory && state.tourHistory.length > 0 && (
+                        <div style={{ padding: '10px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>🎤 Tours Completed: {state.tourHistory.length}</div>
+                          <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Latest: {state.tourHistory[state.tourHistory.length - 1]?.name || 'N/A'}
+                          </div>
+                        </div>
+                      )}
+                      {state.industryEvents && state.industryEvents.length > 0 && (
+                        <div style={{ padding: '10px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>🏆 Industry Events: {state.industryEvents.length}</div>
+                          <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Awards Won: {state.industryEvents.filter(e => e.type === 'win').length}
+                          </div>
+                        </div>
+                      )}
+                      {state.achievements && state.achievements.length > 0 && (
+                        <div style={{ padding: '10px', background: '#000000', borderRadius: '6px', border: '1px solid #334155' }}>
+                          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>⭐ Achievements: {state.achievements.length}</div>
+                          <div style={{ fontSize: '0.85em', color: '#94a3b8' }}>
+                            Latest: {state.achievements.sort((a,b) => (b.week || 0) - (a.week || 0))[0]?.name || 'N/A'}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
               )}
 
               {/* LOG TAB */}
@@ -1970,15 +4951,39 @@ function App() {
                 <div className="card">
                   <h2>Top 20 Chart</h2>
                   <ol className="chart-list">
-                    {chartLeaders.map((b) => (
-                      <li key={b.name} className={`chart-row ${b.isPlayer ? 'active' : ''}`}>
-                        <div className="chart-line">
-                          <span className="chart-rank">#{b.position}</span>
-                          <span className="chart-name">{b.name}</span>
+                    {chartLeaders.map((b) => {
+                      const logoStyle = getBandLogoStyle(b.name, fontOptions);
+                      return (
+                        <li 
+                          key={b.name} 
+                          className={`chart-row ${b.isPlayer ? 'active' : ''}`}
+                          onClick={() => setSelectedBandStats(b)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <div className="chart-line" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px', width: '100%' }}>
+                            <span className="chart-rank" style={{ fontSize: '0.85em', marginBottom: '4px' }}>#{b.position}</span>
+                            <span 
+                              style={{
+                                ...logoStyle,
+                                border: b.isPlayer ? '2px solid #3b82f6' : 'none',
+                                transition: 'opacity 0.2s',
+                                width: '100%',
+                                maxWidth: 'calc(100% - 8px)' // Prevent overflow with padding
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.opacity = '0.8';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.opacity = '1';
+                              }}
+                              title={b.name} // Show full name on hover if truncated
+                            >
+                              {b.name}
+                            </span>
                         </div>
-                        <span className="chart-meta">Fame {b.fame}</span>
                       </li>
-                    ))}
+                      );
+                    })}
                   </ol>
                 </div>
               )}
@@ -1991,12 +4996,17 @@ function App() {
                   {albumChart.length > 0 && (
                     <ol className="chart-list">
                       {albumChart.map((a) => (
-                        <li key={a.name + a.week} className={`chart-row ${latestAlbum && a.name === latestAlbum.name ? 'active' : ''}`}>
+                        <li key={a.name + (a.week || 0) + a.bandName} className={`chart-row ${a.isPlayer ? 'active' : ''}`}>
                           <div className="chart-line">
                             <span className="chart-rank">#{a.position}</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                             <span className="chart-name">{a.name}</span>
+                              <span style={{ fontSize: '0.75em', color: '#64748b' }}>by {a.bandName}</span>
                           </div>
-                          <span className="chart-meta">Score {a.chartScore || 0} • Age {a.age || 0}w{a.promoBoost ? ` • Promo +${a.promoBoost}` : ''}</span>
+                          </div>
+                          <span className="chart-meta">
+                            Score {a.chartScore || 0} • Q{a.quality || 0} • Pop {a.popularity || 0} • {a.totalStreams ? `${(a.totalStreams / 1000).toFixed(1)}k streams/wk` : '0 streams'} • Age {a.age || 0}w
+                          </span>
                         </li>
                       ))}
                     </ol>
@@ -2008,20 +5018,20 @@ function App() {
               {rightTab === 'songChart' && (
                 <div className="card">
                   <h2>Song Chart</h2>
-                  {state.songs.length === 0 && <p>No tracks released yet.</p>}
-                  {state.songs.length > 0 && (
+                  {songChart.length === 0 && <p>No tracks released yet.</p>}
+                  {songChart.length > 0 && (
                     <ol className="chart-list">
-                      {[...state.songs]
-                        .sort((a,b) => (b.popularity||0) - (a.popularity||0))
-                        .slice(0, 10)
-                        .map((s, idx) => (
-                          <li key={s.title} className="chart-row active">
+                      {songChart.map((s) => (
+                        <li key={s.title + s.bandName} className={`chart-row ${s.isPlayer ? 'active' : ''}`}>
                             <div className="chart-line">
-                              <span className="chart-rank">#{idx + 1}</span>
+                            <span className="chart-rank">#{s.position}</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                               <span className="chart-name">{s.title}</span>
+                              <span style={{ fontSize: '0.75em', color: '#64748b' }}>by {s.bandName}</span>
+                            </div>
                             </div>
                             <span className="chart-meta">
-                              Pop {s.popularity || 0} • Age {s.age || 0}w • Streams {s.weeklyStreams || 0}/wk
+                            Pop {s.popularity || 0} • Q{s.quality || 0} • {s.weeklyStreams ? `${(s.weeklyStreams / 1000).toFixed(1)}k` : '0'} streams/wk • Age {s.age || 0}w
                             </span>
                           </li>
                         ))}
@@ -2176,6 +5186,281 @@ function App() {
         </div>
       )}
 
+      {/* Write Song Modal */}
+      <WriteSongModal
+        isOpen={showWriteSongModal}
+        onClose={() => {
+          setShowWriteSongModal(false);
+          setNewSongTitle('');
+        }}
+        onRecord={(title) => {
+          writeSong(title);
+          setShowWriteSongModal(false);
+          setNewSongTitle('');
+        }}
+        studioTier={state.studioTier}
+        difficulty={state.difficulty}
+        defaultTitle={newSongTitle}
+        addLog={addLog}
+      />
+
+      {/* Album Builder Modal */}
+      <AlbumBuilderModal
+        isOpen={showAlbumBuilderModal}
+        onClose={() => {
+          setShowAlbumBuilderModal(false);
+        }}
+        onRecordAlbum={(selectedTitles) => {
+          recordAlbum(selectedTitles);
+          setShowAlbumBuilderModal(false);
+        }}
+        songs={state.songs}
+        studioTier={state.studioTier}
+        difficulty={state.difficulty}
+      />
+
+      {/* Label Negotiation Modal */}
+      {showLabelNegotiation && labelOffer && (
+        <div className="modal-overlay" onClick={() => {
+          setShowLabelNegotiation(false);
+          setLabelOffer(null);
+          setNegotiationStep('offer');
+        }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '700px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Building2 size={24} /> Label Deal from {labelOffer.name}
+              </h2>
+              <button 
+                onClick={() => {
+                  setShowLabelNegotiation(false);
+                  setLabelOffer(null);
+                  setNegotiationStep('offer');
+                }}
+                style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ 
+              padding: '16px', 
+              background: '#064e3b', 
+              borderRadius: '8px', 
+              border: '1px solid #10b981',
+              marginBottom: '20px'
+            }}>
+              <p style={{ margin: 0, color: '#e2e8f0', fontSize: '0.95em' }}>
+                <strong>{labelOffer.name}</strong> is offering you a <strong>{labelOffer.name.includes('Independent') ? 'Distribution' : labelOffer.type}</strong> deal. Review the terms below.
+              </p>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <h3 style={{ marginBottom: '12px', fontSize: '1.1em' }}>Contract Terms</h3>
+              <div style={{ display: 'grid', gap: '12px' }}>
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#000000', 
+                  borderRadius: '8px',
+                  border: '1px solid #334155'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <span style={{ color: '#94a3b8' }}>💰 Advance</span>
+                    <strong style={{ color: '#10b981', fontSize: '1.1em' }}>${labelOffer.advance.toLocaleString()}</strong>
+                  </div>
+                  <div style={{ fontSize: '0.85em', color: '#64748b' }}>One-time payment upon signing</div>
+                </div>
+
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#000000', 
+                  borderRadius: '8px',
+                  border: '1px solid #334155'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <span style={{ color: '#94a3b8' }}>💵 Royalty Split</span>
+                    <strong style={{ color: labelOffer.royaltySplit > 30 ? '#ef4444' : labelOffer.royaltySplit > 15 ? '#f59e0b' : '#10b981' }}>
+                      {labelOffer.royaltySplit}% to label, {100 - labelOffer.royaltySplit}% to you
+                    </strong>
+                  </div>
+                  <div style={{ fontSize: '0.85em', color: '#64748b' }}>Applied to all streaming and sales revenue</div>
+                </div>
+
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#000000', 
+                  borderRadius: '8px',
+                  border: '1px solid #334155'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <span style={{ color: '#94a3b8' }}>📅 Contract Length</span>
+                    <strong>{labelOffer.contractLength} weeks ({Math.floor(labelOffer.contractLength / 52)} year{Math.floor(labelOffer.contractLength / 52) > 1 ? 's' : ''})</strong>
+                  </div>
+                </div>
+
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#000000', 
+                  borderRadius: '8px',
+                  border: '1px solid #334155'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <span style={{ color: '#94a3b8' }}>📢 Marketing Budget</span>
+                    <strong style={{ color: '#3b82f6' }}>${labelOffer.marketingBudget}/week</strong>
+                  </div>
+                  <div style={{ fontSize: '0.85em', color: '#64748b' }}>Label promotes your music each week</div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <h3 style={{ marginBottom: '12px', fontSize: '1.1em' }}>Benefits</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {labelOffer.benefits?.map((benefit, idx) => (
+                  <div key={idx} style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px',
+                    padding: '8px',
+                    background: '#000000',
+                    borderRadius: '6px'
+                  }}>
+                    <CheckCircle size={16} color="#10b981" />
+                    <span style={{ fontSize: '0.9em' }}>{benefit}</span>
+                  </div>
+                ))}
+                {labelOffer.playlistPitch && (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px',
+                    padding: '8px',
+                    background: '#000000',
+                    borderRadius: '6px'
+                  }}>
+                    <CheckCircle size={16} color="#10b981" />
+                    <span style={{ fontSize: '0.9em' }}>Playlist pitch opportunities</span>
+                  </div>
+                )}
+                {labelOffer.syncLicensing && (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px',
+                    padding: '8px',
+                    background: '#000000',
+                    borderRadius: '6px'
+                  }}>
+                    <CheckCircle size={16} color="#10b981" />
+                    <span style={{ fontSize: '0.9em' }}>Sync licensing opportunities (TV/film/games)</span>
+                  </div>
+                )}
+                {labelOffer.radioPromo && (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px',
+                    padding: '8px',
+                    background: '#000000',
+                    borderRadius: '6px'
+                  }}>
+                    <CheckCircle size={16} color="#10b981" />
+                    <span style={{ fontSize: '0.9em' }}>Radio promotion support</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {labelOffer.type !== 'independent' && (
+              <div style={{ 
+                padding: '12px', 
+                                background: '#000000',
+                borderRadius: '8px',
+                border: '1px solid #475569',
+                marginBottom: '20px'
+              }}>
+                <strong style={{ color: '#f59e0b' }}>Contract Obligations:</strong>
+                <div style={{ marginTop: '8px', fontSize: '0.9em', color: '#94a3b8' }}>
+                  <div>• Deliver {Math.floor(labelOffer.contractLength / 26)} album(s) during contract</div>
+                  <div>• Complete {Math.floor(labelOffer.contractLength / 52)} tour(s) during contract</div>
+                  <div style={{ marginTop: '4px', fontSize: '0.85em', color: '#64748b' }}>
+                    Failure to meet obligations may result in contract termination or penalties.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button 
+                className="btn-secondary"
+                onClick={() => {
+                  setShowLabelNegotiation(false);
+                  setLabelOffer(null);
+                  setNegotiationStep('offer');
+                  addLog('Declined label offer. Staying independent.');
+                }}
+              >
+                Decline
+              </button>
+              {negotiationStep === 'offer' && (
+                <button 
+                  className="btn-secondary"
+                  onClick={counterOffer}
+                  style={{ background: 'linear-gradient(135deg, #f59e0b, #ef4444)' }}
+                >
+                  Counter-Offer
+                </button>
+              )}
+              {(negotiationStep === 'offer' || negotiationStep === 'accept' || negotiationStep === 'final') && (
+                <button 
+                  className="btn"
+                  onClick={() => signLabelDeal(labelOffer)}
+                >
+                  {negotiationStep === 'final' ? 'Accept Final Offer' : 'Sign Deal'}
+                </button>
+              )}
+            </div>
+
+            {negotiationStep === 'accept' && (
+              <div style={{ 
+                marginTop: '16px', 
+                padding: '12px', 
+                background: '#064e3b', 
+                borderRadius: '8px',
+                border: '1px solid #10b981',
+                textAlign: 'center',
+                color: '#10b981',
+                fontSize: '0.9em'
+              }}>
+                ✓ Label accepted your counter-offer! Improved terms secured.
+              </div>
+            )}
+            {negotiationStep === 'final' && (
+              <div style={{ 
+                marginTop: '16px', 
+                padding: '12px', 
+                background: '#7c2d12', 
+                borderRadius: '8px',
+                border: '1px solid #f59e0b',
+                textAlign: 'center',
+                color: '#f59e0b',
+                fontSize: '0.9em'
+              }}>
+                This is the label's final offer. Take it or leave it.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Band Stats Modal */}
+      <BandStatsModal
+        isOpen={!!selectedBandStats}
+        onClose={() => setSelectedBandStats(null)}
+        bandStats={selectedBandStats}
+        fontOptions={fontOptions}
+      />
+
       {/* Gear Upgrade Modal */}
       {showGearModal && (
         <div className="modal-overlay" onClick={() => setShowGearModal(false)}>
@@ -2250,6 +5535,554 @@ function App() {
               style={{ marginTop: '20px', width: '100%' }}
             >
               Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Save Game Modal */}
+      <SaveModal
+        isOpen={showSaveModal}
+        onClose={() => setShowSaveModal(false)}
+        onSave={(name) => {
+          saveGame(name);
+          setShowSaveModal(false);
+        }}
+        onDelete={deleteSave}
+        saveSlots={saveSlots}
+        autoSaveEnabled={autoSaveEnabled}
+        onToggleAutoSave={(enabled) => {
+          setAutoSaveEnabled(enabled);
+          localStorage.setItem('bandManager_autoSave', enabled.toString());
+        }}
+      />
+
+      {/* Load Game Modal */}
+      <LoadModal
+        isOpen={showLoadModal}
+        onClose={() => setShowLoadModal(false)}
+        onLoad={(name) => {
+          loadGame(name);
+          setShowLoadModal(false);
+        }}
+        saveSlots={saveSlots}
+      />
+
+      {/* Settings Modal */}
+      {showSettings && (
+        <div className="modal-overlay" onClick={() => setShowSettings(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2>Settings</h2>
+              <button className="btn-secondary" onClick={() => setShowSettings(false)}>✕</button>
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="card">
+                <h3>Game Settings</h3>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={autoSaveEnabled}
+                    onChange={(e) => {
+                      setAutoSaveEnabled(e.target.checked);
+                      localStorage.setItem('bandManager_autoSave', e.target.checked.toString());
+                    }}
+                  />
+                  Enable Auto-Save
+                </label>
+                <p style={{ fontSize: '0.85em', color: '#94a3b8', marginTop: '8px' }}>
+                  Automatically saves your game each week
+                </p>
+              </div>
+
+              <div className="card">
+                <h3>Keyboard Shortcuts</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.9em' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span><kbd>Ctrl</kbd> + <kbd>S</kbd></span>
+                    <span style={{ color: '#94a3b8' }}>Save game</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span><kbd>Ctrl</kbd> + <kbd>L</kbd></span>
+                    <span style={{ color: '#94a3b8' }}>Load game</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span><kbd>1</kbd> - <kbd>7</kbd></span>
+                    <span style={{ color: '#94a3b8' }}>Switch tabs</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span><kbd>Esc</kbd></span>
+                    <span style={{ color: '#94a3b8' }}>Close modals</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card">
+                <h3>Export & Share</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <button className="btn" onClick={() => {
+                    const exportData = {
+                      bandName: state.bandName,
+                      genre: state.genre,
+                      week: state.week,
+                      fame: state.fame,
+                      money: state.money,
+                      fans: state.fans,
+                      albums: state.albums?.length || 0,
+                      songs: state.songs?.length || 0,
+                      tours: state.tourHistory?.length || 0,
+                      achievements: state.achievements?.length || 0,
+                      careerStats: state.careerStats,
+                      exportDate: new Date().toISOString()
+                    };
+                    const json = JSON.stringify(exportData, null, 2);
+                    const blob = new Blob([json], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${state.bandName || 'band'}-export-${state.week || 1}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    addLog('Game data exported!');
+                  }}>
+                    Export Game Data (JSON)
+                  </button>
+                  <button className="btn-secondary" onClick={() => {
+                    const shareText = `🎸 ${state.bandName || 'My Band'} - Week ${state.week || 1}\n` +
+                      `Fame: ${state.fame || 0} | Money: $${(state.money || 0).toLocaleString()}\n` +
+                      `Albums: ${state.albums?.length || 0} | Songs: ${state.songs?.length || 0}\n` +
+                      `Tours: ${state.tourHistory?.length || 0} | Achievements: ${state.achievements?.length || 0}`;
+                    
+                    if (navigator.share) {
+                      navigator.share({
+                        title: `${state.bandName} - Band Manager Progress`,
+                        text: shareText
+                      }).catch(() => {
+                        navigator.clipboard.writeText(shareText);
+                        addLog('Progress copied to clipboard!');
+                      });
+                    } else {
+                      navigator.clipboard.writeText(shareText);
+                      addLog('Progress copied to clipboard!');
+                    }
+                  }}>
+                    Share Progress
+                  </button>
+                </div>
+              </div>
+
+              <div className="card">
+                <h3>Theme</h3>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {['theme-modern', 'theme-warm', 'theme-neon', 'theme-pop'].map(t => (
+                    <button
+                      key={t}
+                      className={theme === t ? 'btn' : 'btn-secondary'}
+                      onClick={() => setTheme(t)}
+                      style={{ fontSize: '12px', padding: '6px 12px' }}
+                    >
+                      {t.replace('theme-', '').charAt(0).toUpperCase() + t.replace('theme-', '').slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tooltip */}
+      {showTooltip && (
+        <div
+          style={{
+            position: 'fixed',
+            left: `${tooltipPosition.x}px`,
+            top: `${tooltipPosition.y}px`,
+            background: '#000000',
+            border: '1px solid #334155',
+            borderRadius: '6px',
+            padding: '8px 12px',
+            fontSize: '0.85em',
+            color: '#e2e8f0',
+            zIndex: 10000,
+            pointerEvents: 'none',
+            maxWidth: '250px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+            transform: 'translate(-50%, -100%)',
+            marginTop: '-8px'
+          }}
+        >
+          {showTooltip}
+        </div>
+      )}
+
+      {/* Tutorial Modal */}
+      {showTutorial && step === STEPS.GAME && (
+        <div className="modal-overlay" onClick={() => {}}>
+          <div className="modal" style={{ maxWidth: '600px' }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2>Tutorial</h2>
+              <button className="btn-secondary" onClick={() => {
+                setShowTutorial(false);
+                setState((s) => ({ ...s, tutorialCompleted: true }));
+              }}>✕</button>
+            </div>
+            
+            {tutorialStep === 0 && (
+              <div>
+                <h3>Welcome to Band Manager!</h3>
+                <p>This tutorial will guide you through the basics of managing your band. You can skip it anytime or revisit it from the header.</p>
+                <div style={{ marginTop: '16px', padding: '12px', background: '#000000', borderRadius: '6px' }}>
+                  <strong>Goal:</strong> Build your band's fame, release music, and become a rockstar!
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => {
+                    setShowTutorial(false);
+                    setState((s) => ({ ...s, tutorialCompleted: true }));
+                  }}>Skip Tutorial</button>
+                  <button className="btn" onClick={() => setTutorialStep(1)}>Next →</button>
+                </div>
+              </div>
+            )}
+            
+            {tutorialStep === 1 && (
+              <div>
+                <h3>1. Recording Music</h3>
+                <p>Start by recording songs in the <strong>Actions</strong> tab. Each song costs money but generates streaming revenue over time.</p>
+                <ul style={{ marginTop: '12px', paddingLeft: '20px' }}>
+                  <li>Better studios = better song quality</li>
+                  <li>Quality affects popularity and streams</li>
+                  <li>Albums (8-12 songs) provide sustained revenue</li>
+                </ul>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => setTutorialStep(0)}>← Back</button>
+                  <button className="btn" onClick={() => setTutorialStep(2)}>Next →</button>
+                </div>
+              </div>
+            )}
+            
+            {tutorialStep === 2 && (
+              <div>
+                <h3>2. Managing Finances</h3>
+                <p>Watch your money carefully! You have weekly expenses:</p>
+                <ul style={{ marginTop: '12px', paddingLeft: '20px' }}>
+                  <li>Base expenses: $100/week</li>
+                  <li>Member salaries: $50 per member</li>
+                  <li>Equipment and transport costs</li>
+                  <li>Staff (manager, lawyer) if hired</li>
+                </ul>
+                <p style={{ marginTop: '12px' }}>Revenue comes from streaming, tours, merchandise (at 50+ fame), and gigs.</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => setTutorialStep(1)}>← Back</button>
+                  <button className="btn" onClick={() => setTutorialStep(3)}>Next →</button>
+                </div>
+              </div>
+            )}
+            
+            {tutorialStep === 3 && (
+              <div>
+                <h3>3. Building Fame</h3>
+                <p>Fame unlocks new opportunities:</p>
+                <ul style={{ marginTop: '12px', paddingLeft: '20px' }}>
+                  <li>Better venues and tours</li>
+                  <li>Label deals (at higher fame)</li>
+                  <li>Merchandise sales (50+ fame)</li>
+                  <li>Collaborations (50+ fame)</li>
+                  <li>More fans and revenue</li>
+                </ul>
+                <p style={{ marginTop: '12px' }}>Fame grows from successful releases, tours, and events.</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => setTutorialStep(2)}>← Back</button>
+                  <button className="btn" onClick={() => setTutorialStep(4)}>Next →</button>
+                </div>
+              </div>
+            )}
+            
+            {tutorialStep === 4 && (
+              <div>
+                <h3>4. Social Media & Modern Features</h3>
+                <p>The <strong>Social</strong> tab lets you:</p>
+                <ul style={{ marginTop: '12px', paddingLeft: '20px' }}>
+                  <li>Post on TikTok, Instagram, Twitter</li>
+                  <li>Build algorithm favor for better discovery</li>
+                  <li>Go viral for massive boosts</li>
+                  <li>Get playlist placements</li>
+                </ul>
+                <p style={{ marginTop: '12px' }}>Social media is crucial for modern music success!</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => setTutorialStep(3)}>← Back</button>
+                  <button className="btn" onClick={() => setTutorialStep(5)}>Next →</button>
+                </div>
+              </div>
+            )}
+            
+            {tutorialStep === 5 && (
+              <div>
+                <h3>5. Tours & Geographic Reach</h3>
+                <p>In the <strong>Gigs</strong> tab, you can:</p>
+                <ul style={{ marginTop: '12px', paddingLeft: '20px' }}>
+                  <li>Book local gigs for quick cash</li>
+                  <li>Plan tours (Regional, National, International)</li>
+                  <li>Build reputation in different regions</li>
+                  <li>Virtual concerts for global reach</li>
+                </ul>
+                <p style={{ marginTop: '12px' }}>Tours take multiple weeks but provide significant revenue and reputation.</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => setTutorialStep(4)}>← Back</button>
+                  <button className="btn" onClick={() => setTutorialStep(6)}>Next →</button>
+                </div>
+              </div>
+            )}
+            
+            {tutorialStep === 6 && (
+              <div>
+                <h3>6. Tips & Strategy</h3>
+                <ul style={{ marginTop: '12px', paddingLeft: '20px' }}>
+                  <li><strong>Start small:</strong> Record a few singles before making albums</li>
+                  <li><strong>Manage morale:</strong> Use Rest to keep band happy</li>
+                  <li><strong>Upgrade wisely:</strong> Better studios = better music</li>
+                  <li><strong>Watch expenses:</strong> Don't overspend early</li>
+                  <li><strong>Use keyboard shortcuts:</strong> Ctrl+S to save, 1-7 for tabs</li>
+                  <li><strong>Check Analytics:</strong> Track your revenue sources</li>
+                </ul>
+                <div style={{ marginTop: '16px', padding: '12px', background: '#064e3b', borderRadius: '6px', color: '#10b981' }}>
+                  <strong>Pro Tip:</strong> Albums provide sustained revenue, but singles are faster to release!
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button className="btn-secondary" onClick={() => setTutorialStep(5)}>← Back</button>
+                  <button className="btn" onClick={() => {
+                    setShowTutorial(false);
+                    setTutorialStep(0);
+                    setState((s) => ({ ...s, tutorialCompleted: true }));
+                  }}>Complete Tutorial</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Event Popup Modal */}
+      {showEventPopup && eventPopupData && (
+        <div className="modal-overlay" onClick={(e) => {
+          // Don't close if clicking on choices
+          if (!eventPopupData.choices || eventPopupData.choices.length === 0) {
+            setShowEventPopup(false);
+          }
+        }}>
+          <div className="modal" style={{ maxWidth: '600px' }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2 style={{ 
+                color: eventPopupData.type === 'success' ? '#10b981' : 
+                       eventPopupData.type === 'error' ? '#ef4444' : 
+                       eventPopupData.type === 'warning' ? '#f59e0b' : '#3b82f6'
+              }}>
+                {eventPopupData.title}
+              </h2>
+              {(!eventPopupData.choices || eventPopupData.choices.length === 0) && (
+                <button className="btn-secondary" onClick={() => setShowEventPopup(false)}>✕</button>
+              )}
+            </div>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <p style={{ fontSize: '1em', lineHeight: '1.6', color: '#e2e8f0' }}>
+                {eventPopupData.message}
+              </p>
+            </div>
+
+            {eventPopupData.details && (
+              <div style={{ 
+                padding: '12px', 
+                background: '#000000', 
+                borderRadius: '6px', 
+                border: '1px solid #334155',
+                marginBottom: '16px'
+              }}>
+                <h3 style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '8px' }}>Details:</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {Object.entries(eventPopupData.details).map(([key, value]) => (
+                    <div key={key} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9em' }}>
+                      <span style={{ color: '#94a3b8', textTransform: 'capitalize' }}>{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                      <strong style={{ color: '#e2e8f0' }}>{value}</strong>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Event Choices */}
+            {eventPopupData.choices && eventPopupData.choices.length > 0 && (
+              <div style={{ marginBottom: '16px' }}>
+                <h3 style={{ fontSize: '1em', color: '#e2e8f0', marginBottom: '12px' }}>Choose your action:</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {eventPopupData.choices.map((choice, idx) => {
+                    const effects = [];
+                    if (choice.money !== 0) effects.push(`$${choice.money > 0 ? '+' : ''}${choice.money}`);
+                    if (choice.morale !== 0) effects.push(`Morale ${choice.morale > 0 ? '+' : ''}${choice.morale}`);
+                    if (choice.fame !== 0) effects.push(`Fame ${choice.fame > 0 ? '+' : ''}${choice.fame}`);
+                    
+                    return (
+                      <button
+                        key={idx}
+                        className="btn"
+                        onClick={() => {
+                          // If it's an event with choices, resolve it
+                          if (eventPopupData.isEvent && currentEvent) {
+                            resolveEvent(choice);
+                          } else if (eventPopupData.isEvent) {
+                            // Handle custom onClick if provided (e.g., for member quit)
+                            if (choice.onClick) {
+                              choice.onClick();
+                            } else {
+                              // Fallback: apply choice effects directly if no currentEvent
+                              setState((s) => ({
+                                ...s,
+                                money: s.money + (choice.money || 0),
+                                morale: clampMorale(s.morale + (choice.morale || 0)),
+                                fame: s.fame + (choice.fame || 0),
+                                fans: s.fans + (choice.fans || 0)
+                              }));
+                              addLog(`${eventPopupData.title}: ${choice.text}`);
+                            }
+                          }
+                          setShowEventPopup(false);
+                          setEventPopupData(null);
+                        }}
+                        style={{
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '14px',
+                          background: choice.money > 0 || choice.fame > 0 ? '#064e3b' : 
+                                     choice.money < -200 || choice.morale < -10 ? '#7f1d1d' : '#1e3a8a',
+                          border: '1px solid',
+                          borderColor: choice.money > 0 || choice.fame > 0 ? '#10b981' : 
+                                      choice.money < -200 || choice.morale < -10 ? '#ef4444' : '#3b82f6',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '4px'
+                        }}
+                      >
+                        <strong>{choice.text}</strong>
+                        {effects.length > 0 && (
+                          <span style={{ fontSize: '0.85em', opacity: 0.9 }}>
+                            {effects.join(' • ')}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {(!eventPopupData.choices || eventPopupData.choices.length === 0) && (
+              <button 
+                className="btn" 
+                onClick={() => setShowEventPopup(false)}
+                style={{ width: '100%' }}
+              >
+                Continue
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Weekly Summary Popup */}
+      {showWeeklyPopup && weeklyPopupData && (
+        <div className="modal-overlay" onClick={() => setShowWeeklyPopup(false)}>
+          <div className="modal" style={{ maxWidth: '600px' }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2 style={{ color: '#3b82f6' }}>
+                Week {weeklyPopupData.week} Summary
+              </h2>
+              <button className="btn-secondary" onClick={() => setShowWeeklyPopup(false)}>✕</button>
+            </div>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                gap: '12px',
+                marginBottom: '16px'
+              }}>
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#7f1d1d', 
+                  borderRadius: '6px', 
+                  border: '1px solid #ef4444'
+                }}>
+                  <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Expenses</div>
+                  <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#ef4444' }}>
+                    -${weeklyPopupData.expenses.toLocaleString()}
+                  </div>
+                </div>
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#064e3b', 
+                  borderRadius: '6px', 
+                  border: '1px solid #10b981'
+                }}>
+                  <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Royalties</div>
+                  <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#10b981' }}>
+                    +${weeklyPopupData.royalties.toLocaleString()}
+                  </div>
+                </div>
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#1e3a8a', 
+                  borderRadius: '6px', 
+                  border: '1px solid #3b82f6'
+                }}>
+                  <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>Net</div>
+                  <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#3b82f6' }}>
+                    ${(weeklyPopupData.royalties - weeklyPopupData.expenses).toLocaleString()}
+                  </div>
+                </div>
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#422006', 
+                  borderRadius: '6px', 
+                  border: '1px solid #f59e0b'
+                }}>
+                  <div style={{ fontSize: '0.85em', color: '#94a3b8', marginBottom: '4px' }}>New Fans</div>
+                  <div style={{ fontSize: '1.3em', fontWeight: 'bold', color: '#f59e0b' }}>
+                    +{weeklyPopupData.fanGrowth.toLocaleString()}
+                  </div>
+                </div>
+              </div>
+
+              {weeklyPopupData.highlights.length > 0 && (
+                <div style={{ 
+                  padding: '12px', 
+                  background: '#0f172a', 
+                  borderRadius: '6px', 
+                  border: '1px solid #334155'
+                }}>
+                  <h3 style={{ fontSize: '0.9em', color: '#94a3b8', marginBottom: '8px' }}>Highlights:</h3>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    {weeklyPopupData.highlights.map((highlight, idx) => (
+                      <li key={idx} style={{ 
+                        padding: '6px 0',
+                        fontSize: '0.9em',
+                        color: '#e2e8f0',
+                        borderBottom: idx < weeklyPopupData.highlights.length - 1 ? '1px solid #334155' : 'none'
+                      }}>
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <button 
+              className="btn" 
+              onClick={() => setShowWeeklyPopup(false)}
+              style={{ width: '100%' }}
+            >
+              Continue
             </button>
           </div>
         </div>
