@@ -77,7 +77,7 @@ function App() {
     <div className="app">
       {gameState.step === 'landing' ? (
         <LandingPage
-          onStartNewGame={(bandName) => {
+          onNewGame={(bandName) => {
             gameState.setBandName(bandName);
             gameState.setStep('logo');
           }}
