@@ -22,7 +22,8 @@ import {
   useConsequenceSystem,
   useRecordingSystem,
   useGigSystem,
-  useBandManagementSystem
+  useBandManagementSystem,
+  useEquipmentUpgradesSystem
 } from './hooks';
 
 // Import page components
@@ -72,6 +73,9 @@ function App() {
 
   // Band management system for recruitment, development, and conflict resolution
   const bandManagement = useBandManagementSystem(gameState.state, gameState.updateGameState, gameState.addLog);
+
+  // Equipment upgrades system for studio, instruments, and stage gear
+  const equipmentUpgrades = useEquipmentUpgradesSystem(gameState.state, gameState.updateGameState, gameState.addLog);
 
   // Apply theme to document
   useEffect(() => {
@@ -129,6 +133,7 @@ function App() {
           recordingSystem={recordingSystem}
           gigSystem={gigSystem}
           bandManagement={bandManagement}
+          equipmentUpgrades={equipmentUpgrades}
           onReturnToLanding={() => gameState.setStep('landing')}
           onHandleEventChoice={(choice) => {
             // Handle choice through consequence system
