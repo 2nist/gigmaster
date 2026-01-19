@@ -23,7 +23,7 @@ import {
 } from './hooks';
 
 // Import page components
-import { LandingPage, GamePage, LogoDesigner } from './pages';
+import { LandingPage, GamePage, LogoDesigner, BandCreation } from './pages';
 import { EnhancedEventModal } from './components/EnhancedEventModal';
 
 // Import modals
@@ -93,8 +93,17 @@ function App() {
           bandName={gameState.state?.bandName || 'Your Band'}
           logoState={gameState.state}
           onLogoChange={(updates) => gameState.updateGameState(updates)}
-          onComplete={() => gameState.setStep('game')}
+          onComplete={() => gameState.setStep('bandCreation')}
           onBack={() => gameState.setStep('landing')}
+        />
+      ) : gameState.step === 'bandCreation' ? (
+        <BandCreation
+          bandName={gameState.state?.bandName || 'Your Band'}
+          logo={gameState.state?.logo}
+          onComplete={(members) => {
+            gameState.updateGameState({ bandMembers: members });
+            gameState.setStep('game');
+          }}
         />
       ) : (
         <GamePage
