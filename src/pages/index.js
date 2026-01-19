@@ -2,10 +2,13 @@
  * src/pages/index.js - Barrel exports for page components
  */
 
-export { LandingPage } from './LandingPage';
-export { GamePage } from './GamePage';
+import { LandingPage } from './LandingPage';
+import { GamePage } from './GamePage';
+
+export { LandingPage, GamePage };
 
 export default {
-  LandingPage: require('./LandingPage').LandingPage,
-  GamePage: require('./GamePage').GamePage
+  LandingPage,
+  GamePage
 };
+

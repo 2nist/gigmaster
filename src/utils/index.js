@@ -67,8 +67,3 @@ export {
   sanitizeSaveData
 } from './saveSystem';
 
-export default {
-  gameEngine: require('./gameEngine').default,
-  eventSystem: require('./eventSystem').default,
-  saveSystem: require('./saveSystem').default
-};
