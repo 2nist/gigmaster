@@ -51,15 +51,15 @@ function App() {
   const uiState = useUIState();
   const modalState = useModalState();
   const gameLogic = useGameLogic(gameState);
-  const dialogueState = useEnhancedDialogue(gameState.gameData, gameState.updateGameState);
+  const dialogueState = useEnhancedDialogue(gameState.state, gameState.updateGameState);
   const eventGen = useEventGeneration(
-    gameState.gameData,
+    gameState.state,
     dialogueState.psychologicalState,
     dialogueState.narrativeState
   );
   
   // Phase 2: Consequence system (tracks consequences, factions, psychology evolution)
-  const consequenceSystem = useConsequenceSystem(gameState.gameData);
+  const consequenceSystem = useConsequenceSystem(gameState.state);
 
   // Apply theme to document
   useEffect(() => {
