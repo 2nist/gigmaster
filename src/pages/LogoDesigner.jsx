@@ -88,69 +88,24 @@ export const LogoDesigner = ({
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-      color: '#fff',
-      fontFamily: 'Arial, sans-serif',
-      padding: '2rem',
-      overflow: 'auto'
-    }}>
+    <div className="min-h-screen bg-background text-foreground overflow-auto p-8">
       {/* Header */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: '2rem'
-      }}>
+      <div className="flex items-center justify-between mb-8">
         <button
           onClick={onBack}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.75rem 1rem',
-            backgroundColor: 'rgba(131, 56, 236, 0.3)',
-            color: '#fff',
-            border: '2px solid rgba(131, 56, 236, 0.3)',
-            borderRadius: '0.5rem',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            fontSize: '1rem'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.6)'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.3)'}
+          className="flex items-center gap-2 px-4 py-3 bg-secondary/10 border border-secondary/30 rounded-lg text-foreground hover:bg-secondary/20 transition-all"
         >
           <ChevronLeft size={18} />
           Back
         </button>
-        <h1 style={{ fontSize: '2rem', margin: 0 }}>Logo Designer</h1>
-        <div style={{ width: '120px' }} />
+        <h1 className="text-4xl font-bold text-primary">Logo Designer</h1>
+        <div className="w-32" />
       </div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '2rem',
-        maxWidth: '1400px',
-        margin: '0 auto'
-      }}>
+      <div className="grid grid-cols-2 gap-8 max-w-6xl mx-auto">
         {/* Preview */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem'
-        }}>
-          <div style={{
-            backgroundColor: 'rgba(30, 30, 50, 0.8)',
-            borderRadius: '1rem',
-            padding: '2rem',
-            border: '2px solid rgba(131, 56, 236, 0.3)',
-            minHeight: '300px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
+        <div className="flex flex-col gap-4">
+          <div className="bg-card rounded-2xl p-8 border border-border/20 min-h-80 flex items-center justify-center shadow-lg">
             <div
               style={{
                 ...logoStyle,
@@ -164,38 +119,14 @@ export const LogoDesigner = ({
           </div>
 
           {/* Presets */}
-          <div style={{
-            backgroundColor: 'rgba(30, 30, 50, 0.8)',
-            borderRadius: '1rem',
-            padding: '1.5rem',
-            border: '2px solid rgba(131, 56, 236, 0.3)'
-          }}>
-            <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem' }}>Quick Presets</h3>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem'
-            }}>
+          <div className="bg-card rounded-2xl p-6 border border-border/20 shadow-lg">
+            <h3 className="text-lg font-bold mb-4 text-foreground">Quick Presets</h3>
+            <div className="space-y-2">
               {LOGO_PRESETS.map((preset) => (
                 <button
                   key={preset.name}
                   onClick={() => applyPreset(preset)}
-                  style={{
-                    padding: '0.75rem 1rem',
-                    backgroundColor: 'rgba(131, 56, 236, 0.2)',
-                    color: '#fff',
-                    border: '2px solid rgba(131, 56, 236, 0.3)',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.2)';
-                  }}
+                  className="w-full px-4 py-3 bg-primary/10 border border-primary/30 rounded-lg text-foreground text-left hover:bg-primary/20 hover:border-primary/50 transition-all"
                 >
                   {preset.name}
                 </button>
@@ -205,54 +136,23 @@ export const LogoDesigner = ({
         </div>
 
         {/* Controls */}
-        <div style={{
-          backgroundColor: 'rgba(30, 30, 50, 0.8)',
-          borderRadius: '1rem',
-          padding: '2rem',
-          border: '2px solid rgba(131, 56, 236, 0.3)',
-          maxHeight: '800px',
-          overflowY: 'auto'
-        }}>
+        <div className="bg-card rounded-2xl p-8 border border-border/20 max-h-screen overflow-y-auto shadow-lg">
           <h3 style={{ margin: '0 0 1.5rem 0', fontSize: '1.2rem' }}>Customization</h3>
 
           {/* Font */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#aaa' }}>
+          <div className="mb-6">
+            <label className="block text-sm font-semibold mb-3 text-muted-foreground">
               Font
             </label>
             <button
               onClick={() => setShowFontGallery(!showFontGallery)}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '2px solid rgba(131, 56, 236, 0.3)',
-                borderRadius: '0.5rem',
-                color: '#fff',
-                fontSize: '1rem',
-                cursor: 'pointer',
-                textAlign: 'left',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'}
+              className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground text-left hover:border-primary/50 transition-all"
             >
               {logoState.logoFont || 'Metal Mania'} {showFontGallery ? '▼' : '▶'}
             </button>
 
             {showFontGallery && (
-              <div style={{
-                marginTop: '1rem',
-                backgroundColor: 'rgba(15, 23, 42, 0.8)',
-                border: '2px solid rgba(131, 56, 236, 0.5)',
-                borderRadius: '0.5rem',
-                padding: '1rem',
-                maxHeight: '400px',
-                overflowY: 'auto',
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '0.75rem'
-              }}>
+              <div className="mt-4 bg-muted/20 border border-primary/30 rounded-lg p-4 max-h-96 overflow-y-auto grid grid-cols-2 gap-3">
                 {FONT_OPTIONS.map((font) => (
                   <button
                     key={font.family}
@@ -260,41 +160,25 @@ export const LogoDesigner = ({
                       handleLogoChange({ logoFont: font.family });
                       setShowFontGallery(false);
                     }}
-                    style={{
-                      padding: '1rem',
-                      backgroundColor: logoState.logoFont === font.family ? 'rgba(255, 0, 110, 0.3)' : 'rgba(131, 56, 236, 0.1)',
-                      border: logoState.logoFont === font.family ? '2px solid #ff006e' : '2px solid rgba(131, 56, 236, 0.3)',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      textAlign: 'center'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (logoState.logoFont !== font.family) {
-                        e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.3)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (logoState.logoFont !== font.family) {
-                        e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.1)';
-                      }
-                    }}
+                    className={`p-4 rounded-lg cursor-pointer transition-all text-center ${
+                      logoState.logoFont === font.family
+                        ? 'bg-primary/20 border-2 border-primary'
+                        : 'bg-muted/10 border-2 border-border/30 hover:bg-muted/20'
+                    }`}
                   >
-                    <div style={{
-                      fontFamily: font.family,
-                      fontSize: '18px',
-                      fontWeight: 700,
-                      color: '#ff6b6b',
-                      marginBottom: '0.5rem',
-                      wordBreak: 'break-word'
-                    }}>
+                    <div
+                      style={{
+                        fontFamily: font.family,
+                        fontSize: '18px',
+                        fontWeight: 700,
+                        color: 'var(--primary)',
+                        marginBottom: '0.5rem',
+                        wordBreak: 'break-word'
+                      }}
+                    >
                       {bandName.substring(0, 12)}
                     </div>
-                    <div style={{
-                      fontSize: '0.75rem',
-                      color: '#aaa',
-                      fontFamily: 'Arial, sans-serif'
-                    }}>
+                    <div className="text-xs text-muted-foreground">
                       {font.name}
                     </div>
                   </button>
@@ -304,27 +188,18 @@ export const LogoDesigner = ({
           </div>
 
           {/* Weight */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label style={{ fontSize: '0.9rem', color: '#aaa' }}>Weight</label>
-              <span style={{ fontSize: '0.85rem' }}>{logoState.logoWeight || 700}</span>
+          <div className="mb-6">
+            <div className="flex justify-between mb-3">
+              <label className="text-sm font-semibold text-muted-foreground">Weight</label>
+              <span className="text-sm">{logoState.logoWeight || 700}</span>
             </div>
             <select
               value={logoState.logoWeight || 700}
               onChange={(e) => handleLogoChange({ logoWeight: Number(e.target.value) })}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '2px solid rgba(131, 56, 236, 0.3)',
-                borderRadius: '0.5rem',
-                color: '#fff',
-                fontSize: '1rem',
-                cursor: 'pointer'
-              }}
+              className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {[400, 500, 600, 700, 800, 900].map((w) => (
-                <option key={w} value={w} style={{ backgroundColor: '#1a1a2e' }}>
+                <option key={w} value={w} className="bg-background">
                   {w}
                 </option>
               ))}
@@ -332,10 +207,10 @@ export const LogoDesigner = ({
           </div>
 
           {/* Size */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label style={{ fontSize: '0.9rem', color: '#aaa' }}>Size</label>
-              <span style={{ fontSize: '0.85rem' }}>{logoState.logoSize || 32}px</span>
+          <div className="mb-6">
+            <div className="flex justify-between mb-3">
+              <label className="text-sm font-semibold text-muted-foreground">Size</label>
+              <span className="text-sm">{logoState.logoSize || 32}px</span>
             </div>
             <input
               type="range"
@@ -343,15 +218,15 @@ export const LogoDesigner = ({
               max="72"
               value={logoState.logoSize || 32}
               onChange={(e) => handleLogoChange({ logoSize: Number(e.target.value) })}
-              style={{ width: '100%' }}
+              className="w-full accent-primary"
             />
           </div>
 
           {/* Letter Spacing */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label style={{ fontSize: '0.9rem', color: '#aaa' }}>Letter Spacing</label>
-              <span style={{ fontSize: '0.85rem' }}>{logoState.logoLetter || 0}px</span>
+          <div className="mb-6">
+            <div className="flex justify-between mb-3">
+              <label className="text-sm font-semibold text-muted-foreground">Letter Spacing</label>
+              <span className="text-sm">{logoState.logoLetter || 0}px</span>
             </div>
             <input
               type="range"
@@ -360,15 +235,15 @@ export const LogoDesigner = ({
               step="0.5"
               value={logoState.logoLetter || 0}
               onChange={(e) => handleLogoChange({ logoLetter: Number(e.target.value) })}
-              style={{ width: '100%' }}
+              className="w-full accent-primary"
             />
           </div>
 
           {/* Line Height */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label style={{ fontSize: '0.9rem', color: '#aaa' }}>Line Height</label>
-              <span style={{ fontSize: '0.85rem' }}>{(logoState.logoLineHeight || 1.1).toFixed(2)}</span>
+          <div className="mb-6">
+            <div className="flex justify-between mb-3">
+              <label className="text-sm font-semibold text-muted-foreground">Line Height</label>
+              <span className="text-sm">{(logoState.logoLineHeight || 1.1).toFixed(2)}</span>
             </div>
             <input
               type="range"
@@ -377,97 +252,81 @@ export const LogoDesigner = ({
               step="0.05"
               value={logoState.logoLineHeight || 1.1}
               onChange={(e) => handleLogoChange({ logoLineHeight: Number(e.target.value) })}
-              style={{ width: '100%' }}
+              className="w-full accent-primary"
             />
           </div>
 
           {/* Uppercase */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+          <div className="mb-6">
+            <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={!!logoState.logoUpper}
                 onChange={(e) => handleLogoChange({ logoUpper: e.target.checked })}
+                className="w-4 h-4 accent-primary"
               />
-              <span style={{ fontSize: '0.9rem' }}>Uppercase</span>
+              <span className="text-sm font-semibold">Uppercase</span>
             </label>
           </div>
 
           {/* Text Color */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: '#aaa', marginBottom: '0.5rem' }}>
+          <div className="mb-6">
+            <label className="text-sm font-semibold text-muted-foreground block mb-3">
               Text Color
             </label>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <div className="flex gap-3 items-center">
               <input
                 type="color"
                 value={logoState.logoTextColor || '#ff6b6b'}
                 onChange={(e) => handleLogoChange({ logoTextColor: e.target.value })}
-                style={{
-                  width: '60px',
-                  height: '40px',
-                  border: '2px solid rgba(131, 56, 236, 0.3)',
-                  borderRadius: '0.5rem',
-                  cursor: 'pointer'
-                }}
+                className="w-16 h-10 rounded-lg cursor-pointer border border-border"
               />
-              <span style={{ fontSize: '0.85rem', fontFamily: 'monospace' }}>
+              <span className="text-sm font-mono">
                 {logoState.logoTextColor || '#ff6b6b'}
               </span>
             </div>
           </div>
 
           {/* Background Color */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: '#aaa', marginBottom: '0.5rem' }}>
+          <div className="mb-6">
+            <label className="text-sm font-semibold text-muted-foreground block mb-3">
               Background Color
             </label>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <div className="flex gap-3 items-center">
               <input
                 type="color"
                 value={logoState.logoBgColor || '#1a1a2e'}
                 onChange={(e) => handleLogoChange({ logoBgColor: e.target.value })}
-                style={{
-                  width: '60px',
-                  height: '40px',
-                  border: '2px solid rgba(131, 56, 236, 0.3)',
-                  borderRadius: '0.5rem',
-                  cursor: 'pointer'
-                }}
+                className="w-16 h-10 rounded-lg cursor-pointer border border-border"
               />
-              <span style={{ fontSize: '0.85rem', fontFamily: 'monospace' }}>
+              <span className="text-sm font-mono">
                 {logoState.logoBgColor || '#1a1a2e'}
               </span>
             </div>
           </div>
 
           {/* Gradient */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', marginBottom: '0.75rem' }}>
+          <div className="mb-6">
+            <label className="flex items-center gap-3 cursor-pointer mb-3">
               <input
                 type="checkbox"
                 checked={!!logoState.logoGradient}
                 onChange={(e) => handleLogoChange({ logoGradient: e.target.checked })}
+                className="w-4 h-4 accent-primary"
               />
-              <span style={{ fontSize: '0.9rem' }}>Gradient Background</span>
+              <span className="text-sm font-semibold">Gradient Background</span>
             </label>
 
             {logoState.logoGradient && (
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <label style={{ fontSize: '0.9rem', color: '#aaa' }}>To</label>
+              <div className="flex gap-3 items-center">
+                <label className="text-sm font-semibold text-muted-foreground">To</label>
                 <input
                   type="color"
                   value={logoState.logoBgColor2 || '#1e293b'}
                   onChange={(e) => handleLogoChange({ logoBgColor2: e.target.value })}
-                  style={{
-                    width: '60px',
-                    height: '40px',
-                    border: '2px solid rgba(131, 56, 236, 0.3)',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer'
-                  }}
+                  className="w-16 h-10 rounded-lg cursor-pointer border border-border"
                 />
-                <span style={{ fontSize: '0.85rem', fontFamily: 'monospace' }}>
+                <span className="text-sm font-mono">
                   {logoState.logoBgColor2 || '#1e293b'}
                 </span>
               </div>
@@ -475,37 +334,20 @@ export const LogoDesigner = ({
           </div>
 
           {/* Shadow */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ fontSize: '0.9rem', color: '#aaa', display: 'block', marginBottom: '0.5rem' }}>
+          <div className="mb-6">
+            <label className="text-sm font-semibold text-muted-foreground block mb-3">
               Shadow Effect
             </label>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <div className="flex gap-2">
               {['none', 'soft', 'strong'].map((sfx) => (
                 <button
                   key={sfx}
                   onClick={() => handleLogoChange({ logoShadow: sfx })}
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem',
-                    backgroundColor: logoState.logoShadow === sfx ? '#ff006e' : 'rgba(131, 56, 236, 0.2)',
-                    color: '#fff',
-                    border: '2px solid rgba(131, 56, 236, 0.3)',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    transition: 'all 0.3s ease',
-                    textTransform: 'capitalize'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (logoState.logoShadow !== sfx) {
-                      e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.5)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (logoState.logoShadow !== sfx) {
-                      e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.2)';
-                    }
-                  }}
+                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    logoState.logoShadow === sfx
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
                 >
                   {sfx}
                 </button>
@@ -514,22 +356,23 @@ export const LogoDesigner = ({
           </div>
 
           {/* Outline */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', marginBottom: '0.75rem' }}>
+          <div className="mb-6">
+            <label className="flex items-center gap-3 cursor-pointer mb-3">
               <input
                 type="checkbox"
                 checked={!!logoState.logoOutline}
                 onChange={(e) => handleLogoChange({ logoOutline: e.target.checked })}
+                className="w-4 h-4 accent-primary"
               />
-              <span style={{ fontSize: '0.9rem' }}>Text Outline</span>
+              <span className="text-sm font-semibold">Text Outline</span>
             </label>
 
             {logoState.logoOutline && (
               <>
-                <div style={{ marginBottom: '0.75rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <label style={{ fontSize: '0.9rem', color: '#aaa' }}>Width</label>
-                    <span style={{ fontSize: '0.85rem' }}>{logoState.logoOutlineWidth || 1}px</span>
+                <div className="mb-4">
+                  <div className="flex justify-between mb-3">
+                    <label className="text-sm font-semibold text-muted-foreground">Width</label>
+                    <span className="text-sm">{logoState.logoOutlineWidth || 1}px</span>
                   </div>
                   <input
                     type="range"
@@ -538,23 +381,17 @@ export const LogoDesigner = ({
                     step="0.2"
                     value={logoState.logoOutlineWidth || 1}
                     onChange={(e) => handleLogoChange({ logoOutlineWidth: Number(e.target.value) })}
-                    style={{ width: '100%' }}
+                    className="w-full accent-primary"
                   />
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                  <label style={{ fontSize: '0.9rem', color: '#aaa' }}>Color</label>
+                <div className="flex gap-3 items-center">
+                  <label className="text-sm font-semibold text-muted-foreground">Color</label>
                   <input
                     type="color"
                     value={logoState.logoOutlineColor || '#000000'}
                     onChange={(e) => handleLogoChange({ logoOutlineColor: e.target.value })}
-                    style={{
-                      width: '60px',
-                      height: '40px',
-                      border: '2px solid rgba(131, 56, 236, 0.3)',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer'
-                    }}
+                    className="w-16 h-10 rounded-lg cursor-pointer border border-border"
                   />
                 </div>
               </>
@@ -562,26 +399,10 @@ export const LogoDesigner = ({
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
+          <div className="flex gap-4 mt-8">
             <button
               onClick={() => handleLogoChange({})}
-              style={{
-                flex: 1,
-                padding: '0.75rem 1rem',
-                backgroundColor: 'rgba(131, 56, 236, 0.3)',
-                color: '#fff',
-                border: '2px solid rgba(131, 56, 236, 0.3)',
-                borderRadius: '0.5rem',
-                cursor: 'pointer',
-                fontSize: '0.9rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.6)'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(131, 56, 236, 0.3)'}
+              className="flex-1 px-4 py-3 bg-muted text-muted-foreground border border-muted hover:bg-muted/80 rounded-lg transition-all flex items-center justify-center gap-2 font-semibold"
             >
               <RotateCcw size={16} />
               Reset
@@ -589,20 +410,7 @@ export const LogoDesigner = ({
 
             <button
               onClick={onComplete}
-              style={{
-                flex: 2,
-                padding: '0.75rem 1rem',
-                backgroundColor: '#ff006e',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '0.5rem',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#ff1975'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#ff006e'}
+              className="flex-1 px-4 py-3 bg-primary text-primary-foreground hover:opacity-90 rounded-lg transition-all font-bold"
             >
               Save Logo & Start Game
             </button>
