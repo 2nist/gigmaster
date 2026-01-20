@@ -41,7 +41,17 @@ export const GamePage = ({
   onAdvanceWeek,
   gameState,
   gameLogic,
-  eventGen
+  eventGen,
+  recordingSystem,
+  gigSystem,
+  bandManagement,
+  equipmentUpgrades,
+  labelDeals,
+  rivalCompetition,
+  festivalPerformance,
+  radioCharting,
+  merchandise,
+  sponsorships
 }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [autoSaving, setAutoSaving] = useState(false);
@@ -92,6 +102,31 @@ export const GamePage = ({
       }
     }
 
+    // Process all gameplay systems for weekly updates
+    if (bandManagement?.processWeeklyBandMaintenance) {
+      bandManagement.processWeeklyBandMaintenance();
+    }
+    
+    if (radioCharting?.processWeeklyRadioPlays) {
+      radioCharting.processWeeklyRadioPlays();
+    }
+    
+    if (merchandise?.processWeeklySales) {
+      merchandise.processWeeklySales();
+    }
+    
+    if (sponsorships?.processMonthlySponsorshipPayments) {
+      sponsorships.processMonthlySponsorshipPayments();
+    }
+    
+    if (labelDeals?.processWeeklyContractMaintenance) {
+      labelDeals.processWeeklyContractMaintenance();
+    }
+    
+    if (rivalCompetition?.processWeeklyRivalActivity) {
+      rivalCompetition.processWeeklyRivalActivity();
+    }
+
     // Generate a random event from Enhanced Dialogue system (50% chance)
     if (Math.random() > 0.5 && eventGen?.generateEvent) {
       const newEvent = eventGen.generateEvent();
@@ -112,7 +147,7 @@ export const GamePage = ({
       setPendingEvent(eventQueue[0]);
       setShowEventModal(true);
     }
-  }, [onAdvanceWeek, eventGen, gameState, eventQueue]);
+  }, [onAdvanceWeek, eventGen, gameState, eventQueue, bandManagement, radioCharting, merchandise, sponsorships, labelDeals, rivalCompetition]);
 
   // Auto-save every 5 minutes
   useEffect(() => {
@@ -215,6 +250,16 @@ export const GamePage = ({
           gameLogic={gameLogic}
           onAdvanceWeek={handleAdvanceWeek}
           onTriggerEvent={triggerEvent}
+          recordingSystem={recordingSystem}
+          gigSystem={gigSystem}
+          bandManagement={bandManagement}
+          equipmentUpgrades={equipmentUpgrades}
+          labelDeals={labelDeals}
+          rivalCompetition={rivalCompetition}
+          festivalPerformance={festivalPerformance}
+          radioCharting={radioCharting}
+          merchandise={merchandise}
+          sponsorships={sponsorships}
         />
       </div>
 
@@ -303,7 +348,17 @@ const TabContent = ({
   gameState,
   gameLogic,
   onAdvanceWeek,
-  onTriggerEvent
+  onTriggerEvent,
+  recordingSystem,
+  gigSystem,
+  bandManagement,
+  equipmentUpgrades,
+  labelDeals,
+  rivalCompetition,
+  festivalPerformance,
+  radioCharting,
+  merchandise,
+  sponsorships
 }) => {
   switch (tabId) {
     case 'dashboard':

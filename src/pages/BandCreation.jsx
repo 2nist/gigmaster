@@ -89,7 +89,23 @@ const BandCreation = ({ onComplete, bandName, logo }) => {
       alert('Your band needs at least 2 members');
       return;
     }
-    onComplete(members);
+    
+    // Initialize member stats for gameplay
+    const membersWithStats = members.map((m, idx) => ({
+      id: m.id || idx,
+      name: m.name || 'Unknown',
+      role: m.role || 'vocalist',
+      skill: 5 + Math.floor(Math.random() * 5), // 5-10 base skill
+      morale: 80,
+      energy: 100,
+      stats: {
+        skill: 5 + Math.floor(Math.random() * 5),
+        charisma: 3 + Math.floor(Math.random() * 4),
+        creativity: 3 + Math.floor(Math.random() * 4)
+      }
+    }));
+    
+    onComplete(membersWithStats);
   }, [members, onComplete]);
 
   const handlePrevious = () => {
