@@ -24,7 +24,8 @@ import {
   useGigSystem,
   useBandManagementSystem,
   useEquipmentUpgradesSystem,
-  useLabelDealsSystem
+  useLabelDealsSystem,
+  useRivalCompetitionSystem
 } from './hooks';
 
 // Import page components
@@ -80,6 +81,9 @@ function App() {
 
   // Label deals system for record contracts and promotional support
   const labelDeals = useLabelDealsSystem(gameState.state, gameState.updateGameState, gameState.addLog);
+
+  // Rival competition system for battles and prestige competition
+  const rivalCompetition = useRivalCompetitionSystem(gameState.state, gameState.updateGameState, gameState.addLog);
 
   // Apply theme to document
   useEffect(() => {
@@ -139,6 +143,7 @@ function App() {
           bandManagement={bandManagement}
           equipmentUpgrades={equipmentUpgrades}
           labelDeals={labelDeals}
+          rivalCompetition={rivalCompetition}
           onReturnToLanding={() => gameState.setStep('landing')}
           onHandleEventChoice={(choice) => {
             // Handle choice through consequence system
