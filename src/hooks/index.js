@@ -14,4 +14,5 @@ export { useLabelDealsSystem } from './useLabelDealsSystem';
 export { useRivalCompetitionSystem } from './useRivalCompetitionSystem';
 export { useFestivalPerformanceSystem } from './useFestivalPerformanceSystem';
 export { useRadioChartingSystem } from './useRadioChartingSystem';
+export { useMerchandiseSystem } from './useMerchandiseSystem';
 
