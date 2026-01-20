@@ -25,7 +25,8 @@ import {
   useBandManagementSystem,
   useEquipmentUpgradesSystem,
   useLabelDealsSystem,
-  useRivalCompetitionSystem
+  useRivalCompetitionSystem,
+  useFestivalPerformanceSystem
 } from './hooks';
 
 // Import page components
@@ -84,6 +85,9 @@ function App() {
 
   // Rival competition system for battles and prestige competition
   const rivalCompetition = useRivalCompetitionSystem(gameState.state, gameState.updateGameState, gameState.addLog);
+
+  // Festival performance system for special events and prestige multipliers
+  const festivalPerformance = useFestivalPerformanceSystem(gameState.state, gameState.updateGameState, gameState.addLog);
 
   // Apply theme to document
   useEffect(() => {
@@ -144,6 +148,7 @@ function App() {
           equipmentUpgrades={equipmentUpgrades}
           labelDeals={labelDeals}
           rivalCompetition={rivalCompetition}
+          festivalPerformance={festivalPerformance}
           onReturnToLanding={() => gameState.setStep('landing')}
           onHandleEventChoice={(choice) => {
             // Handle choice through consequence system
