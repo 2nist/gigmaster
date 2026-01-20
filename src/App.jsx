@@ -28,7 +28,8 @@ import {
   useRivalCompetitionSystem,
   useFestivalPerformanceSystem,
   useRadioChartingSystem,
-  useMerchandiseSystem
+  useMerchandiseSystem,
+  useSponsorshipSystem
 } from './hooks';
 
 // Import page components
@@ -97,6 +98,9 @@ function App() {
   // Merchandise system for band merchandise sales and passive income
   const merchandise = useMerchandiseSystem(gameState.state, gameState.updateGameState, gameState.addLog);
 
+  // Sponsorship system for brand partnerships and endorsement deals
+  const sponsorships = useSponsorshipSystem(gameState.state, gameState.updateGameState, gameState.addLog);
+
   // Apply theme to document
   useEffect(() => {
     const root = document.documentElement;
@@ -159,6 +163,7 @@ function App() {
           festivalPerformance={festivalPerformance}
           radioCharting={radioCharting}
           merchandise={merchandise}
+          sponsorships={sponsorships}
           onReturnToLanding={() => gameState.setStep('landing')}
           onHandleEventChoice={(choice) => {
             // Handle choice through consequence system
