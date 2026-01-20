@@ -51,7 +51,10 @@ export const GamePage = ({
   festivalPerformance,
   radioCharting,
   merchandise,
-  sponsorships
+  sponsorships,
+  enhancedFeatures,
+  setContentPreference,
+  setMaturityLevel
 }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [autoSaving, setAutoSaving] = useState(false);
@@ -260,6 +263,9 @@ export const GamePage = ({
           radioCharting={radioCharting}
           merchandise={merchandise}
           sponsorships={sponsorships}
+          enhancedFeatures={enhancedFeatures}
+          setContentPreference={setContentPreference}
+          setMaturityLevel={setMaturityLevel}
         />
       </div>
 
@@ -358,7 +364,10 @@ const TabContent = ({
   festivalPerformance,
   radioCharting,
   merchandise,
-  sponsorships
+  sponsorships,
+  enhancedFeatures,
+  setContentPreference,
+  setMaturityLevel
 }) => {
   switch (tabId) {
     case 'dashboard':
@@ -368,6 +377,15 @@ const TabContent = ({
         gameState={gameState}
         onAdvanceWeek={onAdvanceWeek}
         onTriggerEvent={onTriggerEvent}
+        recordingSystem={recordingSystem}
+        gigSystem={gigSystem}
+        bandManagement={bandManagement}
+        equipmentUpgrades={equipmentUpgrades}
+        labelDeals={labelDeals}
+        merchandise={merchandise}
+        enhancedFeatures={enhancedFeatures}
+        setContentPreference={setContentPreference}
+        setMaturityLevel={setMaturityLevel}
       />;
     case 'inventory':
       return <InventoryTab gameData={gameData} gameLogic={gameLogic} />;
