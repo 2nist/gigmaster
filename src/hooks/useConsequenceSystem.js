@@ -380,6 +380,93 @@ export const useConsequenceSystem = (gameState) => {
   }, [gameState.week]);
 
   /**
+   * Process weekly consequence escalation
+   * Called each game week to check and escalate active consequences
+   * Returns escalations and resurfaced consequences for event queueing
+   */
+  const processWeeklyConsequences = useCallback(() => {
+    const escalations = [];
+    const resurfaced = [];
+    const currentWeek = gameState.week;
+
+    // Process active consequences
+    setConsequences(prev => {
+      const updated = { ...prev, active: [], dormant: prev.dormant || [] };
+
+      prev.active.forEach(consequence => {
+        // Check if should escalate
+        if (currentWeek >= consequence.nextEscalation) {
+          // Mark for escalation event
+          escalations.push({
+            consequenceId: consequence.id,
+            previousStage: consequence.currentStage,
+            newStage: getNextStage(consequence.currentStage),
+            description: consequence.escalationEvents[0]?.description || 'Consequence escalated',
+            severity: consequence.severity
+          });
+
+          // Update consequence stage
+          const nextStage = getNextStage(consequence.currentStage);
+          const escalationDelay = consequence.escalationEvents.length > 0 
+            ? consequence.escalationEvents[0].escalationDelay 
+            : 8;
+
+          const updatedConsequence = {
+            ...consequence,
+            currentStage: nextStage,
+            nextEscalation: currentWeek + escalationDelay
+          };
+
+          // If fully escalated or resolved, move to dormant
+          if (nextStage === 'resolved' || nextStage === 'critical') {
+            updated.dormant.push(updatedConsequence);
+          } else {
+            updated.active.push(updatedConsequence);
+          }
+        } else {
+          // Keep active, not escalating yet
+          updated.active.push(consequence);
+        }
+      });
+
+      return updated;
+    });
+
+    // Check for resurfacing dormant consequences
+    setConsequences(prev => {
+      const updated = { ...prev, active: prev.active || [], dormant: [] };
+
+      prev.dormant.forEach(dormant => {
+        // Random 5% chance per week for dormant consequences to resurface
+        if (dormant.resurfaceProbability && Math.random() < dormant.resurfaceProbability) {
+          resurfaced.push({
+            consequenceId: dormant.id,
+            description: dormant.description || 'A past consequence returns to haunt you',
+            severity: dormant.severity
+          });
+
+          // Move back to active
+          updated.active.push({
+            ...dormant,
+            currentStage: 'resurfaced',
+            nextEscalation: currentWeek + 6
+          });
+        } else {
+          // Keep dormant
+          updated.dormant.push(dormant);
+        }
+      });
+
+      return updated;
+    });
+
+    // Apply faction decay each week
+    applyFactionDecay();
+
+    return { escalations, resurfaced };
+  }, [gameState.week, applyFactionDecay]);
+
+  /**
    * Apply faction decay over time (for inactive factions)
    */
   const applyFactionDecay = useCallback(() => {
@@ -429,6 +516,7 @@ export const useConsequenceSystem = (gameState) => {
     addDormantConsequence,
     processEscalations,
     checkResurfacing,
+    processWeeklyConsequences,
 
     // Faction management
     updateFactionStandings,
@@ -444,6 +532,7 @@ export const useConsequenceSystem = (gameState) => {
     // Data access
     getActiveConsequences: () => consequences.active,
     getDormantConsequences: () => consequences.dormant,
+    getFactionInfluencedEvents,
     getFactionStanding: (factionId) => factions[factionId]?.currentStanding || 0,
     getFactionStatus: (factionId) => {
       const standing = factions[factionId]?.currentStanding || 0;

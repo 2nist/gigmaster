@@ -16,4 +16,5 @@ export { useFestivalPerformanceSystem } from './useFestivalPerformanceSystem';
 export { useRadioChartingSystem } from './useRadioChartingSystem';
 export { useMerchandiseSystem } from './useMerchandiseSystem';
 export { useSponsorshipSystem } from './useSponsorshipSystem';
+export { useVictoryConditions } from './useVictoryConditions';
 

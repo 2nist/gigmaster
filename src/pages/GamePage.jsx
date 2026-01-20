@@ -76,6 +76,9 @@ export const GamePage = ({
 
   // Handle week advancement with consequence processing and event generation
   const handleAdvanceWeek = useCallback(() => {
+    // Create new queue for this week's events
+    let weekEvents = [];
+    
     // Process consequences from Phase 2 system
     if (onAdvanceWeek) {
       const { escalations, resurfaced } = onAdvanceWeek();
@@ -83,24 +86,24 @@ export const GamePage = ({
       // Queue escalations as events
       if (escalations && escalations.length > 0) {
         escalations.forEach(esc => {
-          setEventQueue(prev => [...prev, {
+          weekEvents.push({
             type: 'consequence',
             data: esc,
-            title: `Consequence Escalated: ${esc.consequenceId}`,
+            title: `⚠️ Consequence Escalated`,
             description: esc.description || 'A past decision has caught up with you...'
-          }]);
+          });
         });
       }
       
       // Queue resurfaced consequences as events
       if (resurfaced && resurfaced.length > 0) {
         resurfaced.forEach(res => {
-          setEventQueue(prev => [...prev, {
+          weekEvents.push({
             type: 'consequence',
             data: res,
-            title: `Consequence Resurfaced: ${res.consequenceId}`,
+            title: `👻 Consequence Resurfaced`,
             description: res.description || 'The past returns to haunt you...'
-          }]);
+          });
         });
       }
     }
@@ -130,27 +133,94 @@ export const GamePage = ({
       rivalCompetition.processWeeklyRivalActivity();
     }
 
-    // Generate a random event from Enhanced Dialogue system (50% chance)
-    if (Math.random() > 0.5 && eventGen?.generateEvent) {
+    // Generate a random event from Enhanced Dialogue system based on player psychology
+    // Higher chance if player is under stress or has other risk factors
+    const psychState = dialogueState?.psychologicalState || {};
+    const eventTriggerChance = Math.min(0.75, (psychState.stress_level || 0) / 100 * 0.5 + 0.3);
+    
+    if (Math.random() < eventTriggerChance && eventGen?.generateEvent) {
       const newEvent = eventGen.generateEvent();
       if (newEvent) {
-        setEventQueue(prev => [...prev, newEvent]);
+        weekEvents.push(newEvent);
       }
     }
 
-    // Update game state (week advancement is handled by gameLogic)
+    // Update game state (week advancement)
     if (gameState?.updateGameState) {
       gameState.updateGameState({
         week: (gameState.state?.week || 0) + 1
       });
     }
 
-    // Show first queued event if exists
-    if (eventQueue.length > 0) {
-      setPendingEvent(eventQueue[0]);
+    // Queue all events and show first one if exists
+    setEventQueue(weekEvents);
+    if (weekEvents.length > 0) {
+      setPendingEvent(weekEvents[0]);
       setShowEventModal(true);
     }
-  }, [onAdvanceWeek, eventGen, gameState, eventQueue, bandManagement, radioCharting, merchandise, sponsorships, labelDeals, rivalCompetition]);
+  }, [onAdvanceWeek, bandManagement, radioCharting, merchandise, sponsorships, labelDeals, rivalCompetition, eventGen, gameState, dialogueState]);
+
+  /**
+   * Handle player choice in event modal
+   * Updates psychological state, applies consequences, and advances game state
+   */
+  const handleEventChoice = useCallback((eventId, choiceId, choiceText, impacts) => {
+    // Find the full choice object from the pending event
+    const choice = pendingEvent?.choices?.find(c => c.id === choiceId);
+    
+    // Apply psychological effects from the choice
+    if (choice?.psychologicalEffects && dialogueState?.updatePsychologicalState) {
+      // Map choice effects to psychological state updates
+      const updates = {};
+      
+      // Convert psychologicalEffects object to updatePsychologicalState format
+      Object.entries(choice.psychologicalEffects).forEach(([key, value]) => {
+        // Map effect names to psychological state keys
+        if (key === 'stress_level' || key === 'stress') updates.stress_level = value;
+        if (key === 'moral_integrity' || key === 'morality') updates.moral_integrity = value;
+        if (key === 'addiction_risk' || key === 'addiction') updates.addiction_risk = value;
+        if (key === 'paranoia') updates.paranoia = value;
+        if (key === 'depression') updates.depression = value;
+      });
+      
+      if (Object.keys(updates).length > 0) {
+        dialogueState.updatePsychologicalState(updates);
+        if (gameState?.addLog) {
+          const effects = Object.entries(updates)
+            .map(([k, v]) => `${k.replace(/_/g, ' ')} ${v > 0 ? '+' : ''}${v}`)
+            .join(', ');
+          gameState.addLog(`📊 Psychological effects: ${effects}`);
+        }
+      }
+    }
+    
+    // Apply faction effects if choice has them
+    if (choice?.factionEffects && onHandleEventChoice) {
+      onHandleEventChoice(choice);
+    }
+    
+    // Apply consequences if choice triggers them
+    if (choice?.triggerConsequence && onHandleEventChoice) {
+      onHandleEventChoice(choice);
+    }
+    
+    // Log the choice made
+    if (gameState?.addLog && choiceText) {
+      gameState.addLog(`💭 You chose: "${choiceText}"`);
+    }
+    
+    // Remove event from queue and show next one
+    const remainingEvents = eventQueue.slice(1);
+    setEventQueue(remainingEvents);
+    
+    if (remainingEvents.length > 0) {
+      setPendingEvent(remainingEvents[0]);
+      setShowEventModal(true);
+    } else {
+      setShowEventModal(false);
+      setPendingEvent(null);
+    }
+  }, [dialogueState, gameState, onHandleEventChoice, pendingEvent, eventQueue]);
 
   // Auto-save every 5 minutes
   useEffect(() => {
@@ -295,41 +365,7 @@ export const GamePage = ({
           isOpen={true}
           event={pendingEvent}
           psychologicalState={dialogueState?.psychologicalState}
-          onChoice={(eventId, choiceId, choiceText, consequences) => {
-            // Handle choice through consequence system
-            if (onHandleEventChoice) {
-              onHandleEventChoice({
-                eventId,
-                choiceId,
-                choiceText,
-                ...consequences
-              });
-            }
-
-            // Apply psychological effects if present
-            if (dialogueState?.updatePsychologicalState && consequences?.psychologyEffects) {
-              dialogueState.updatePsychologicalState(consequences.psychologyEffects);
-            }
-
-            // Apply faction effects if present
-            if (consequenceSystem && consequences?.factionEffects) {
-              Object.entries(consequences.factionEffects).forEach(([faction, delta]) => {
-                consequenceSystem.updateFactionReputation(faction, delta);
-              });
-            }
-
-            // Remove from queue and show next event if exists
-            setEventQueue(prev => prev.slice(1));
-            if (eventQueue.length > 1) {
-              setPendingEvent(eventQueue[1]);
-            } else {
-              setShowEventModal(false);
-              setPendingEvent(null);
-            }
-
-            // Original choice handler
-            onEventChoice?.(eventId, choiceId, choiceText, consequences);
-          }}
+          onChoice={handleEventChoice}
           onClose={() => {
             setShowEventModal(false);
             setPendingEvent(null);
@@ -388,17 +424,42 @@ const TabContent = ({
         setMaturityLevel={setMaturityLevel}
       />;
     case 'inventory':
-      return <InventoryTab gameData={gameData} gameLogic={gameLogic} />;
+      return <InventoryTab 
+        gameData={gameData} 
+        gameState={gameState}
+        recordingSystem={recordingSystem}
+      />;
     case 'band':
-      return <BandTab gameData={gameData} gameLogic={gameLogic} />;
+      return <BandTab 
+        gameData={gameData} 
+        gameState={gameState}
+        bandManagement={bandManagement}
+        onAdvanceWeek={onAdvanceWeek}
+      />;
     case 'gigs':
-      return <GigsTab gameData={gameData} gameLogic={gameLogic} />;
+      return <GigsTab 
+        gameData={gameData} 
+        gameState={gameState}
+        gigSystem={gigSystem}
+      />;
     case 'upgrades':
-      return <UpgradesTab gameData={gameData} gameLogic={gameLogic} />;
+      return <UpgradesTab 
+        gameData={gameData} 
+        gameState={gameState}
+        equipmentUpgrades={equipmentUpgrades}
+        labelDeals={labelDeals}
+      />;
     case 'rivals':
-      return <RivalsTab gameData={gameData} />;
+      return <RivalsTab 
+        gameData={gameData} 
+        gameState={gameState}
+        rivalCompetition={rivalCompetition}
+      />;
     case 'log':
-      return <LogTab gameData={gameData} />;
+      return <LogTab 
+        gameData={gameData} 
+        gameState={gameState}
+      />;
     default:
       return null;
   }

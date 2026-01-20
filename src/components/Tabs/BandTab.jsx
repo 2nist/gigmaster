@@ -1,32 +1,219 @@
+import React, { useState } from 'react';
+import { Users, Plus, Trash2, Zap } from 'lucide-react';
+
 /**
  * BandTab.jsx - Band roster and member management
  * 
  * Displays:
  * - Band member list with roles
  * - Member skill levels and morale
- * - Team composition
+ * - Recruitment options
+ * - Member training/practice
+ * - Member removal
  */
-export const BandTab = ({ gameData }) => (
-  <div>
-    <h3 className="text-xl font-bold text-foreground mb-4">Band Members</h3>
-    {gameData?.bandMembers?.length > 0 ? (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {gameData.bandMembers.map(member => (
-          <div key={member.id} className="bg-card border border-primary/30 p-4 rounded-lg hover:border-primary/60 transition-all">
-            <h4 className="text-foreground font-semibold mb-2">{member.name}</h4>
-            <p className="text-sm text-muted-foreground mb-1">Role: <span className="text-primary font-medium">{member.type}</span></p>
-            <p className="text-sm text-muted-foreground mb-1">Skill: <span className="text-secondary font-medium">{member.skill}/10</span></p>
-            <p className="text-sm text-muted-foreground mb-2">Morale: <span className="text-accent font-medium">{member.morale}%</span></p>
-            {member.traits && member.traits.length > 0 && (
-              <div className="text-xs text-muted-foreground/70 pt-2 border-t border-border/20">
-                Traits: {member.traits.join(', ')}
-              </div>
-            )}
-          </div>
-        ))}
+export const BandTab = ({ 
+  gameData, 
+  gameState,
+  bandManagement,
+  onAdvanceWeek
+}) => {
+  const [showRecruitment, setShowRecruitment] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
+
+  const MUSICIAN_ROLES = [
+    { id: 'vocal', name: 'Vocalist', cost: 500 },
+    { id: 'guitar', name: 'Guitarist', cost: 600 },
+    { id: 'bass', name: 'Bassist', cost: 500 },
+    { id: 'drums', name: 'Drummer', cost: 550 },
+    { id: 'keyboard', name: 'Keyboardist', cost: 600 },
+    { id: 'production', name: 'Producer', cost: 800 }
+  ];
+
+  const handleRecruitMember = (role) => {
+    const roleData = MUSICIAN_ROLES.find(r => r.id === role);
+    if (!roleData) return;
+
+    const money = gameState?.state?.money || 0;
+    if (money < roleData.cost) {
+      gameState?.addLog?.(`Not enough money to recruit a ${roleData.name} (need $${roleData.cost})`);
+      return;
+    }
+
+    // Add member through band management system
+    if (bandManagement?.recruitMember) {
+      bandManagement.recruitMember(role);
+    } else {
+      // Fallback: create member manually
+      const newMember = {
+        id: Date.now().toString(),
+        name: `New ${roleData.name}`,
+        type: role,
+        skill: 5 + Math.floor(Math.random() * 4),
+        morale: 80,
+        traits: []
+      };
+      
+      gameState?.updateGameState?.({
+        bandMembers: [...(gameState?.state?.bandMembers || []), newMember],
+        money: money - roleData.cost
+      });
+    }
+
+    gameState?.addLog?.(`Recruited a ${roleData.name} for $${roleData.cost}`);
+    setShowRecruitment(false);
+  };
+
+  const handleFireMember = (memberId) => {
+    const members = gameState?.state?.bandMembers || [];
+    const member = members.find(m => m.id === memberId);
+    if (!member) return;
+
+    gameState?.updateGameState?.({
+      bandMembers: members.filter(m => m.id !== memberId),
+      morale: Math.max(0, (gameState?.state?.morale || 50) - 10)
+    });
+
+    gameState?.addLog?.(`${member.name} left the band. Band morale decreased.`);
+    setSelectedMember(null);
+  };
+
+  const handlePracticeMember = (memberId) => {
+    const cost = 100;
+    const money = gameState?.state?.money || 0;
+    
+    if (money < cost) {
+      gameState?.addLog?.(`Not enough money to practice (need $${cost})`);
+      return;
+    }
+
+    if (bandManagement?.practiceMember) {
+      bandManagement.practiceMember(memberId);
+    }
+
+    gameState?.updateGameState?.({
+      money: money - cost
+    });
+
+    gameState?.addLog?.(`Band practiced. Member skills improved. -$${cost}`);
+    onAdvanceWeek?.();
+  };
+
+  const members = gameData?.bandMembers || gameState?.state?.bandMembers || [];
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
+          <Users size={24} />
+          Band Members ({members.length}/6)
+        </h3>
+        <button
+          onClick={() => setShowRecruitment(!showRecruitment)}
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:opacity-90 transition-all flex items-center gap-2"
+        >
+          <Plus size={16} />
+          Recruit
+        </button>
       </div>
-    ) : (
-      <p className="text-muted-foreground">No band members yet. Recruit some musicians!</p>
-    )}
-  </div>
-);
+
+      {/* Recruitment Panel */}
+      {showRecruitment && members.length < 6 && (
+        <div className="bg-primary/10 border-2 border-primary/30 p-6 rounded-lg mb-6">
+          <h4 className="text-lg font-semibold text-foreground mb-4">Recruit a Musician</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {MUSICIAN_ROLES.map(role => (
+              <button
+                key={role.id}
+                onClick={() => handleRecruitMember(role.id)}
+                className="p-3 bg-card border border-primary/30 rounded-md hover:border-primary/60 hover:bg-primary/5 transition-all text-left cursor-pointer"
+              >
+                <div className="font-semibold text-foreground">{role.name}</div>
+                <div className="text-sm text-muted-foreground">${role.cost}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Member List */}
+      {members.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {members.map(member => (
+            <div 
+              key={member.id}
+              onClick={() => setSelectedMember(selectedMember?.id === member.id ? null : member)}
+              className="bg-card border-2 border-primary/30 p-4 rounded-lg hover:border-primary/60 transition-all cursor-pointer"
+            >
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h4 className="text-foreground font-semibold">{member.name}</h4>
+                  <p className="text-sm text-muted-foreground">Role: <span className="text-primary font-medium">{member.type}</span></p>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="space-y-2 text-sm mb-3">
+                <div>
+                  <div className="text-muted-foreground mb-1">Skill ({member.skill || 5}/10)</div>
+                  <div className="h-2 bg-input rounded overflow-hidden">
+                    <div className="h-full bg-secondary" style={{ width: `${(member.skill || 5) * 10}%` }} />
+                  </div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground mb-1">Morale ({member.morale || 80}%)</div>
+                  <div className="h-2 bg-input rounded overflow-hidden">
+                    <div className="h-full bg-accent" style={{ width: `${member.morale || 80}%` }} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Traits */}
+              {member.traits && member.traits.length > 0 && (
+                <div className="text-xs text-muted-foreground/70 pt-2 border-t border-border/20 mb-3">
+                  Traits: {member.traits.join(', ')}
+                </div>
+              )}
+
+              {/* Expanded View */}
+              {selectedMember?.id === member.id && (
+                <div className="border-t border-border/20 pt-3 mt-3 space-y-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePracticeMember(member.id);
+                    }}
+                    className="w-full px-3 py-2 bg-secondary/20 text-secondary hover:bg-secondary/40 rounded-md cursor-pointer text-sm font-medium flex items-center justify-center gap-2 transition-all"
+                  >
+                    <Zap size={14} />
+                    Practice ($100)
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFireMember(member.id);
+                    }}
+                    className="w-full px-3 py-2 bg-destructive/20 text-destructive hover:bg-destructive/40 rounded-md cursor-pointer text-sm font-medium flex items-center justify-center gap-2 transition-all"
+                  >
+                    <Trash2 size={14} />
+                    Fire
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="bg-card border-2 border-border/20 p-8 rounded-lg text-center">
+          <p className="text-muted-foreground mb-4">No band members yet. Recruit some musicians to get started!</p>
+          <button
+            onClick={() => setShowRecruitment(true)}
+            className="px-6 py-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:opacity-90 transition-all flex items-center gap-2 mx-auto"
+          >
+            <Plus size={16} />
+            Recruit First Member
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};

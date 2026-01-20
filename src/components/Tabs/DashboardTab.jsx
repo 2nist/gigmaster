@@ -2,6 +2,7 @@
  * DashboardTab.jsx - Game overview and quick stats with gameplay controls
  * 
  * Displays:
+ * - Scenario goals and progress
  * - Psychological state metrics
  * - Quick game statistics
  * - Key performance indicators
@@ -11,6 +12,7 @@ export const DashboardTab = ({
   gameData, 
   dialogueState,
   gameState,
+  victoryConditions,
   onAdvanceWeek,
   onTriggerEvent,
   recordingSystem,
@@ -62,6 +64,45 @@ export const DashboardTab = ({
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Scenario Goals Card */}
+      {gameState?.state?.selectedScenario && (
+        <div className="bg-card border-2 border-secondary/40 p-6 rounded-lg">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-foreground">🎯 {gameState.state.selectedScenario.name}</h3>
+            <span className="text-xs text-muted-foreground">Week {gameState.state.week || 0}</span>
+          </div>
+          
+          {gameState.state.selectedScenario.goals && gameState.state.selectedScenario.goals.length > 0 ? (
+            <div className="space-y-4">
+              {gameState.state.selectedScenario.goals.map(goal => {
+                const goalData = victoryConditions?.goalProgress?.[goal.id];
+                const percentage = victoryConditions?.getGoalPercentage?.(goal.id) || 0;
+                const isCompleted = goalData?.completed;
+
+                return (
+                  <div key={goal.id} className={`p-3 rounded-lg ${isCompleted ? 'bg-secondary/10' : 'bg-background/50'}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-sm font-medium ${isCompleted ? 'text-secondary line-through' : 'text-foreground'}`}>
+                        {isCompleted ? '✓' : '○'} {goal.label}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{percentage}%</span>
+                    </div>
+                    <div className="h-2 bg-input rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${isCompleted ? 'bg-secondary' : 'bg-primary'}`}
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">Sandbox mode - no specific goals. Just have fun!</p>
+          )}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Psychological State Card */}
         <div className="bg-card border-2 border-primary/30 p-6 rounded-lg">

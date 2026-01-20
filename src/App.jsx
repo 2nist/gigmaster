@@ -29,12 +29,14 @@ import {
   useFestivalPerformanceSystem,
   useRadioChartingSystem,
   useMerchandiseSystem,
-  useSponsorshipSystem
+  useSponsorshipSystem,
+  useVictoryConditions
 } from './hooks';
 
 // Import page components
-import { LandingPage, GamePage, LogoDesigner, BandCreation } from './pages';
+import { LandingPage, GamePage, LogoDesigner, BandCreation, ScenarioSelection } from './pages';
 import { EnhancedEventModal } from './components/EnhancedEventModal';
+import { VictoryScreen } from './components/VictoryScreen';
 
 // Import modals
 import WriteSongModal from './components/Modals/WriteSongModal';
@@ -138,6 +140,14 @@ function App() {
   // Sponsorship system for brand partnerships and endorsement deals
   const sponsorships = useSponsorshipSystem(gameState.state, gameState.updateGameState, gameState.addLog);
 
+  // Victory conditions tracking
+  const victoryConditions = useVictoryConditions(gameState.state, gameState.state?.selectedScenario);
+
+  // Update victory conditions on each game state change
+  useEffect(() => {
+    victoryConditions.updateGoalProgress(gameState.state);
+  }, [gameState.state?.week, gameState.state?.fame, gameState.state?.money]);
+
   // Apply theme to document
   useEffect(() => {
     const root = document.documentElement;
@@ -156,7 +166,7 @@ function App() {
         <LandingPage
           onNewGame={(bandName) => {
             gameState.setBandName(bandName);
-            gameState.setStep('logo');
+            gameState.setStep('scenario');
           }}
           onLoadGame={(saveName) => {
             // Load game logic handled by GamePage
@@ -165,13 +175,27 @@ function App() {
           onSettings={() => uiState.setShowSettings(true)}
           saveSlots={gameState.saveSlots}
         />
+      ) : gameState.step === 'scenario' ? (
+        <ScenarioSelection
+          bandName={gameState.state?.bandName || 'Your Band'}
+          onSelectScenario={(scenario) => {
+            gameState.updateGameState({
+              selectedScenario: scenario,
+              money: scenario.initialMoney,
+              fame: scenario.initialFame,
+              week: 0
+            });
+            gameState.setStep('logo');
+          }}
+          onBack={() => gameState.setStep('landing')}
+        />
       ) : gameState.step === 'logo' ? (
         <LogoDesigner
           bandName={gameState.state?.bandName || 'Your Band'}
           logoState={gameState.state}
           onLogoChange={(updates) => gameState.updateGameState(updates)}
           onComplete={() => gameState.setStep('bandCreation')}
-          onBack={() => gameState.setStep('landing')}
+          onBack={() => gameState.setStep('scenario')}
         />
       ) : gameState.step === 'bandCreation' ? (
         <BandCreation
@@ -205,6 +229,7 @@ function App() {
           merchandise={merchandise}
           sponsorships={sponsorships}
           onReturnToLanding={() => gameState.setStep('landing')}
+          victoryConditions={victoryConditions}
           onHandleEventChoice={(choice) => {
             // Handle choice through consequence system
             if (choice.factionEffects) {
@@ -227,15 +252,42 @@ function App() {
             }
           }}
           onAdvanceWeek={() => {
-            // Process consequences on week advancement
-            const escalations = consequenceSystem.processEscalations();
-            const resurfaced = consequenceSystem.checkResurfacing();
-            consequenceSystem.applyFactionDecay();
+            // Process all consequence system updates on week advancement
+            const weekResults = consequenceSystem.processWeeklyConsequences();
+            const { escalations, resurfaced } = weekResults;
+            
+            // Log events if available
+            if (gameState?.addLog) {
+              if (escalations?.length > 0) {
+                escalations.forEach(esc => {
+                  gameState.addLog(`⚠️ Consequence escalated: ${esc.description}`);
+                });
+              }
+              if (resurfaced?.length > 0) {
+                resurfaced.forEach(res => {
+                  gameState.addLog(`👻 Past consequence resurfaced: ${res.description}`);
+                });
+              }
+            }
             
             return { escalations, resurfaced };
           }}
         />
       )}
+
+      {/* Victory/Defeat Screen */}
+      <VictoryScreen
+        victoryState={victoryConditions.victoryState}
+        scenario={gameState.state?.selectedScenario}
+        onNewGame={() => {
+          gameState.resetGame();
+          gameState.setStep('scenario');
+        }}
+        onMainMenu={() => {
+          gameState.resetGame();
+          gameState.setStep('landing');
+        }}
+      />
 
       {/* Global Modals */}
       {modalState.showEventModal && (

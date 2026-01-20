@@ -83,20 +83,138 @@ export const useEventGeneration = (gameState, psychologicalState, narrativeState
     }
   }), []);
 
-  const selectCharacter = useCallback((archetypeKey) => {
-    const archetype = CHARACTER_ARCHETYPES[archetypeKey];
-    if (!archetype) return null;
+  /**
+   * Calculate event probability weights based on psychological state
+   * Higher stress/addiction/paranoia = more likely those themed events
+   * Prevents events player is psychologically unfit for
+   * @param {Object} psychState - Current psychological state
+   * @returns {Object} Weights and filters for event generation
+   */
+  const calculateEventWeights = useCallback((psychState) => {
+    if (!psychState) return { substance: 0.33, corruption: 0.33, horror: 0.34, filters: {} };
     
-    const name = archetype.names[Math.floor(Math.random() * archetype.names.length)];
-    const dialogue = archetype.dialogues[Math.floor(Math.random() * archetype.dialogues.length)];
-    
-    return {
-      archetype: archetypeKey,
-      name,
-      dialogue,
-      traits: archetype.traits
+    const weights = {
+      substance: 0.1,      // Base weight for substance events
+      corruption: 0.1,     // Base weight for corruption events
+      horror: 0.1          // Base weight for horror/psychological events
     };
-  }, [CHARACTER_ARCHETYPES]);
+    
+    const filters = {
+      maxStressIncrease: 100 - psychState.stress_level,
+      maxAddictionIncrease: 100 - psychState.addiction_risk,
+      minMoralityDecrease: psychState.moral_integrity,
+      minParanoiaIncrease: 100 - psychState.paranoia
+    };
+    
+    // High stress increases horror/psychological events
+    if (psychState.stress_level > 60) {
+      weights.horror += (psychState.stress_level - 60) * 0.01;
+    }
+    
+    // High addiction risk increases substance events
+    if (psychState.addiction_risk > 40) {
+      weights.substance += (psychState.addiction_risk - 40) * 0.01;
+    }
+    
+    // Low moral integrity increases corruption events
+    if (psychState.moral_integrity < 60) {
+      weights.corruption += (60 - psychState.moral_integrity) * 0.01;
+    }
+    
+    // High paranoia increases horror events
+    if (psychState.paranoia > 40) {
+      weights.horror += (psychState.paranoia - 40) * 0.008;
+    }
+    
+    // High depression increases horror events (mental health crises)
+    if (psychState.depression > 50) {
+      weights.horror += (psychState.depression - 50) * 0.01;
+    }
+    
+    // Very high stress can trigger mental breakdown events
+    if (psychState.stress_level > 85) {
+      weights.horror += 0.2;
+      filters.mentalBreakdownRisk = true;
+    }
+    
+    // Very high addiction increases substance escalation
+    if (psychState.addiction_risk > 80) {
+      weights.substance += 0.15;
+      filters.addictionCrisisRisk = true;
+    }
+    
+    // Normalize weights to sum to 1.0
+    const total = weights.substance + weights.corruption + weights.horror;
+    return {
+      substance: weights.substance / total,
+      corruption: weights.corruption / total,
+      horror: weights.horror / total,
+      filters: filters
+    };
+  }, []);
+
+  /**
+   * Select event type based on psychological weights
+   * @param {Object} weights - Event type weights
+   * @returns {string} Selected event type
+   */
+  const selectEventTypeByWeights = useCallback((weights) => {
+    const rand = Math.random();
+    let cumulative = 0;
+    
+    if (rand < (cumulative += weights.substance)) return 'substance';
+    if (rand < (cumulative += weights.corruption)) return 'corruption';
+    return 'horror';
+  }, []);
+
+  /**
+   * Apply psychological effects from player choice
+   * Updates psychological state based on choice consequences
+   * @param {Object} choiceEffects - Effects from the choice
+   * @param {Function} updatePsych - Callback to apply psychological updates
+   * @returns {Object} Applied effects for logging
+   */
+  const applyPsychologicalEffects = useCallback((choiceEffects, updatePsych) => {
+    if (!choiceEffects || typeof updatePsych !== 'function') {
+      return { success: false, message: 'Missing choice effects or update function' };
+    }
+    
+    const updates = {};
+    const appliedEffects = [];
+    
+    // Map choice effects to psychological state updates
+    if (typeof choiceEffects.stress === 'number' && choiceEffects.stress !== 0) {
+      updates.stress_level = choiceEffects.stress;
+      appliedEffects.push(`Stress ${choiceEffects.stress > 0 ? '+' : ''}${choiceEffects.stress}`);
+    }
+    
+    if (typeof choiceEffects.morality === 'number' && choiceEffects.morality !== 0) {
+      updates.moral_integrity = choiceEffects.morality;
+      appliedEffects.push(`Morality ${choiceEffects.morality > 0 ? '+' : ''}${choiceEffects.morality}`);
+    }
+    
+    if (typeof choiceEffects.addiction === 'number' && choiceEffects.addiction !== 0) {
+      updates.addiction_risk = choiceEffects.addiction;
+      appliedEffects.push(`Addiction Risk ${choiceEffects.addiction > 0 ? '+' : ''}${choiceEffects.addiction}`);
+    }
+    
+    if (typeof choiceEffects.paranoia === 'number' && choiceEffects.paranoia !== 0) {
+      updates.paranoia = choiceEffects.paranoia;
+      appliedEffects.push(`Paranoia ${choiceEffects.paranoia > 0 ? '+' : ''}${choiceEffects.paranoia}`);
+    }
+    
+    if (typeof choiceEffects.depression === 'number' && choiceEffects.depression !== 0) {
+      updates.depression = choiceEffects.depression;
+      appliedEffects.push(`Depression ${choiceEffects.depression > 0 ? '+' : ''}${choiceEffects.depression}`);
+    }
+    
+    if (Object.keys(updates).length > 0) {
+      updatePsych(updates);
+      return { success: true, applied: appliedEffects };
+    }
+    
+    return { success: false, message: 'No psychological effects to apply' };
+  }, []);
 
   /**
    * Generate substance temptation event
@@ -378,26 +496,13 @@ export const useEventGeneration = (gameState, psychologicalState, narrativeState
    * - Wrap raw events with enhanced features
    * - Filter by content preferences
    * - Respect maturity level settings
+   * - Use psychological state to weight event type selection
    */
   const generateEvent = useCallback((eventType = 'random') => {
     if (eventType === 'random') {
-      const roll = Math.random();
-      
-      // Probability affected by psychological state and game progress
-      if (psychologicalState.addiction_risk > 50) {
-        if (roll < 0.4) eventType = 'substance';
-      }
-      if (psychologicalState.moral_integrity < 40) {
-        if (roll < 0.4) eventType = 'corruption';
-      }
-      if (psychologicalState.stress_level > 70) {
-        if (roll < 0.3) eventType = 'horror';
-      }
-      
-      if (eventType === 'random') {
-        const types = ['substance', 'corruption', 'horror'];
-        eventType = types[Math.floor(Math.random() * types.length)];
-      }
+      // Use psychological weighting to select event type
+      const weights = calculateEventWeights(psychologicalState);
+      eventType = selectEventTypeByWeights(weights);
     }
     
     // Generate base event
@@ -420,7 +525,6 @@ export const useEventGeneration = (gameState, psychologicalState, narrativeState
       default:
         event = generateSubstanceEvent();
     }
-    
     // Enhance event with enhanced features wrapper
     if (event && enhancedFeatures?.enabled) {
       // Auto-detect maturity level and category if not already set
@@ -474,7 +578,10 @@ export const useEventGeneration = (gameState, psychologicalState, narrativeState
     generateSubstanceEvent,
     generateCorruptionEvent,
     generateHorrorEvent,
-    selectCharacter
+    selectCharacter,
+    applyPsychologicalEffects,
+    calculateEventWeights,
+    selectEventTypeByWeights
   };
 };
 
