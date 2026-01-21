@@ -112,7 +112,7 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
                   Cancel
                 </button>
               </div>
-              <p className="text-xs text-muted-foreground">Current: ${money.toLocaleString()}</p>
+              <p className="text-xs text-muted-foreground">Current: ${(gameState?.state?.money || 0).toLocaleString()}</p>
             </div>
           </div>
         )}
