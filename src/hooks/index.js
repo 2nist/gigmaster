@@ -17,4 +17,5 @@ export { useRadioChartingSystem } from './useRadioChartingSystem';
 export { useMerchandiseSystem } from './useMerchandiseSystem';
 export { useSponsorshipSystem } from './useSponsorshipSystem';
 export { useVictoryConditions } from './useVictoryConditions';
-
+export { useTheme } from './useTheme';
+export { useMusicGeneration } from './useMusicGeneration';
