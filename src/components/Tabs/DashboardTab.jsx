@@ -17,6 +17,7 @@ export const DashboardTab = ({
   onTriggerEvent,
   recordingSystem,
   gigSystem,
+  gameLogic,
   bandManagement,
   equipmentUpgrades,
   labelDeals,
@@ -24,17 +25,18 @@ export const DashboardTab = ({
   festivalPerformance,
   radioCharting,
   merchandise,
-  sponsorships
+  sponsorships,
+  modalState
 }) => {
   const handleQuickAction = (action) => {
     switch(action) {
       case 'write-song':
-        recordingSystem?.recordSong?.('Quick Recording', 'Rock');
+        modalState?.openWriteSongModal?.();
         break;
       case 'book-gig':
-        const venues = gigSystem?.getAvailableVenues?.();
+        const venues = gameLogic?.getAvailableVenues?.();
         if (venues?.length > 0) {
-          gigSystem?.bookGig?.(venues[0].id);
+          gameLogic?.bookGig?.(venues[0].id);
         }
         break;
       case 'practice-band':

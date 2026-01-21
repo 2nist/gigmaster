@@ -1,6 +1,17 @@
 import { useCallback } from 'react';
 import { STUDIO_TIERS, TRANSPORT_TIERS, GEAR_TIERS, SCENARIOS } from '../utils/constants';
 import { buildMember, randomFrom, clampMorale } from '../utils/helpers';
+import { processWeekEffects } from '../utils/processWeekEffects';
+
+const VENUES = {
+  coffeeShop: { name: 'Coffee Shop', capacity: 50, basePayout: 100, ticketPrice: 15 },
+  smallClub: { name: 'Small Club', capacity: 150, basePayout: 250, ticketPrice: 18 },
+  mediumVenue: { name: 'Medium Venue', capacity: 400, basePayout: 700, ticketPrice: 20 },
+  largeVenue: { name: 'Large Venue', capacity: 1000, basePayout: 1800, ticketPrice: 25 },
+  arena: { name: 'Arena', capacity: 5000, basePayout: 8000, ticketPrice: 30 },
+  festival: { name: 'Music Festival', capacity: 10000, basePayout: 12000, ticketPrice: 35 },
+  stadium: { name: 'Stadium', capacity: 20000, basePayout: 45000, ticketPrice: 40 }
+};
 
 /**
  * useGameLogic - Manages all core game mechanics and actions
@@ -22,19 +33,145 @@ import { buildMember, randomFrom, clampMorale } from '../utils/helpers';
  * @returns {Object} Game logic methods and utilities
  */
 export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
+  const normalizeTitle = (value, fallback = 'Untitled Track') => {
+    const title = value && typeof value === 'string' ? value.trim() : '';
+    return title || fallback;
+  };
+
+  const normalizeSong = (song, index = 0, state = {}) => {
+    const title = normalizeTitle(song.title || song.name);
+    const slug = title.toLowerCase().replace(/\s+/g, '-');
+    const id = song.id || `song-${slug || 'track'}-${index}`;
+
+    let quality = song.quality ?? 60;
+    if (quality <= 10) {
+      quality = Math.round(quality * 10);
+    }
+    quality = Math.min(100, Math.max(1, Math.floor(quality)));
+
+    let popularity = song.popularity ?? Math.floor(quality * 0.6);
+    if (popularity <= 10) {
+      popularity = Math.round(popularity * 10);
+    }
+    popularity = Math.min(100, Math.max(0, Math.floor(popularity)));
+
+    const genre = song.genre || state.genre || 'Pop';
+
+    const base = {
+      id,
+      title,
+      genre,
+      quality,
+      popularity,
+      age: song.age ?? 0,
+      streams: song.streams ?? song.totalStreams ?? 0,
+      weeklyStreams: song.weeklyStreams ?? 0,
+      earnings: song.earnings ?? song.totalEarnings ?? 0,
+      plays: song.plays ?? 0,
+      freshness: song.freshness ?? 100,
+      videoBoost: song.videoBoost ?? false,
+      inAlbum: song.inAlbum ?? false,
+      recordedWeek: song.recordedWeek ?? state.week ?? 0,
+      totalStreams: song.totalStreams ?? song.streams ?? 0,
+      totalEarnings: song.totalEarnings ?? song.earnings ?? 0,
+      chartPosition: song.chartPosition ?? 100,
+      peakPosition: song.peakPosition ?? song.chartPosition ?? 100,
+      peakStreamsPerWeek: song.peakStreamsPerWeek ?? song.weeklyStreams ?? 0,
+      virality: song.virality ?? false
+    };
+
+    return {
+      ...base,
+      ...song,
+      id,
+      title,
+      genre,
+      quality,
+      popularity
+    };
+  };
+
+  const normalizeSongs = (songs = [], state = {}) =>
+    songs.map((song, index) => normalizeSong(song, index, state));
+
+  const normalizeAlbums = (albums = [], songs = []) => {
+    const songIdByTitle = songs.reduce((acc, song) => {
+      acc[song.title] = song.id;
+      return acc;
+    }, {});
+
+    return albums.map((album, index) => {
+      const name = normalizeTitle(album.name || album.title, `Album ${index + 1}`);
+      const slug = name.toLowerCase().replace(/\s+/g, '-');
+      const id = album.id || `album-${slug || 'release'}-${index}`;
+
+      let quality = album.quality ?? 60;
+      if (quality <= 10) {
+        quality = Math.round(quality * 10);
+      }
+      quality = Math.min(100, Math.max(1, Math.floor(quality)));
+
+      let popularity = album.popularity ?? Math.floor(quality * 0.7);
+      if (popularity <= 10) {
+        popularity = Math.round(popularity * 10);
+      }
+      popularity = Math.min(100, Math.max(0, Math.floor(popularity)));
+
+      const rawSongIds = album.songIds
+        || album.songTitles?.map((title) => songIdByTitle[title]).filter(Boolean)
+        || album.songs
+        || [];
+      const songIds = Array.isArray(rawSongIds) ? rawSongIds : [];
+
+      const base = {
+        id,
+        name,
+        songIds,
+        songTitles: album.songTitles || songIds.map((songId) => songs.find((s) => s.id === songId)?.title).filter(Boolean),
+        quality,
+        popularity,
+        age: album.age ?? 0,
+        promoBoost: album.promoBoost ?? 12,
+        chartScore: album.chartScore ?? popularity,
+        totalEarnings: album.totalEarnings ?? album.totalRevenue ?? 0,
+        totalStreams: album.totalStreams ?? 0,
+        weeklyStreams: album.weeklyStreams ?? 0,
+        releasedWeek: album.releasedWeek ?? album.week ?? 0
+      };
+
+      return {
+        ...base,
+        ...album,
+        id,
+        name,
+        songIds,
+        quality,
+        popularity
+      };
+    });
+  };
   
   // ==================== SONG MANAGEMENT ====================
 
   /**
    * Write a new song
-   * @param {string|null} customTitle - Optional custom song title
+   * @param {string|object|null} songInput - Optional song data or title
    */
-  const writeSong = useCallback((customTitle = null) => {
-    const studio = STUDIO_TIERS[gameState.studioTier];
+  const writeSong = useCallback((songInput = null) => {
+    const input = (songInput && typeof songInput === 'object')
+      ? songInput
+      : { title: songInput };
+
+    const studio = STUDIO_TIERS[gameState.studioTier || 0];
+    if (!studio) {
+      addLog('No studio available for recording.', true);
+      return;
+    }
+
     const difficulty = gameState.difficulty || 'normal';
     const costMultiplier = difficulty === 'easy' ? 0.8 : difficulty === 'hard' ? 1.2 : 1;
     const cost = Math.floor(studio.recordCost * costMultiplier);
-    
+
     if (gameState.money < cost) {
       addLog(`Not enough money to record (need $${cost})`, true, {
         title: 'Insufficient Funds',
@@ -49,9 +186,9 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
     const defaultTitle = unusedTitles.length
       ? unusedTitles[Math.floor(Math.random() * unusedTitles.length)]
       : titles[Math.floor(Math.random() * titles.length)] + ' (Remix)';
-    
-    const title = customTitle && customTitle.trim() ? customTitle.trim() : defaultTitle;
-    
+
+    const title = normalizeTitle(input.title, defaultTitle);
+
     // Check if title already exists
     if (gameState.songs && gameState.songs.find((s) => s.title === title)) {
       addLog(`A song with the title "${title}" already exists.`, true, {
@@ -61,24 +198,40 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
       });
       return;
     }
-    
-    const baseQuality = Math.floor(58 + Math.random() * 26);
-    const quality = Math.min(100, baseQuality + studio.qualityBonus);
-    const popularity = Math.floor(quality * 0.6) + studio.popBonus;
-    
-    const newSong = { 
-      title, 
-      quality, 
-      popularity, 
-      earnings: 0, 
-      plays: 0, 
-      age: 0,
-      streams: 0,
+
+    const baseQuality = Math.floor(55 + Math.random() * 26);
+    let finalQuality;
+    if (typeof input.quality === 'number' && input.quality > 10) {
+      finalQuality = Math.min(100, Math.max(1, Math.floor(input.quality)));
+    } else {
+      const qualityInput = Math.min(10, Math.max(1, input.quality || 5));
+      const qualityMultiplier = qualityInput / 10;
+      finalQuality = Math.min(100, Math.floor(baseQuality + studio.qualityBonus * qualityMultiplier));
+    }
+
+    const popularity = Math.min(
+      100,
+      Math.floor(finalQuality * 0.6) + (studio.popBonus || 0) + Math.floor((gameState.fame || 0) * 0.001)
+    );
+
+    const newSong = normalizeSong({
+      id: `song-${Date.now()}`,
+      title,
+      genre: input.genre || gameState.genre || 'Pop',
+      quality: finalQuality,
+      popularity,
+      energy: input.energy || 5,
+      themes: input.themes || [],
+      recordedWeek: gameState.week || 0,
+      totalStreams: 0,
       weeklyStreams: 0,
-      freshness: 80 + studio.freshnessBonus * 10,
-      videoBoost: false,
-      inAlbum: false
-    };
+      totalEarnings: 0,
+      chartPosition: 100,
+      peakPosition: 100,
+      peakStreamsPerWeek: 0,
+      virality: Math.random() < 0.1,
+      generatedData: input.generatedData || null
+    }, (gameState.songs || []).length, gameState);
 
     advanceWeek(
       (s) => {
@@ -90,29 +243,37 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
           morale: clampMorale(s.morale + 4)
         };
       },
-      `Laid down "${title}" at ${studio.name}. Quality: ${quality}%. -$${cost}`,
+      `Laid down "${title}" at ${studio.name}. Quality: ${finalQuality}%. -$${cost}`,
       'write'
     );
-    
-  }, [gameState.money, gameState.studioTier, gameState.difficulty, gameState.songs, data, addLog]);
+  }, [gameState.money, gameState.studioTier, gameState.difficulty, gameState.songs, gameState.fame, gameState.genre, gameState.week, data, addLog]);
 
   /**
    * Record an album from selected songs
-   * @param {string[]} selectedSongTitles - Array of song titles to include
+   * @param {string[]} selectedSongIds - Array of song IDs or titles to include
    */
-  const recordAlbum = useCallback((selectedSongTitles) => {
-    if (selectedSongTitles.length < 8) {
+  const recordAlbum = useCallback((selectedSongIds = []) => {
+    if (selectedSongIds.length < 8) {
       alert('Need at least 8 songs to release an album.');
       return;
     }
-    if (selectedSongTitles.length > 12) {
+    if (selectedSongIds.length > 12) {
       alert('Albums can have at most 12 songs.');
       return;
     }
 
-    const studio = STUDIO_TIERS[gameState.studioTier];
-    const selectedSongs = gameState.songs.filter(s => selectedSongTitles.includes(s.title));
+    const studio = STUDIO_TIERS[gameState.studioTier || 0];
+    const normalizedSongs = normalizeSongs(gameState.songs || [], gameState);
+    const selectedSongs = normalizedSongs.filter(
+      (song) => selectedSongIds.includes(song.id) || selectedSongIds.includes(song.title)
+    );
+    const songIds = selectedSongs.map((song) => song.id);
     
+    if (selectedSongs.length < 8) {
+      alert('Need at least 8 songs to release an album.');
+      return;
+    }
+
     const alreadyInAlbum = selectedSongs.some(s => s.inAlbum);
     if (alreadyInAlbum) {
       alert('One or more selected songs are already part of another album.');
@@ -159,23 +320,27 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
 
     advanceWeek(
       (s) => {
-        const updatedSongs = s.songs.map(song => 
-          selectedSongTitles.includes(song.title)
+        const updatedSongs = normalizeSongs(s.songs || [], s).map((song) =>
+          songIds.includes(song.id)
             ? { ...song, inAlbum: true }
             : song
         );
 
-        const newAlbum = {
+        const newAlbum = normalizeAlbums([{
+          id: `album-${Date.now()}`,
           name: albumName,
-          week: s.week,
+          releasedWeek: s.week,
           quality: albumQuality,
           popularity: albumPopularity,
           chartScore: albumPopularity,
           age: 0,
           promoBoost: 12,
-          songs: selectedSongTitles.length,
-          songTitles: selectedSongTitles
-        };
+          songIds,
+          songTitles: selectedSongs.map((song) => song.title),
+          totalEarnings: 0,
+          totalStreams: 0,
+          weeklyStreams: 0
+        }], updatedSongs)[0];
 
         return {
           ...s,
@@ -186,7 +351,7 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
           fame: s.fame + Math.floor(albumPopularity * 0.15)
         };
       },
-      `Released "${albumName}"! ${selectedSongTitles.length} tracks, quality ${albumQuality}%. -$${albumReleaseCost}`,
+      `Released "${albumName}"! ${songIds.length} tracks, quality ${albumQuality}%. -$${albumReleaseCost}`,
       'album'
     );
   }, [gameState.studioTier, gameState.songs, gameState.money, gameState.bandName, gameState.genre, gameState.albums, addLog]);
@@ -194,21 +359,56 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
   // ==================== GIG MANAGEMENT ====================
 
   /**
+   * Get available venues for booking based on band stats
+   * @returns {Array} List of available venues
+   */
+  const getAvailableVenues = useCallback(() => {
+    const fame = gameState.fame || 0;
+    const morale = gameState.morale || 70;
+    const bandMembers = gameState.bandMembers || gameState.members || [];
+    const bandSkill = bandMembers.length
+      ? bandMembers.reduce((sum, member) => sum + (member.stats?.skill || 5), 0) / bandMembers.length
+      : 5;
+
+    let maxTier = 1;
+    if (fame > 100) maxTier = 2;
+    if (fame > 500) maxTier = 3;
+    if (fame > 1500) maxTier = 4;
+    if (fame > 5000) maxTier = 5;
+    if (fame > 15000) maxTier = 6;
+
+    const venueList = Object.entries(VENUES).filter(([key, venue]) => {
+      const venueTier = Math.min(6, Math.ceil(venue.capacity / 400));
+      const requiresMorale = venueTier * 10 + 40;
+      return venueTier <= maxTier && morale >= requiresMorale && bandSkill >= 3;
+    });
+
+    return venueList.map(([id, venue]) => ({ id, ...venue }));
+  }, [gameState.fame, gameState.morale, gameState.bandMembers, gameState.members]);
+
+  /**
    * Book a gig at a venue
-   * @param {string} venueName - Name of the venue
+   * @param {string} venueId - Venue identifier
    * @param {number} advanceMultiplier - Payment multiplier for advance
    */
-  const bookGig = useCallback((venueName, advanceMultiplier = 1) => {
-    const venue = VENUES[venueName];
+  const bookGig = useCallback((venueId, advanceMultiplier = 1) => {
+    const venue = VENUES[venueId];
     if (!venue) {
-      addLog(`Venue "${venueName}" not found.`, true);
+      addLog(`Venue "${venueId}" not found.`, true);
+      return;
+    }
+
+    const transport = TRANSPORT_TIERS[gameState.transportTier || 0];
+    const travelCost = transport?.travelCost || 0;
+
+    if (gameState.money < travelCost) {
+      addLog(`Need $${travelCost} for travel to ${venue.name}.`, true);
       return;
     }
 
     const basePayout = venue.basePayout || 100;
     const maxAttendance = venue.capacity || 500;
     const ticketPrice = venue.ticketPrice || 15;
-    const selectedVenue = gameState.selectedVenue || venue;
     
     const fame = gameState.fame || 0;
     const drawFactor = Math.min(1, fame / 2000);
@@ -218,17 +418,35 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
     const totalPayout = advance + Math.floor(revenue * 0.6); // Band gets 60% of ticket sales
     
     advanceWeek(
-      (s) => ({
-        ...s,
-        money: s.money + totalPayout,
-        gigs: (s.gigs || 0) + 1,
-        morale: clampMorale(s.morale + 3),
-        fame: s.fame + Math.floor(attendance / 50)
-      }),
-      `Played ${venueName} with ${attendance} fans. Revenue: $${totalPayout}`,
+      (s) => {
+        const gig = {
+          id: `gig-${Date.now()}`,
+          venueId,
+          venueName: venue.name,
+          week: s.week || 0,
+          attendance,
+          capacity: venue.capacity,
+          ticketRevenue: Math.floor(revenue * 0.6),
+          advance,
+          totalRevenue: totalPayout,
+          fameGain: Math.floor(attendance / 50)
+        };
+
+        return {
+          ...s,
+          money: s.money - travelCost + totalPayout,
+          gigs: (s.gigs || 0) + 1,
+          morale: clampMorale(s.morale + 3),
+          fame: s.fame + Math.floor(attendance / 50),
+          gigHistory: [...(s.gigHistory || []), gig],
+          gigEarnings: (s.gigEarnings || 0) + totalPayout,
+          totalEarnings: (s.totalEarnings || 0) + totalPayout
+        };
+      },
+      `Played ${venue.name} with ${attendance} fans. Revenue: $${totalPayout}. Travel: -$${travelCost}`,
       'gig'
     );
-  }, [gameState.fame, gameState.selectedVenue, addLog]);
+  }, [gameState.fame, gameState.money, gameState.transportTier, addLog]);
 
   // ==================== EQUIPMENT UPGRADES ====================
 
@@ -358,18 +576,40 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
   const advanceWeek = useCallback((updater, entry = '', context = 'neutral') => {
     try {
       let updated = updater(gameState);
+
+      // Normalize core data models before processing
+      const normalizedSongs = normalizeSongs(updated.songs || [], updated);
+      const normalizedAlbums = normalizeAlbums(updated.albums || [], normalizedSongs);
+      updated = { ...updated, songs: normalizedSongs, albums: normalizedAlbums };
       
       // Ensure members is always an array
       if (!updated.members || !Array.isArray(updated.members)) {
-        updated.members = gameState.members || [];
+        updated.members = gameState.members || gameState.bandMembers || [];
       }
       
-      updateGameState({
-        ...updated,
-        week: (updated.week || 0) + 1
-      });
+      // Ensure bandMembers is set for processWeekEffects
+      if (!updated.bandMembers && updated.members) {
+        updated.bandMembers = updated.members;
+      }
+      
+      // Increment week before processing
+      const nextWeek = (updated.week || 0) + 1;
+      updated = { ...updated, week: nextWeek };
+      
+      // Process week effects (expenses, revenue, song aging, etc.)
+      // Pass gameData for genre trends
+      const { next: processedState, summary } = processWeekEffects(updated, data);
+      
+      // Update state with processed week
+      updateGameState(processedState);
 
+      // Log entry if provided
       if (entry) addLog(entry);
+      
+      // Log weekly summary
+      if (summary) {
+        addLog(summary);
+      }
     } catch (error) {
       console.error('Error in advanceWeek:', error);
       addLog(`Error advancing week: ${error.message}`);
@@ -443,6 +683,7 @@ export function useGameLogic(gameState, updateGameState, addLog, data = {}) {
   return {
     writeSong,
     recordAlbum,
+    getAvailableVenues,
     bookGig,
     upgradeStudio,
     upgradeTransport,

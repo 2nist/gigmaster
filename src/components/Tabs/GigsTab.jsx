@@ -10,19 +10,25 @@ import { Zap, MapPin } from 'lucide-react';
  * - ACTION: Book gigs at venues
  * - ACTION: Start tours
  */
-export const GigsTab = ({ gameData, gigSystem, gameState }) => {
+export const GigsTab = ({ gameData, gigSystem, gameState, gameLogic }) => {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [showBooking, setShowBooking] = useState(false);
 
   const handleBookGig = (venueId) => {
-    const result = gigSystem?.bookGig?.(venueId);
-    if (result?.success) {
+    if (gameLogic?.bookGig) {
+      gameLogic.bookGig(venueId);
       setShowBooking(false);
       setSelectedVenue(null);
+    } else {
+      const result = gigSystem?.bookGig?.(venueId);
+      if (result?.success) {
+        setShowBooking(false);
+        setSelectedVenue(null);
+      }
     }
   };
 
-  const availableVenues = gigSystem?.getAvailableVenues?.() || [];
+  const availableVenues = gameLogic?.getAvailableVenues?.() || gigSystem?.getAvailableVenues?.() || [];
   const gigHistory = gameState?.state?.gigHistory || [];
   const gigEarnings = gameState?.state?.gigEarnings || 0;
   const bandMembers = gameState?.state?.bandMembers || [];

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Music, Plus, Zap } from 'lucide-react';
 import { useMusicGeneration } from '../../hooks/useMusicGeneration';
 import { SongPlaybackPanel } from '../SongPlaybackPanel';
+import { STUDIO_TIERS } from '../../utils/constants';
+import { FanReactionSystem } from '../../music/FanReactionSystem';
 
 /**
  * InventoryTab.jsx - Songs and albums management with procedural generation
@@ -15,12 +17,10 @@ import { SongPlaybackPanel } from '../SongPlaybackPanel';
  * 
  * Integration: Merged procedural music system (Tone.js synthesis, MIDI export)
  */
-export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
+export const InventoryTab = ({ gameData, recordingSystem, gameState, gameLogic, modalState }) => {
   const [showSongForm, setShowSongForm] = useState(false);
   const [songName, setSongName] = useState('');
   const [songGenre, setSongGenre] = useState('Rock');
-  const [albumName, setAlbumName] = useState('');
-  const [selectedSongs, setSelectedSongs] = useState([]);
   
   // Procedural music generation
   const musicGeneration = useMusicGeneration();
@@ -32,6 +32,17 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
   const handleWriteSong = async () => {
     if (!songName.trim()) {
       alert('Enter a song name');
+      return;
+    }
+
+    // Check funds before generating (cost will be deducted on accept)
+    const studio = STUDIO_TIERS[gameState?.state?.studioTier || 0];
+    const difficulty = gameState?.state?.difficulty || 'normal';
+    const costMultiplier = difficulty === 'easy' ? 0.8 : difficulty === 'hard' ? 1.2 : 1;
+    const cost = Math.floor(studio.recordCost * costMultiplier);
+    
+    if (gameState?.state?.money < cost) {
+      alert(`Not enough money to record (need $${cost})`);
       return;
     }
 
@@ -55,36 +66,16 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
           alert('Failed to generate song');
         }
       } else {
-        // Legacy basic song generation
-        const result = recordingSystem?.recordSong?.(songName, songGenre);
-        if (result?.success) {
-          setSongName('');
-          setShowSongForm(false);
-        }
+        // Legacy mode: open modal
+        modalState?.openWriteSongModal?.(songName);
+        setSongName('');
+        setShowSongForm(false);
       }
     } catch (error) {
       console.error('Song generation failed:', error);
       alert('Error generating song: ' + error.message);
     } finally {
       setIsGenerating(false);
-    }
-  };
-
-  const handleCreateAlbum = () => {
-    if (!albumName.trim()) {
-      alert('Enter an album name');
-      return;
-    }
-
-    if (selectedSongs.length === 0) {
-      alert('Select at least 1 song');
-      return;
-    }
-
-    const result = recordingSystem?.createAlbum?.(albumName, selectedSongs);
-    if (result?.success) {
-      setAlbumName('');
-      setSelectedSongs([]);
     }
   };
 
@@ -200,23 +191,11 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
             {songs.map(song => (
               <div key={song.id} className="bg-card border border-primary/30 p-4 rounded-lg hover:border-primary/60 transition-all">
                 <h4 className="text-foreground font-semibold mb-2">{song.name || song.title}</h4>
-                <p className="text-sm text-muted-foreground mb-1">Quality: <span className="text-accent font-medium">{song.quality}/10</span></p>
+                <p className="text-sm text-muted-foreground mb-1">Quality: <span className="text-accent font-medium">{song.quality || 0}%</span></p>
                 <p className="text-sm text-muted-foreground mb-3">Genre: {song.genre}</p>
-                <div className="flex gap-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedSongs.includes(song.id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedSongs([...selectedSongs, song.id]);
-                      } else {
-                        setSelectedSongs(selectedSongs.filter(id => id !== song.id));
-                      }
-                    }}
-                    className="cursor-pointer"
-                  />
-                  <span className="text-xs text-muted-foreground">Add to album</span>
-                </div>
+              <div className="text-xs text-muted-foreground">
+                Popularity: <span className="text-secondary font-medium">{song.popularity || 0}</span>
+              </div>
               </div>
             ))}
           </div>
@@ -247,29 +226,63 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
                 <SongPlaybackPanel
                   song={generatedSong}
                   gameState={gameState?.state || {}}
-                  dispatch={gameState?.updateGameState}
+                  onApplyGameEffects={null}
                   onAccept={() => {
-                    // Add song to gameState
-                    if (gameState?.updateGameState) {
-                      const currentSongs = gameState.state?.songs || [];
-                      const newSong = {
-                        ...generatedSong,
-                        id: `song-${Date.now()}`,
-                        recordedWeek: gameState.state?.week || 0,
-                        totalEarnings: 0,
-                        totalStreams: 0
-                      };
-                      gameState.updateGameState({
-                        songs: [...currentSongs, newSong]
+                    // Map procedural song analysis to game song format
+                    const analysis = generatedSong.analysis || {};
+                    const qualityScore = Math.round(analysis.qualityScore || 50);
+                    const commercialScore = Math.round(analysis.commercialViability || 50);
+                    
+                    // Quality from analysis (0-100 scale)
+                    // Popularity combines quality and commercial viability
+                    const popularity = Math.min(100, Math.floor(qualityScore * 0.6 + commercialScore * 0.4));
+                    
+                    // Save through gameLogic.writeSong to ensure cost deduction and week advancement
+                    if (gameLogic?.writeSong) {
+                      gameLogic.writeSong({
+                        title: generatedSong.title || generatedSong.metadata?.name || songName || 'Untitled Track',
+                        genre: generatedSong.genre || songGenre,
+                        quality: qualityScore, // Use analysis quality score
+                        energy: Math.floor((analysis.originalityScore || 50) / 10), // Map originality to energy 1-10
+                        themes: [],
+                        generatedData: generatedSong // Store full procedural data for playback
                       });
+                      
+                      // Apply fan reaction impact after song is saved
+                      // Get reaction data to apply fame/money gains
+                      const reactionData = FanReactionSystem.generateReactions(
+                        generatedSong,
+                        gameState?.state?.fanbase || {}
+                      );
+                      
+                      if (reactionData?.impact && gameState?.updateGameState) {
+                        const updates = {};
+                        if (reactionData.impact.fameGain) {
+                          updates.fame = (gameState.state?.fame || 0) + reactionData.impact.fameGain;
+                        }
+                        if (reactionData.impact.moneyGain) {
+                          updates.money = (gameState.state?.money || 0) + reactionData.impact.moneyGain;
+                        }
+                        if (Object.keys(updates).length > 0) {
+                          gameState.updateGameState(updates);
+                        }
+                      }
+                      
+                      setShowPlaybackPanel(false);
+                      setGeneratedSong(null);
+                      setSongName('');
+                      setShowSongForm(false);
+                    } else {
+                      // Fallback: direct state update (shouldn't happen if gameLogic is wired)
+                      alert('Error: gameLogic not available');
                     }
-
-                    // Close panel
-                    setShowPlaybackPanel(false);
-                    setGeneratedSong(null);
-
-                    // Show success message
-                    alert(`✓ "${generatedSong.title}" added to your songs!`);
+                  }}
+                  onExport={(format) => {
+                    if (format === 'midi' && musicGeneration?.exportMIDI) {
+                      musicGeneration.exportMIDI();
+                    } else if (format === 'trackdraft' && musicGeneration?.exportTrackDraft) {
+                      musicGeneration.exportTrackDraft();
+                    }
                   }}
                 />
               </div>
@@ -284,37 +297,26 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState }) => {
           <h3 className="text-xl font-bold text-foreground">Albums</h3>
           {songs.length > 0 && (
             <button
-              onClick={handleCreateAlbum}
-              disabled={selectedSongs.length === 0}
+              onClick={() => modalState?.openModal?.('albumBuilder', null, true)}
               className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               <Music size={18} />
-              Create Album
+              Build Album
             </button>
           )}
         </div>
-
-        {selectedSongs.length > 0 && (
-          <div className="bg-card border border-secondary/30 p-4 rounded-lg mb-6">
-            <label className="block text-sm font-semibold mb-3">Album Name</label>
-            <input
-              type="text"
-              value={albumName}
-              onChange={(e) => setAlbumName(e.target.value)}
-              placeholder="Enter album name"
-              className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary mb-4"
-            />
-            <p className="text-xs text-muted-foreground">{selectedSongs.length} songs selected • Cost: $5,000</p>
-          </div>
-        )}
 
         {albums.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {albums.map(album => (
               <div key={album.id} className="bg-card border border-secondary/30 p-4 rounded-lg hover:border-secondary/60 transition-all">
                 <h4 className="text-foreground font-semibold mb-2">{album.name}</h4>
-                <p className="text-sm text-muted-foreground mb-1">Songs: <span className="text-secondary font-medium">{album.songs?.length || 0}</span></p>
-                <p className="text-sm text-muted-foreground">Revenue: <span className="text-accent font-medium">${album.totalRevenue?.toLocaleString() || 0}</span></p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Songs: <span className="text-secondary font-medium">{album.songIds?.length || album.songTitles?.length || 0}</span>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Popularity: <span className="text-accent font-medium">{album.popularity || 0}</span>
+                </p>
               </div>
             ))}
           </div>

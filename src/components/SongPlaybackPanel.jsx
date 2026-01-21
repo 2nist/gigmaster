@@ -44,7 +44,7 @@ export const SongPlaybackPanel = ({
   }
 
   const { reactions, impact } = reactionData || {};
-  const analysis = song.analysis;
+  const analysis = song.analysis || {};
 
   return (
     <div style={{
@@ -61,10 +61,10 @@ export const SongPlaybackPanel = ({
         borderRadius: '8px 8px 0 0'
       }}>
         <h2 style={{ margin: '0 0 10px 0', color: '#0ff' }}>
-          {song.metadata.name}
+          {song.metadata?.name || song.title || song.name || 'Untitled Track'}
         </h2>
         <p style={{ margin: '5px 0', color: '#888', fontSize: '0.9em' }}>
-          {song.metadata.band} • {song.composition.genre} • {song.composition.tempo} BPM
+          {song.metadata?.band || gameState?.bandName || 'Your Band'} • {song.composition?.genre || song.genre || 'Unknown'} • {song.composition?.tempo || '120'} BPM
         </p>
       </div>
 
@@ -90,7 +90,7 @@ export const SongPlaybackPanel = ({
         }}>
           <div style={{ fontSize: '0.85em', color: '#0ff' }}>QUALITY</div>
           <div style={{ fontSize: '2em', fontWeight: 'bold', color: '#0ff' }}>
-            {Math.round(analysis.qualityScore)}
+            {Math.round(analysis.qualityScore || song.quality || 50)}
           </div>
           <div style={{ fontSize: '0.75em', color: '#666', marginTop: '5px' }}>
             Production & performance
@@ -106,7 +106,7 @@ export const SongPlaybackPanel = ({
         }}>
           <div style={{ fontSize: '0.85em', color: '#0f0' }}>ORIGINALITY</div>
           <div style={{ fontSize: '2em', fontWeight: 'bold', color: '#0f0' }}>
-            {Math.round(analysis.originalityScore)}
+            {Math.round(analysis.originalityScore || song.originality || 50)}
           </div>
           <div style={{ fontSize: '0.75em', color: '#666', marginTop: '5px' }}>
             Freshness & innovation
@@ -122,7 +122,7 @@ export const SongPlaybackPanel = ({
         }}>
           <div style={{ fontSize: '0.85em', color: '#ff9600' }}>COMMERCIAL</div>
           <div style={{ fontSize: '2em', fontWeight: 'bold', color: '#ff9600' }}>
-            {Math.round(analysis.commercialViability)}
+            {Math.round(analysis.commercialViability || song.commercial || 50)}
           </div>
           <div style={{ fontSize: '0.75em', color: '#666', marginTop: '5px' }}>
             Radio/chart potential

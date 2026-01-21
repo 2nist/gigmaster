@@ -372,6 +372,9 @@ export const initialState = {
   members: [],
   songs: [],
   albums: [],
+  gigs: 0,
+  gigHistory: [],
+  gigEarnings: 0,
   equipment: {
     instruments: 'basic',
     soundSystem: 'basic',
@@ -380,6 +383,7 @@ export const initialState = {
   log: [],
   weeklyExpenses: 100,
   totalRevenue: 0,
+  totalEarnings: 0,
   totalAlbumSales: 0,
   totalMerchandise: 0,
   logoFont: 'Arial',

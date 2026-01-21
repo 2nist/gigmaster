@@ -29,6 +29,7 @@ if (typeof window !== 'undefined' && !window.audioContextInitialized) {
 
 // Import hooks
 import {
+  useGameData,
   useGameState,
   useUIState,
   useModalState,
@@ -78,11 +79,22 @@ function App() {
   // Initialize theme system
   const themeSystem = useTheme();
 
+  // Load game data (song titles, genres, etc.)
+  const { data: gameData, loading: dataLoading, error: dataError } = useGameData();
+
   // Initialize hooks
   const gameState = useGameState();
   const uiState = useUIState();
   const modalState = useModalState();
-  const gameLogic = useGameLogic(gameState);
+  
+  // Fix: useGameLogic needs correct parameters (state object, updateGameState, addLog, gameData)
+  const gameLogic = useGameLogic(
+    gameState.state,
+    gameState.updateGameState,
+    gameState.addLog,
+    gameData || {}
+  );
+  
   const dialogueState = useEnhancedDialogue(gameState.state, gameState.updateGameState);
   
   // Enhanced Features Configuration (must be before eventGen)
@@ -168,9 +180,33 @@ function App() {
     victoryConditions.updateGoalProgress(gameState.state);
   }, [gameState.state?.week, gameState.state?.fame, gameState.state?.money]);
 
+  // Show loading state while game data loads
+  if (dataLoading) {
+    return (
+      <div className="app flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="text-2xl mb-4">Loading game data...</div>
+          <div className="animate-spin">⏳</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state if game data fails to load
+  if (dataError) {
+    return (
+      <div className="app flex items-center justify-center min-h-screen">
+        <div className="text-center text-red-500">
+          <div className="text-2xl mb-4">Error loading game data</div>
+          <div className="text-lg">{dataError.message}</div>
+        </div>
+      </div>
+    );
+  }
+
   // Render based on current step
   return (
-    <div className="app">
+    <div className={gameState.step === 'landing' ? 'app' : ''}>
       {gameState.step === 'landing' ? (
         <LandingPage
           onNewGame={(bandName) => {
@@ -210,13 +246,17 @@ function App() {
         <BandCreation
           bandName={gameState.state?.bandName || 'Your Band'}
           logo={gameState.state?.logo}
-          onComplete={(members) => {
-            gameState.updateGameState({ bandMembers: members });
+          onComplete={(members, genre) => {
+            gameState.updateGameState({ 
+              bandMembers: members,
+              genre: genre || 'Pop' // Default to Pop if not provided
+            });
             gameState.setStep('game');
           }}
         />
       ) : (
         <GamePage
+          gameData={gameData}
           gameState={gameState}
           uiState={uiState}
           modalState={modalState}
@@ -239,6 +279,12 @@ function App() {
           merchandise={merchandise}
           sponsorships={sponsorships}
           onReturnToLanding={() => gameState.setStep('landing')}
+          onSave={() => {
+            if (gameState.state?.bandName) {
+              gameState.saveGame(gameState.state.bandName);
+            }
+          }}
+          onQuit={() => gameState.setStep('landing')}
           victoryConditions={victoryConditions}
           onHandleEventChoice={(choice) => {
             // Handle choice through consequence system
@@ -311,30 +357,44 @@ function App() {
         />
       )}
 
-      {modalState.showWriteSongModal && (
+      {modalState.modals.writeSong && (
         <WriteSongModal
-          onSave={(songData) => {
-            gameLogic.createSong(songData);
-            modalState.setShowWriteSongModal(false);
+          isOpen={modalState.modals.writeSong}
+          onRecord={(songData) => {
+            if (gameLogic.writeSong) {
+              gameLogic.writeSong(songData);
+            } else if (gameLogic.createSong) {
+              gameLogic.createSong(songData);
+            }
+            modalState.closeWriteSongModal();
           }}
-          onClose={() => modalState.setShowWriteSongModal(false)}
+          onClose={() => modalState.closeWriteSongModal()}
+          studioTier={gameState.state?.studioTier || 0}
+          difficulty={gameState.state?.difficulty || 'normal'}
+          defaultTitle={modalState.modalData.newSongTitle || ''}
+          addLog={gameState.addLog}
         />
       )}
 
-      {modalState.showAlbumBuilderModal && (
+      {modalState.modals.albumBuilder && (
         <AlbumBuilderModal
-          songs={gameState.gameData.songs}
-          onCreateAlbum={(albumData) => {
-            gameLogic.recordAlbum(albumData);
-            modalState.setShowAlbumBuilderModal(false);
+          isOpen={modalState.modals.albumBuilder}
+          songs={gameState.state?.songs || []}
+          studioTier={gameState.state?.studioTier || 0}
+          difficulty={gameState.state?.difficulty || 'normal'}
+          onRecordAlbum={(songIds) => {
+            if (gameLogic.recordAlbum) {
+              gameLogic.recordAlbum(songIds);
+            }
+            modalState.closeModal('albumBuilder');
           }}
-          onClose={() => modalState.setShowAlbumBuilderModal(false)}
+          onClose={() => modalState.closeModal('albumBuilder')}
         />
       )}
 
       {modalState.showSaveModal && (
         <SaveModal
-          currentSave={gameState.gameName}
+          currentSave={gameState.state?.bandName || ''}
           onSave={(saveName) => {
             gameState.saveGame(saveName);
             modalState.setShowSaveModal(false);
@@ -345,10 +405,12 @@ function App() {
 
       {modalState.showLoadModal && (
         <LoadModal
-          saves={gameState.getSaveSlots()}
+          saves={gameState.saveSlots || {}}
           onLoad={(saveName) => {
-            gameState.loadGame(saveName);
-            modalState.setShowLoadModal(false);
+            const result = gameState.loadGame(saveName);
+            if (result?.success) {
+              modalState.setShowLoadModal(false);
+            }
           }}
           onClose={() => modalState.setShowLoadModal(false)}
         />

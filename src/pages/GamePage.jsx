@@ -55,7 +55,8 @@ export const GamePage = ({
   enhancedFeatures,
   setContentPreference,
   setMaturityLevel,
-  themeSystem
+  themeSystem,
+  victoryConditions
 }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [autoSaving, setAutoSaving] = useState(false);
@@ -146,8 +147,10 @@ export const GamePage = ({
       }
     }
 
-    // Update game state (week advancement)
-    if (gameState?.updateGameState) {
+    // Update game state (week advancement + processing)
+    if (gameLogic?.advanceWeek) {
+      gameLogic.advanceWeek((s) => ({ ...s }));
+    } else if (gameState?.updateGameState) {
       gameState.updateGameState({
         week: (gameState.state?.week || 0) + 1
       });
@@ -159,7 +162,7 @@ export const GamePage = ({
       setPendingEvent(weekEvents[0]);
       setShowEventModal(true);
     }
-  }, [onAdvanceWeek, bandManagement, radioCharting, merchandise, sponsorships, labelDeals, rivalCompetition, eventGen, gameState, dialogueState]);
+  }, [onAdvanceWeek, bandManagement, radioCharting, merchandise, sponsorships, labelDeals, rivalCompetition, eventGen, gameState, gameLogic, dialogueState]);
 
   /**
    * Handle player choice in event modal
@@ -244,16 +247,26 @@ export const GamePage = ({
     { id: 'log', label: 'Log', icon: Music }
   ];
 
+  // Safety check - ensure we have required data
+  if (!gameState) {
+    return (
+      <div className="min-h-screen bg-red-500 text-white p-8">
+        <h1>Error: Game state not available</h1>
+        <p>gameState: {JSON.stringify(gameState)}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
       {/* Header */}
       <div className="bg-card border-b border-border/20 px-4 py-2 flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground m-0">
-            {gameData?.bandName || 'Your Band'}
+            {gameState?.state?.bandName || 'Your Band'}
           </h1>
           <p className="mt-1 text-muted-foreground text-sm">
-            Week {gameData?.week || 0}
+            Week {gameState?.state?.week || 0}
           </p>
         </div>
 
@@ -261,19 +274,19 @@ export const GamePage = ({
           <div>
             <div className="text-muted-foreground">Money</div>
             <div className="text-xl font-bold text-accent">
-              ${gameData?.money?.toLocaleString() || 0}
+              ${(gameState?.state?.money || 0).toLocaleString()}
             </div>
           </div>
           <div>
             <div className="text-muted-foreground">Fame</div>
             <div className="text-xl font-bold text-primary">
-              {gameData?.fame || 0}
+              {gameState?.state?.fame || 0}
             </div>
           </div>
           <div>
             <div className="text-muted-foreground">Members</div>
             <div className="text-xl font-bold text-secondary">
-              {gameData?.bandMembers?.length || 0}
+              {(gameState?.state?.bandMembers || []).length}
             </div>
           </div>
         </div>
@@ -366,6 +379,7 @@ export const GamePage = ({
           enhancedFeatures={enhancedFeatures}
           setContentPreference={setContentPreference}
           setMaturityLevel={setMaturityLevel}
+          victoryConditions={victoryConditions}
         />
       </div>
 
@@ -433,7 +447,8 @@ const TabContent = ({
   sponsorships,
   enhancedFeatures,
   setContentPreference,
-  setMaturityLevel
+  setMaturityLevel,
+  victoryConditions
 }) => {
   switch (tabId) {
     case 'dashboard':
@@ -441,10 +456,12 @@ const TabContent = ({
         gameData={gameData} 
         dialogueState={dialogueState}
         gameState={gameState}
+        victoryConditions={victoryConditions}
         onAdvanceWeek={onAdvanceWeek}
         onTriggerEvent={onTriggerEvent}
         recordingSystem={recordingSystem}
         gigSystem={gigSystem}
+        gameLogic={gameLogic}
         bandManagement={bandManagement}
         equipmentUpgrades={equipmentUpgrades}
         labelDeals={labelDeals}
@@ -452,12 +469,15 @@ const TabContent = ({
         enhancedFeatures={enhancedFeatures}
         setContentPreference={setContentPreference}
         setMaturityLevel={setMaturityLevel}
+        modalState={modalState}
       />;
     case 'inventory':
       return <InventoryTab 
         gameData={gameData} 
         gameState={gameState}
+        gameLogic={gameLogic}
         recordingSystem={recordingSystem}
+        modalState={modalState}
       />;
     case 'band':
       return <BandTab 
@@ -471,6 +491,7 @@ const TabContent = ({
         gameData={gameData} 
         gameState={gameState}
         gigSystem={gigSystem}
+        gameLogic={gameLogic}
       />;
     case 'upgrades':
       return <UpgradesTab 

@@ -187,15 +187,15 @@ export const TrackPlayer = ({ song, onExport }) => {
       {/* Track Info */}
       <div style={{ marginBottom: '15px' }}>
         <h3 style={{ margin: '0 0 5px 0', color: '#0ff' }}>
-          {song.metadata.name}
+          {song.metadata?.name || song.title || song.name || 'Untitled Track'}
         </h3>
         <p style={{ margin: '5px 0', fontSize: '0.9em', color: '#888' }}>
-          {song.metadata.band} • {song.composition.genre} • {song.composition.tempo} BPM
+          {song.metadata?.band || 'Your Band'} • {song.composition?.genre || song.genre || 'Unknown'} • {song.composition?.tempo || '120'} BPM
         </p>
         <div style={{ display: 'flex', gap: '15px', fontSize: '0.85em', color: '#666' }}>
-          <span>Quality: {song.analysis.qualityScore.toFixed(0)}/100</span>
-          <span>Originality: {song.analysis.originalityScore.toFixed(0)}/100</span>
-          <span>Commercial: {song.analysis.commercialViability.toFixed(0)}/100</span>
+          <span>Quality: {(song.analysis?.qualityScore || song.quality || 50).toFixed(0)}/100</span>
+          <span>Originality: {(song.analysis?.originalityScore || song.originality || 50).toFixed(0)}/100</span>
+          <span>Commercial: {(song.analysis?.commercialViability || song.commercial || 50).toFixed(0)}/100</span>
         </div>
       </div>
 

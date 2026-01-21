@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Mic, Music, Zap, Radio } from 'lucide-react';
 import { getAvatarUrl } from '../utils/helpers';
+import { GENRES } from '../utils/constants';
 
 const ROLES = [
   { id: 'vocalist', name: 'Vocals', icon: 'Mic' },
@@ -31,13 +32,20 @@ const BAND_CANDIDATES = [
 ];
 
 const BandCreation = ({ onComplete, bandName, logo }) => {
-  const [phase, setPhase] = useState('rehearsal'); // 'rehearsal' or 'assembly'
+  const [phase, setPhase] = useState('genre'); // 'genre', 'rehearsal', or 'assembly'
+  const [selectedGenre, setSelectedGenre] = useState('Pop'); // Default genre
   const [selectedCandidates, setSelectedCandidates] = useState([]);
   const [members, setMembers] = useState([]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentMember = members[currentIndex];
   const currentRole = currentMember ? ROLES.find(r => r.id === currentMember.role) : null;
+
+  // ALL HOOKS MUST BE BEFORE ANY EARLY RETURNS (Rules of Hooks)
+  // Define all callbacks before early returns
+  const handleGenreSelect = useCallback(() => {
+    setPhase('rehearsal');
+  }, []);
 
   // Rehearsal phase - select pre-made candidates
   const handleSelectCandidate = useCallback((candidate) => {
@@ -106,16 +114,84 @@ const BandCreation = ({ onComplete, bandName, logo }) => {
       }
     }));
     
-    onComplete(membersWithStats);
-  }, [members, onComplete]);
+    // Pass genre along with members
+    onComplete(membersWithStats, selectedGenre);
+  }, [members, onComplete, selectedGenre]);
 
-  const handlePrevious = () => {
-    if (phase === 'assembly' && currentIndex > 0) setCurrentIndex(currentIndex - 1);
-  };
+  const handlePrevious = useCallback(() => {
+    if (phase === 'assembly' && currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    } else if (phase === 'rehearsal') {
+      setPhase('genre');
+    }
+  }, [phase, currentIndex]);
 
-  const handleNext = () => {
-    if (phase === 'assembly' && currentIndex < members.length - 1) setCurrentIndex(currentIndex + 1);
-  };
+  const handleNext = useCallback(() => {
+    if (phase === 'assembly' && currentIndex < members.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  }, [phase, currentIndex, members.length]);
+
+  // NOW we can do early returns based on phase
+  // Genre Selection Phase
+  if (phase === 'genre') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground flex items-center justify-center p-4" style={{ backgroundColor: '#0a0a0a', color: '#ffffff' }}>
+        <div className="max-w-3xl w-full">
+          <div className="text-center mb-8">
+            <h1 className="text-5xl font-black mb-4 text-primary" style={{ color: '#ff6b6b' }}>
+              Choose Your Sound
+            </h1>
+            <p className="text-foreground/70 text-lg" style={{ color: '#ffffffcc' }}>
+              Select your band's genre for <span className="font-bold text-primary" style={{ color: '#ff6b6b' }}>{bandName}</span>
+            </p>
+            <p className="text-sm text-muted-foreground mt-2" style={{ color: '#ffffff99' }}>
+              Your genre affects song popularity bonuses when trends match
+            </p>
+          </div>
+
+          <div className="bg-card text-card-foreground rounded-2xl p-8 shadow-lg border border-border/20" style={{ backgroundColor: '#1a1a2e', borderColor: '#2d2d44' }}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+              {GENRES && GENRES.length > 0 ? GENRES.map(genre => (
+                <button
+                  key={genre}
+                  onClick={() => setSelectedGenre(genre)}
+                  className={`py-4 px-4 rounded-xl text-sm font-bold transition-all transform ${
+                    selectedGenre === genre
+                      ? 'bg-primary text-primary-foreground ring-2 ring-primary scale-105 shadow-lg'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:scale-102'
+                  }`}
+                  style={selectedGenre === genre ? { backgroundColor: '#ff6b6b', color: '#ffffff' } : { backgroundColor: '#2d2d44', color: '#ffffffcc' }}
+                >
+                  {genre}
+                </button>
+              )) : (
+                <div className="col-span-full text-center text-red-500">Error: No genres available</div>
+              )}
+            </div>
+
+            <div className="flex gap-4">
+              <button
+                onClick={() => {/* can't go back from genre */}}
+                className="flex-1 py-3 px-6 bg-muted text-muted-foreground rounded-lg hover:bg-muted/80 font-bold transition-all opacity-50 cursor-not-allowed"
+                disabled
+                style={{ backgroundColor: '#2d2d44', color: '#ffffff99' }}
+              >
+                Back
+              </button>
+              <button
+                onClick={handleGenreSelect}
+                className="flex-1 py-3 px-6 bg-primary text-primary-foreground hover:opacity-90 font-bold rounded-lg transition-all transform hover:scale-105 active:scale-95 shadow-lg"
+                style={{ backgroundColor: '#ff6b6b', color: '#ffffff' }}
+              >
+                Continue with {selectedGenre}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Rehearsal Phase UI
   if (phase === 'rehearsal') {
@@ -241,11 +317,26 @@ const BandCreation = ({ onComplete, bandName, logo }) => {
   }
 
   // Assembly Phase UI
-  if (phase !== 'assembly' || members.length === 0) {
-    return null; // Don't render assembly until members exist
-  }
+  if (phase === 'assembly') {
+    if (members.length === 0) {
+      // If assembly phase but no members, go back to rehearsal
+      return (
+        <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4" style={{ backgroundColor: '#0a0a0a', color: '#ffffff' }}>
+          <div className="text-center">
+            <p className="mb-4">No members selected. Redirecting...</p>
+            <button
+              onClick={() => setPhase('rehearsal')}
+              className="px-6 py-3 bg-primary text-white rounded-lg"
+              style={{ backgroundColor: '#ff6b6b' }}
+            >
+              Go to Rehearsal
+            </button>
+          </div>
+        </div>
+      );
+    }
 
-  return (
+    return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
       <div className="max-w-2xl w-full">
         {/* Header */}
@@ -438,6 +529,24 @@ const BandCreation = ({ onComplete, bandName, logo }) => {
             </p>
           </div>
         </div>
+      </div>
+    </div>
+    );
+  }
+
+  // Fallback - should never reach here
+  console.warn('BandCreation: Unknown phase:', phase);
+  return (
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4" style={{ backgroundColor: '#0a0a0a', color: '#ffffff' }}>
+      <div className="text-center">
+        <p className="mb-4 text-red-500">Error: Unknown phase "{phase}"</p>
+        <button
+          onClick={() => setPhase('genre')}
+          className="px-6 py-3 bg-primary text-white rounded-lg"
+          style={{ backgroundColor: '#ff6b6b' }}
+        >
+          Reset to Genre Selection
+        </button>
       </div>
     </div>
   );

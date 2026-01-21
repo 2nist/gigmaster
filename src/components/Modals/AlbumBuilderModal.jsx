@@ -25,15 +25,15 @@ export default function AlbumBuilderModal({
     STUDIO_TIERS[studioTier].recordCost * selectedSongs.length * 0.8 * 1.5 * costMultiplier
   );
 
-  const toggleSong = (songTitle) => {
-    if (selectedSongs.includes(songTitle)) {
-      setSelectedSongs(prev => prev.filter(t => t !== songTitle));
+  const toggleSong = (songId) => {
+    if (selectedSongs.includes(songId)) {
+      setSelectedSongs(prev => prev.filter(t => t !== songId));
     } else {
       if (selectedSongs.length >= 12) {
         alert('Albums can have at most 12 songs.');
         return;
       }
-      setSelectedSongs(prev => [...prev, songTitle]);
+      setSelectedSongs(prev => [...prev, songId]);
     }
   };
 
@@ -47,7 +47,7 @@ export default function AlbumBuilderModal({
     onClose();
   };
 
-  const selectedSongObjects = songs.filter(s => selectedSongs.includes(s.title));
+  const selectedSongObjects = songs.filter(s => selectedSongs.includes(s.id || s.title));
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-1000" onClick={onClose}>
@@ -73,11 +73,12 @@ export default function AlbumBuilderModal({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto p-2 bg-muted/30 rounded border border-border/20">
                 {availableSongs.map((song) => {
-                  const isSelected = selectedSongs.includes(song.title);
+                  const songKey = song.id || song.title;
+                  const isSelected = selectedSongs.includes(songKey);
                   return (
                     <div
-                      key={song.title}
-                      onClick={() => toggleSong(song.title)}
+                      key={songKey}
+                      onClick={() => toggleSong(songKey)}
                       className={`p-2 rounded border-2 cursor-pointer transition-all text-xs ${
                         isSelected 
                           ? 'bg-primary/20 border-primary' 
