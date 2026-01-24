@@ -4,6 +4,7 @@ import path from "path";
 import { spawnSync } from "child_process";
 
 const SD_URL = "http://127.0.0.1:7860/sdapi/v1/txt2img";
+const MODELS_URL = "http://127.0.0.1:7860/sdapi/v1/sd-models";
 
 const batch = JSON.parse(fs.readFileSync("./batches/eyes.json", "utf8"));
 
@@ -15,8 +16,29 @@ const outDir = `./outputs/${batch.category}`;
 fs.mkdirSync(outDir, { recursive: true });
 fs.mkdirSync(path.join(outDir, "alpha"), { recursive: true });
 
+async function getModels() {
+  try {
+    const res = await fetch(MODELS_URL);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
 async function run(removeAlpha = false) {
   const runs = Math.ceil(batch.count / batch.batchSize);
+  const modelArgIndex = process.argv.indexOf("--model");
+  const modelFromArgs = modelArgIndex !== -1 ? process.argv[modelArgIndex + 1] : null;
+  const modelName = process.env.SD_MODEL || modelFromArgs || null;
+  const models = await getModels();
+
+  if (!modelName && models.length === 0) {
+    throw new Error("No SD models found. Add a checkpoint to stable-diffusion-webui/models/Stable-diffusion and try again.");
+  }
+
+  const selectedModel = modelName || (models[0]?.title || models[0]?.model_name);
 
   for (let i = 0; i < runs; i++) {
     const seed = batch.seedStart + i;
@@ -30,7 +52,9 @@ async function run(removeAlpha = false) {
       width: 512,
       height: 512,
       sampler_name: "DPM++ 2M Karras",
-      batch_size: batch.batchSize
+      batch_size: batch.batchSize,
+      override_settings: selectedModel ? { sd_model_checkpoint: selectedModel } : undefined,
+      override_settings_restore_afterwards: true
     };
 
     const res = await fetch(SD_URL, {
@@ -39,7 +63,15 @@ async function run(removeAlpha = false) {
       body: JSON.stringify(payload)
     });
 
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`SD API error ${res.status}: ${errorText}`);
+    }
+
     const data = await res.json();
+    if (!data?.images || !Array.isArray(data.images)) {
+      throw new Error(`SD API response missing images: ${JSON.stringify(data)}`);
+    }
 
     data.images.forEach((img, idx) => {
       const buffer = Buffer.from(img, "base64");
