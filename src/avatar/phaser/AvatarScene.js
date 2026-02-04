@@ -64,12 +64,17 @@ const resolveAssetPath = (path) => {
     return path;
   }
 
-  const base = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
+  // Prefer an explicit base if available, otherwise derive from current location
+  let baseCandidate = BASE_URL || '/';
+  if ((typeof window !== 'undefined') && window.location && window.location.pathname) {
+    baseCandidate = window.location.pathname;
+  }
+
+  const base = baseCandidate.endsWith('/') ? baseCandidate.slice(0, -1) : baseCandidate;
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
-  if (!base) {
-    return normalizedPath;
-  }
+  // If base is just '/', avoid doubling slashes
+  if (!base || base === '') return normalizedPath;
 
   return `${base}${normalizedPath}`;
 };
@@ -120,12 +125,28 @@ class AvatarScene extends Phaser.Scene {
           || (imageCache && typeof imageCache.exists === 'function' && imageCache.exists(feat.id));
 
         if (!alreadyLoaded) {
-          this.load.image(feat.id, resolveAssetPath(feat.path));
+          try {
+            const url = resolveAssetPath(feat.path);
+            // Request images with anonymous CORS where possible to enable toDataURL()
+            const xhrSettings = { crossOrigin: 'anonymous' };
+            this.load.image(feat.id, url, xhrSettings);
+          } catch (err) {
+            // Fallback to plain load if loader signature doesn't accept xhrSettings in some environments/tests
+            this.load.image(feat.id, resolveAssetPath(feat.path));
+          }
           if (feat.normalMap) {
-            this.load.image(`${feat.id}__normal`, resolveAssetPath(feat.normalMap));
+            try {
+              this.load.image(`${feat.id}__normal`, resolveAssetPath(feat.normalMap), { crossOrigin: 'anonymous' });
+            } catch (err) {
+              this.load.image(`${feat.id}__normal`, resolveAssetPath(feat.normalMap));
+            }
           }
           if (feat.roughnessMap) {
-            this.load.image(`${feat.id}__roughness`, resolveAssetPath(feat.roughnessMap));
+            try {
+              this.load.image(`${feat.id}__roughness`, resolveAssetPath(feat.roughnessMap), { crossOrigin: 'anonymous' });
+            } catch (err) {
+              this.load.image(`${feat.id}__roughness`, resolveAssetPath(feat.roughnessMap));
+            }
           }
         }
       }
@@ -133,6 +154,7 @@ class AvatarScene extends Phaser.Scene {
   }
 
   create() {
+    console.log('[AvatarScene] create start', { seed: this.seed, archetype: this.archetype, size: this.size });
     const rng = seededRNG(this.seed);
     this.selection = selectFeaturesWithArchetype(rng, defaultAvatarConfig, this.archetype);
 
@@ -144,6 +166,8 @@ class AvatarScene extends Phaser.Scene {
       genderTags: feature.genderTags ?? [],
       styleTags: feature.styleTags ?? []
     }));
+
+    console.log('[AvatarScene] selection payload prepared', { features: selectionPayload.length });
 
     if (this.options.debugSelection) {
       console.table?.(selectionPayload);
@@ -204,6 +228,7 @@ class AvatarScene extends Phaser.Scene {
     });
 
     drawQueue.sort((a, b) => a.order - b.order);
+    console.log('[AvatarScene] drawQueue prepared', { length: drawQueue.length });
 
     for (const entry of drawQueue) {
       const { layer, feature, manifestLayer } = entry;
@@ -265,19 +290,94 @@ class AvatarScene extends Phaser.Scene {
       }
     });
 
-    // After a short delay to let any tweens run, snapshot the render texture to a dataURL
-    this.time.delayedCall(200, () => {
-      rt.snapshot((image) => {
-        if (image && image.src) {
-          this.game.events.emit('avatar:generated', image.src);
-        } else if (image instanceof HTMLCanvasElement) {
-          this.game.events.emit('avatar:generated', image.toDataURL('image/png'));
-        } else {
-          this.game.events.emit('avatar:generated', '');
+    // After a short delay to let any tweens run, snapshot the render texture to a dataURL (with debug hooks)
+    console.log('[AvatarScene] scheduling delayed snapshot call');
+
+    // Diagnostic: try immediate snapshot in addition to delayed call
+    try {
+      console.log('[AvatarScene] invoking immediate snapshot for diagnostic');
+      const _scene = this;
+      rt.snapshot((img) => {
+        try {
+          console.log('[AvatarScene] immediate snapshot callback fired', { imgType: img && img.src ? 'img' : (img instanceof HTMLCanvasElement ? 'canvas' : 'unknown') });
+          if (typeof window !== 'undefined') {
+            window.__rt_snapshot_immediate_called = true;
+            window.__rt_snapshot_immediate_type = img && img.src ? 'img' : (img instanceof HTMLCanvasElement ? 'canvas' : 'unknown');
+            if (img && img.src) window.__rt_snapshot_immediate_src = img.src;
+            if (img instanceof HTMLCanvasElement) {
+              try { window.__rt_snapshot_immediate_src = img.toDataURL(); } catch (err) { window.__rt_snapshot_immediate_error = String(err); }
+            }
+          }
+
+          // Emit generated event immediately so the PoC receives a snapshot even if delayed call fails
+          try {
+            if (img && img.src) {
+              _scene.game.events.emit('avatar:generated', img.src);
+            } else if (img instanceof HTMLCanvasElement) {
+              const dataUrl = img.toDataURL('image/png');
+              _scene.game.events.emit('avatar:generated', dataUrl);
+            }
+          } catch (emitErr) {
+            console.error('[AvatarScene] Failed to emit avatar:generated from immediate snapshot', emitErr);
+          }
+        } catch (err) {
+          console.error('[AvatarScene] Error in immediate RT snapshot callback:', err);
         }
       });
+    } catch (err) {
+      console.error('[AvatarScene] immediate RT snapshot threw:', err);
+      if (typeof window !== 'undefined') window.__rt_snapshot_immediate_error = String(err);
+    }
+
+    this.time.delayedCall(200, () => {
+      try {
+        if (typeof window !== 'undefined') {
+          window.__rt_snapshot_requested = true;
+          console.log('[AvatarScene] RT snapshot requested');
+        }
+
+        rt.snapshot((image) => {
+          try {
+            if (typeof window !== 'undefined') {
+              window.__rt_snapshot_called = true;
+              window.__rt_snapshot_type = image && image.src ? 'img' : (image instanceof HTMLCanvasElement ? 'canvas' : 'unknown');
+              console.log('[AvatarScene] RT snapshot callback called', { type: window.__rt_snapshot_type });
+            }
+
+            if (image && image.src) {
+              if (typeof window !== 'undefined') window.__rt_snapshot_src = image.src;
+              this.game.events.emit('avatar:generated', image.src);
+            } else if (image instanceof HTMLCanvasElement) {
+              let dataUrl = '';
+              try {
+                dataUrl = image.toDataURL('image/png');
+                console.log('[AvatarScene] Converted RT canvas to dataURL', { len: dataUrl ? dataUrl.length : 0 });
+              } catch (err) {
+                if (typeof window !== 'undefined') window.__rt_snapshot_error = String(err);
+                console.error('[AvatarScene] Error converting snapshot canvas to dataURL:', err);
+              }
+              if (typeof window !== 'undefined') window.__rt_snapshot_src = dataUrl;
+              this.game.events.emit('avatar:generated', dataUrl);
+            } else {
+              if (typeof window !== 'undefined') window.__rt_snapshot_src = '';
+              this.game.events.emit('avatar:generated', '');
+            }
+          } catch (err) {
+            if (typeof window !== 'undefined') window.__rt_snapshot_error = String(err);
+            console.error('[AvatarScene] Error in RT snapshot callback:', err);
+            this.game.events.emit('avatar:generated', '');
+          }
+        });
+      } catch (err) {
+        if (typeof window !== 'undefined') window.__rt_snapshot_error = String(err);
+        console.error('[AvatarScene] RenderTexture.snapshot threw:', err);
+        this.game.events.emit('avatar:generated', '');
+      }
     });
   }
 }
 
 export default AvatarScene;
+
+// Exported for unit testing
+export { resolveAssetPath };
