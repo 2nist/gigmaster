@@ -164,7 +164,8 @@ export const BandTab = ({
       <div className="flex items-center justify-between mb-6">
         <h3 className="flex items-center gap-2 text-xl font-bold text-foreground">
           <Users size={24} />
-          Band Members ({members.length}/6)
+          <span className="band-members-label">Band Members</span>
+          <span> ({members.length}/6)</span>
         </h3>
         <div className="flex gap-2">
           <Button onClick={() => setShowRehearsal(true)} disabled={members.length === 0} className="flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-accent-foreground">
