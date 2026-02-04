@@ -44,7 +44,7 @@ export class FanReactionSystem {
         : this._generateFanbaseSpecificReaction(primary, quality, originality, commercial),
       socialMedia: useGritty
         ? this._generateGrittySocialMedia(song, quality, originality, commercial, psychologicalState)
-        : this._generateSocialMediaBuzz(song, fanbase, { reactions: {}, impact: {} })
+        : this.generateSocialMediaBuzz(song, fanbase, { reactions: {}, impact: {} })
     };
 
     // Calculate impact
