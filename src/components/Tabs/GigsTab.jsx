@@ -39,6 +39,7 @@ export const GigsTab = ({ gameData, gigSystem, gameState, gameLogic }) => {
 
   return (
     <div>
+      <h2 className="text-2xl font-bold text-foreground mb-6">Performance History</h2>
       {/* Band Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="border border-primary/30 p-6 rounded-lg">
@@ -48,6 +49,7 @@ export const GigsTab = ({ gameData, gigSystem, gameState, gameLogic }) => {
         <Card className="border border-secondary/30 p-6 rounded-lg">
           <div className="text-muted-foreground text-sm mb-2">Gig Earnings</div>
           <div className="text-4xl font-bold text-secondary">${gigEarnings.toLocaleString()}</div>
+          <div className="text-sm text-muted-foreground mt-2">Avg / Gig: <strong>${gigHistory.length ? Math.round(gigEarnings / gigHistory.length).toLocaleString() : 0}</strong></div>
         </Card>
         <Card className="border border-accent/30 p-6 rounded-lg">
           <div className="text-muted-foreground text-sm mb-2">Band Size</div>

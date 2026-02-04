@@ -243,7 +243,7 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState, gameLogic, 
             {songs.map(song => (
               <Card key={song.id} className="p-4 transition-all border rounded-lg border-primary/30 hover:border-primary/60">
                 <h4 className="mb-2 font-semibold text-foreground">{song.name || song.title}</h4>
-                <p className="mb-1 text-sm text-muted-foreground">Quality: <span className="font-medium text-accent">{usingLegacyData ? `${song.quality || 0}/10` : `${song.quality || 0}%`}</span></p>
+                <p className="mb-1 text-sm text-muted-foreground">Quality: {usingLegacyData ? `${song.quality || 0}/10` : `${song.quality || 0}%`}</p>
                 <p className="mb-3 text-sm text-muted-foreground">Genre: {song.genre}</p>
                 <div className="text-xs text-muted-foreground">
                   Popularity: <span className="font-medium text-secondary">{song.popularity || 0}</span>
