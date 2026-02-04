@@ -31,10 +31,11 @@ export const GigsTab = ({ gameData, gigSystem, gameState, gameLogic }) => {
   };
 
   const availableVenues = gigSystem?.getAvailableVenues?.() || gameLogic?.getAvailableVenues?.() || [];
-  const gigHistory = gameState?.state?.gigHistory || [];
-  const gigEarnings = gameState?.state?.gigEarnings || 0;
-  const bandMembers = gameState?.state?.bandMembers || [];
-  const currentTour = gameState?.state?.activeTour || gameState?.state?.currentTour;
+  const gigHistory = gameData?.gigHistory || gameState?.state?.gigHistory || [];
+  const gigEarnings = (gameData?.gigEarnings ?? gameState?.state?.gigEarnings) || 0;
+  const bandMembers = gameData?.bandMembers || gameState?.state?.bandMembers || [];
+  const currentTour = (gameData?.activeTour || gameState?.state?.activeTour) || (gameState?.state?.currentTour || null);
+  const usingLegacyData = !!gameData;
 
   return (
     <div>
@@ -143,9 +144,9 @@ export const GigsTab = ({ gameData, gigSystem, gameState, gameLogic }) => {
                 <div className="text-right">
                   <p className="text-secondary font-bold mb-1">${(gig.totalRevenue ?? gig.earnings)?.toLocaleString()}</p>
                   <p className="text-sm text-muted-foreground">
-                    {typeof gig.performanceQuality === 'number'
+                    {usingLegacyData ? (gig.success ? 'Success: Yes' : 'Success: No') : (typeof gig.performanceQuality === 'number'
                       ? (gig.performanceQuality >= 70 ? 'Great show' : gig.performanceQuality >= 45 ? 'Solid' : 'Rough night')
-                      : (gig.success ? 'Great show' : 'Rough night')}
+                      : (gig.success ? 'Great show' : 'Rough night'))}
                   </p>
                 </div>
               </Card>

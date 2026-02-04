@@ -65,9 +65,9 @@ export const InventoryTab = ({ gameData, recordingSystem, gameState, gameLogic, 
     }
   };
 
-  const songs = gameState?.state?.songs || [];
-  const albums = gameState?.state?.albums || [];
-  const money = gameState?.state?.money || 0;
+  const songs = gameData?.songs || gameState?.state?.songs || [];
+  const albums = gameData?.albums || gameState?.state?.albums || [];
+  const money = (gameData?.money ?? gameState?.state?.money) || 0;
 
   return (
     <div>
