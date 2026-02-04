@@ -33,17 +33,15 @@ export async function loadDataset(datasetName) {
     try {
       const fs = await import('fs');
       const path = await import('path');
-      const { fileURLToPath } = await import('url');
-      
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = path.dirname(__filename);
-      
+      // Avoid import.meta by resolving paths relative to project root (process.cwd())
+      const pathModule = await import('path');
+      const baseDir = pathModule.resolve(process.cwd(), 'src', 'music', 'assets', 'core');
       const fileMap = {
-        drums: path.resolve(__dirname, '../assets/core/drums-core.json'),
-        progressions: path.resolve(__dirname, '../assets/core/progressions-core.json'),
-        phrases: path.resolve(__dirname, '../assets/core/phrases-bimmuda.json')
+        drums: pathModule.resolve(baseDir, 'drums-core.json'),
+        progressions: pathModule.resolve(baseDir, 'progressions-core.json'),
+        phrases: pathModule.resolve(baseDir, 'phrases-bimmuda.json')
       };
-      
+
       const filePath = fileMap[datasetName];
       if (filePath) {
         const fileContent = fs.readFileSync(filePath, 'utf8');

@@ -5,9 +5,8 @@ import { defaultAvatarConfig } from '../avatarConfig.js';
 import manifest from '../manifest.json';
 import { AVATAR_MANIFEST_VERSION } from './manifestTypes.js';
 
-const BASE_URL = typeof import.meta !== 'undefined' && import.meta?.env?.BASE_URL
-  ? import.meta.env.BASE_URL
-  : '/';
+// Resolve base url in a way that's safe for Jest (avoid using import.meta which Jest can't parse)
+const BASE_URL = (typeof window !== 'undefined' && window.__BASE_URL__) || (typeof process !== 'undefined' && process.env && process.env.BASE_URL) || '/';
 
 const manifestLayerIndex = new Map(manifest.layers.map(layer => [layer.name, layer]));
 
