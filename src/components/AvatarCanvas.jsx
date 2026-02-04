@@ -125,8 +125,8 @@ export function AvatarCanvas({
     <div className={`avatar-canvas-wrapper ${className}`} style={{ position: 'relative', width: size, height: size, overflow: 'hidden' }}>
       <canvas
         ref={canvasRef}
-        width={512}
-        height={512}
+        width={size}
+        height={size}
         className="avatar-canvas"
         style={{
           display: 'block',
