@@ -72,6 +72,43 @@ function gatherLayerMeta(layerDir) {
   return meta;
 }
 
+function inferDefaults(layerName, id, meta = {}) {
+  // Provide minimal sensible defaults when no .meta.json is supplied
+  const lower = id.toLowerCase();
+  const defaults = { ...meta };
+
+  // Base defaults
+  defaults.resolution = meta.resolution ?? 512;
+  defaults.genderTags = ensureArray(meta.genderTags).length ? ensureArray(meta.genderTags) : ['unisex'];
+  defaults.styleTags = ensureArray(meta.styleTags).length ? ensureArray(meta.styleTags) : ['default'];
+  defaults.ageRange = ensureArray(meta.ageRange).length ? ensureArray(meta.ageRange) : [0, 100];
+
+  // Layer-specific heuristics
+  if (layerName === 'heads' || layerName === 'heads' || layerName === 'body') {
+    if (!meta.tone) {
+      if (lower.includes('light')) defaults.tone = 'warm_light';
+      else if (lower.includes('medium') || lower.includes('tan')) defaults.tone = 'warm_medium';
+      else if (lower.includes('dark')) defaults.tone = 'warm_deep';
+      else defaults.tone = 'neutral_medium';
+    }
+    defaults.supportsTint = meta.supportsTint ?? true;
+  } else if (layerName === 'hair') {
+    defaults.supportsTint = meta.supportsTint ?? true;
+    if (!meta.tone) defaults.tone = 'neutral_medium';
+  } else if (layerName === 'eyes') {
+    defaults.supportsTint = meta.supportsTint ?? false;
+    if (!meta.tone) defaults.tone = 'neutral_medium';
+  } else if (layerName === 'mouths' || layerName === 'noses' || layerName === 'facialHair' || layerName === 'accessories') {
+    defaults.supportsTint = meta.supportsTint ?? false;
+    if (!meta.tone) defaults.tone = null;
+  } else {
+    defaults.supportsTint = meta.supportsTint ?? false;
+    if (!meta.tone) defaults.tone = null;
+  }
+
+  return defaults;
+}
+
 function gatherFeatures(layerName, layerDir) {
   const entries = fs.readdirSync(layerDir);
   const artFiles = entries.filter(f => /\.(png|svg)$/i.test(f));
@@ -82,31 +119,34 @@ function gatherFeatures(layerName, layerDir) {
     const hasMeta = fs.existsSync(featureMetaPath);
     const meta = hasMeta ? (readJSON(featureMetaPath) || {}) : {};
 
+    // If no explicit metadata file exists, synthesize minimal defaults
+    const finalMeta = hasMeta ? meta : inferDefaults(layerName, id, meta);
+
     if (!hasMeta) {
-      warnings.push(`Missing metadata for ${layerName}/${fileName}`);
+      warnings.push(`Missing metadata for ${layerName}/${fileName} — inferred defaults applied`);
     }
 
     return {
       id,
       path: normalizePath(layerName, fileName),
       filename: fileName,
-      weight: meta.weight ?? 1,
-      resolution: meta.resolution ?? null,
-      tone: meta.tone ?? null,
-      genderTags: ensureArray(meta.genderTags),
-      styleTags: ensureArray(meta.styleTags),
-      ageRange: ensureArray(meta.ageRange),
-      variants: ensureArray(meta.variants),
-      hueVariants: ensureArray(meta.hueVariants),
-      supportsTint: Boolean(meta.supportsTint),
-      normalMap: resolveAssetReference(layerName, meta.normalMap),
-      roughnessMap: resolveAssetReference(layerName, meta.roughnessMap),
-      atlas: meta.atlas ?? null,
-      frame: meta.frame ?? null,
-      zIndex: meta.zIndex ?? null,
-      intensity: meta.intensity ?? null,
-      metadataAuthor: meta.author ?? null,
-      metadataNotes: meta.notes ?? null
+      weight: finalMeta.weight ?? 1,
+      resolution: finalMeta.resolution ?? null,
+      tone: finalMeta.tone ?? null,
+      genderTags: ensureArray(finalMeta.genderTags),
+      styleTags: ensureArray(finalMeta.styleTags),
+      ageRange: ensureArray(finalMeta.ageRange),
+      variants: ensureArray(finalMeta.variants),
+      hueVariants: ensureArray(finalMeta.hueVariants),
+      supportsTint: Boolean(finalMeta.supportsTint),
+      normalMap: resolveAssetReference(layerName, finalMeta.normalMap),
+      roughnessMap: resolveAssetReference(layerName, finalMeta.roughnessMap),
+      atlas: finalMeta.atlas ?? null,
+      frame: finalMeta.frame ?? null,
+      zIndex: finalMeta.zIndex ?? null,
+      intensity: finalMeta.intensity ?? null,
+      metadataAuthor: finalMeta.author ?? null,
+      metadataNotes: finalMeta.notes ?? null
     };
   });
 }
