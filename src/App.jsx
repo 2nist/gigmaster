@@ -53,6 +53,7 @@ import {
 
 // Import page components
 import { LandingPage, GamePage, LogoDesigner, BandCreation, ScenarioSelection, CharacterCreation, AvatarCreation, AuditionFlow } from './pages';
+import AvatarPoC from './pages/AvatarPoC'; // Dev PoC page (temporary)
 import { EnhancedEventModal } from './components/EnhancedEventModal';
 import { VictoryScreen } from './components/VictoryScreen';
 import { initializeFirstPersonMode } from './utils/preMadeBand';
@@ -82,6 +83,18 @@ function App() {
   
   // Initialize theme system
   const themeSystem = useTheme();
+
+  // Dev shortcut: if URL contains ?poc=avatar render the AvatarPoC page directly
+  if (typeof window !== 'undefined') {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('poc') === 'avatar') {
+        return <AvatarPoC />;
+      }
+    } catch (e) {
+      // ignore in non-browser environments
+    }
+  }
 
   // Load game data (song titles, genres, etc.)
   const { data: gameData, loading: dataLoading, error: dataError } = useGameData();
