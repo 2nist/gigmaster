@@ -43,7 +43,7 @@ export class FanReactionSystem {
         ? this._generateGrittyFanbaseReaction(primary, quality, originality, commercial, psychologicalState, genre)
         : this._generateFanbaseSpecificReaction(primary, quality, originality, commercial),
       socialMedia: useGritty
-        ? this._generateGrittySocialMedia(song, quality, originality, commercial, psychologicalState)
+      ? this._generateGrittySocialMedia(song, quality, originality, commercial, psychologicalState, fanbase)
         : this.generateSocialMediaBuzz(song, fanbase, { reactions: {}, impact: {} })
     };
 
@@ -368,7 +368,7 @@ export class FanReactionSystem {
   /**
    * Generate gritty social media reactions
    */
-  static _generateGrittySocialMedia(song, quality, originality, commercial, psychologicalState) {
+  static _generateGrittySocialMedia(song, quality, originality, commercial, psychologicalState, fanbase = {}) {
     const bandName = song.metadata?.band || song.metadata?.bandName || 'Your Band';
     const songName = song.metadata?.name || 'Your Song';
     const tweets = [];
@@ -427,7 +427,7 @@ export class FanReactionSystem {
       );
     }
 
-    const reach = Math.round((fanbase?.size || 100) * (engagement / 100) * 10);
+    const reach = Math.round(((fanbase && fanbase.size) || 100) * (engagement / 100) * 10);
 
     return {
       tweets: tweets.slice(0, 5), // Limit to 5 tweets
