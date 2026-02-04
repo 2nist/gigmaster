@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-04T08:36:41.276Z",
+  "generatedAt": "2026-02-04T09:09:38.068Z",
   "version": 2,
   "layers": [
     {
@@ -15,11 +15,18 @@
           "path": "/avatar/assets/accessories/accessory_bandana_01.png",
           "filename": "accessory_bandana_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -37,11 +44,18 @@
           "path": "/avatar/assets/accessories/accessory_coffee_stain_01.png",
           "filename": "accessory_coffee_stain_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -59,11 +73,18 @@
           "path": "/avatar/assets/accessories/accessory_earplug_01.png",
           "filename": "accessory_earplug_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -81,11 +102,18 @@
           "path": "/avatar/assets/accessories/accessory_earplug_02.png",
           "filename": "accessory_earplug_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -103,11 +131,18 @@
           "path": "/avatar/assets/accessories/accessory_earring_01.png",
           "filename": "accessory_earring_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -125,11 +160,18 @@
           "path": "/avatar/assets/accessories/accessory_earring_02.png",
           "filename": "accessory_earring_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -147,11 +189,18 @@
           "path": "/avatar/assets/accessories/accessory_earring_stud_01.png",
           "filename": "accessory_earring_stud_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -169,11 +218,18 @@
           "path": "/avatar/assets/accessories/accessory_glasses_02.png",
           "filename": "accessory_glasses_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -191,11 +247,18 @@
           "path": "/avatar/assets/accessories/accessory_glasses_aviator_01.png",
           "filename": "accessory_glasses_aviator_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -213,11 +276,18 @@
           "path": "/avatar/assets/accessories/accessory_glasses_crooked_01.png",
           "filename": "accessory_glasses_crooked_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -235,11 +305,18 @@
           "path": "/avatar/assets/accessories/accessory_glasses_round_01.png",
           "filename": "accessory_glasses_round_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -257,11 +334,18 @@
           "path": "/avatar/assets/accessories/accessory_glasses_sunglasses_01.png",
           "filename": "accessory_glasses_sunglasses_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -279,11 +363,18 @@
           "path": "/avatar/assets/accessories/accessory_headband_01.png",
           "filename": "accessory_headband_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -301,11 +392,18 @@
           "path": "/avatar/assets/accessories/accessory_headphones_01.png",
           "filename": "accessory_headphones_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -323,11 +421,18 @@
           "path": "/avatar/assets/accessories/accessory_headphones_02.png",
           "filename": "accessory_headphones_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -345,11 +450,18 @@
           "path": "/avatar/assets/accessories/accessory_headphones_over_ear_01.png",
           "filename": "accessory_headphones_over_ear_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -367,11 +479,18 @@
           "path": "/avatar/assets/accessories/accessory_pencil_behind_ear.png",
           "filename": "accessory_pencil_behind_ear.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -389,11 +508,18 @@
           "path": "/avatar/assets/accessories/accessory_piercing_eyebrow_01.png",
           "filename": "accessory_piercing_eyebrow_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -411,11 +537,18 @@
           "path": "/avatar/assets/accessories/accessory_piercing_lip_01.png",
           "filename": "accessory_piercing_lip_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -433,11 +566,18 @@
           "path": "/avatar/assets/accessories/accessory_piercing_nose_01.png",
           "filename": "accessory_piercing_nose_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -455,11 +595,18 @@
           "path": "/avatar/assets/accessories/accessory_scar_01.png",
           "filename": "accessory_scar_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -477,11 +624,18 @@
           "path": "/avatar/assets/accessories/accessory_scar_02.png",
           "filename": "accessory_scar_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -509,11 +663,18 @@
           "path": "/avatar/assets/eyes/eyes_angry_01.png",
           "filename": "eyes_angry_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -531,11 +692,18 @@
           "path": "/avatar/assets/eyes/eyes_asymmetric_01.png",
           "filename": "eyes_asymmetric_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -553,11 +721,18 @@
           "path": "/avatar/assets/eyes/eyes_droopy_01.png",
           "filename": "eyes_droopy_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -575,11 +750,18 @@
           "path": "/avatar/assets/eyes/eyes_heavyLid_01.png",
           "filename": "eyes_heavyLid_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -597,11 +779,18 @@
           "path": "/avatar/assets/eyes/eyes_heavyLid_02.png",
           "filename": "eyes_heavyLid_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -619,11 +808,18 @@
           "path": "/avatar/assets/eyes/eyes_intense_01.png",
           "filename": "eyes_intense_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -641,11 +837,18 @@
           "path": "/avatar/assets/eyes/eyes_narrow_01.png",
           "filename": "eyes_narrow_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -663,11 +866,18 @@
           "path": "/avatar/assets/eyes/eyes_narrow_02.png",
           "filename": "eyes_narrow_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -685,11 +895,18 @@
           "path": "/avatar/assets/eyes/eyes_neutral_01.png",
           "filename": "eyes_neutral_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -707,11 +924,18 @@
           "path": "/avatar/assets/eyes/eyes_neutral_02.png",
           "filename": "eyes_neutral_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -729,11 +953,18 @@
           "path": "/avatar/assets/eyes/eyes_neutral_03.png",
           "filename": "eyes_neutral_03.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -751,11 +982,18 @@
           "path": "/avatar/assets/eyes/eyes_open_01.png",
           "filename": "eyes_open_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -773,11 +1011,18 @@
           "path": "/avatar/assets/eyes/eyes_open_02.png",
           "filename": "eyes_open_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -795,11 +1040,18 @@
           "path": "/avatar/assets/eyes/eyes_sad_01.png",
           "filename": "eyes_sad_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -817,11 +1069,18 @@
           "path": "/avatar/assets/eyes/eyes_squinting_01.png",
           "filename": "eyes_squinting_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -839,11 +1098,18 @@
           "path": "/avatar/assets/eyes/eyes_squinting_02.png",
           "filename": "eyes_squinting_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -861,11 +1127,18 @@
           "path": "/avatar/assets/eyes/eyes_tired_01.png",
           "filename": "eyes_tired_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -883,11 +1156,18 @@
           "path": "/avatar/assets/eyes/eyes_tired_02.png",
           "filename": "eyes_tired_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -905,11 +1185,18 @@
           "path": "/avatar/assets/eyes/eyes_tired_03.png",
           "filename": "eyes_tired_03.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -927,11 +1214,18 @@
           "path": "/avatar/assets/eyes/eyes_wide_01.png",
           "filename": "eyes_wide_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -959,11 +1253,18 @@
           "path": "/avatar/assets/facialHair/facialHair_beard_01.png",
           "filename": "facialHair_beard_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -981,11 +1282,18 @@
           "path": "/avatar/assets/facialHair/facialHair_beard_02.png",
           "filename": "facialHair_beard_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1003,11 +1311,18 @@
           "path": "/avatar/assets/facialHair/facialHair_beard_03.png",
           "filename": "facialHair_beard_03.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1025,11 +1340,18 @@
           "path": "/avatar/assets/facialHair/facialHair_beard_long_01.png",
           "filename": "facialHair_beard_long_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1047,11 +1369,18 @@
           "path": "/avatar/assets/facialHair/facialHair_beard_short_01.png",
           "filename": "facialHair_beard_short_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1069,11 +1398,18 @@
           "path": "/avatar/assets/facialHair/facialHair_goatee_01.png",
           "filename": "facialHair_goatee_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1091,11 +1427,18 @@
           "path": "/avatar/assets/facialHair/facialHair_goatee_02.png",
           "filename": "facialHair_goatee_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1113,11 +1456,18 @@
           "path": "/avatar/assets/facialHair/facialHair_heavyStubble_01.png",
           "filename": "facialHair_heavyStubble_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1135,11 +1485,18 @@
           "path": "/avatar/assets/facialHair/facialHair_heavyStubble_02.png",
           "filename": "facialHair_heavyStubble_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1157,11 +1514,18 @@
           "path": "/avatar/assets/facialHair/facialHair_mustache_01.png",
           "filename": "facialHair_mustache_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1179,11 +1543,18 @@
           "path": "/avatar/assets/facialHair/facialHair_mustache_02.png",
           "filename": "facialHair_mustache_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1201,11 +1572,18 @@
           "path": "/avatar/assets/facialHair/facialHair_mustache_thick_01.png",
           "filename": "facialHair_mustache_thick_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1223,11 +1601,18 @@
           "path": "/avatar/assets/facialHair/facialHair_mustache_thin_01.png",
           "filename": "facialHair_mustache_thin_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1245,11 +1630,18 @@
           "path": "/avatar/assets/facialHair/facialHair_patchy_01.png",
           "filename": "facialHair_patchy_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1267,11 +1659,18 @@
           "path": "/avatar/assets/facialHair/facialHair_patchy_02.png",
           "filename": "facialHair_patchy_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1289,11 +1688,18 @@
           "path": "/avatar/assets/facialHair/facialHair_patchy_03.png",
           "filename": "facialHair_patchy_03.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1311,11 +1717,18 @@
           "path": "/avatar/assets/facialHair/facialHair_sideburns_01.png",
           "filename": "facialHair_sideburns_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1333,11 +1746,18 @@
           "path": "/avatar/assets/facialHair/facialHair_sideburns_long_01.png",
           "filename": "facialHair_sideburns_long_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1355,11 +1775,18 @@
           "path": "/avatar/assets/facialHair/facialHair_stubble_01.png",
           "filename": "facialHair_stubble_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1377,11 +1804,18 @@
           "path": "/avatar/assets/facialHair/facialHair_stubble_02.png",
           "filename": "facialHair_stubble_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -1409,14 +1843,21 @@
           "path": "/avatar/assets/hair/hair_bald_01.png",
           "filename": "hair_bald_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1431,14 +1872,21 @@
           "path": "/avatar/assets/hair/hair_bald_02.png",
           "filename": "hair_bald_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1453,14 +1901,21 @@
           "path": "/avatar/assets/hair/hair_beanie_low_01.png",
           "filename": "hair_beanie_low_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1475,14 +1930,21 @@
           "path": "/avatar/assets/hair/hair_beanie_low_02.png",
           "filename": "hair_beanie_low_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1497,14 +1959,21 @@
           "path": "/avatar/assets/hair/hair_bun_01.png",
           "filename": "hair_bun_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1519,14 +1988,21 @@
           "path": "/avatar/assets/hair/hair_cap_01.png",
           "filename": "hair_cap_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1541,14 +2017,21 @@
           "path": "/avatar/assets/hair/hair_clean_01.png",
           "filename": "hair_clean_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1563,14 +2046,21 @@
           "path": "/avatar/assets/hair/hair_clean_02.png",
           "filename": "hair_clean_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1585,14 +2075,21 @@
           "path": "/avatar/assets/hair/hair_clean_03.png",
           "filename": "hair_clean_03.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1607,14 +2104,21 @@
           "path": "/avatar/assets/hair/hair_curly_01.png",
           "filename": "hair_curly_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1629,14 +2133,21 @@
           "path": "/avatar/assets/hair/hair_curly_02.png",
           "filename": "hair_curly_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1651,14 +2162,21 @@
           "path": "/avatar/assets/hair/hair_curly_wild_01.png",
           "filename": "hair_curly_wild_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1673,14 +2191,21 @@
           "path": "/avatar/assets/hair/hair_fade_01.png",
           "filename": "hair_fade_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1695,14 +2220,21 @@
           "path": "/avatar/assets/hair/hair_long_01.png",
           "filename": "hair_long_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1717,14 +2249,21 @@
           "path": "/avatar/assets/hair/hair_long_02.png",
           "filename": "hair_long_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1739,14 +2278,21 @@
           "path": "/avatar/assets/hair/hair_long_straight_01.png",
           "filename": "hair_long_straight_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1761,14 +2307,21 @@
           "path": "/avatar/assets/hair/hair_messy_01.png",
           "filename": "hair_messy_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1783,14 +2336,21 @@
           "path": "/avatar/assets/hair/hair_messy_02.png",
           "filename": "hair_messy_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1805,14 +2365,21 @@
           "path": "/avatar/assets/hair/hair_messy_03.png",
           "filename": "hair_messy_03.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1827,14 +2394,21 @@
           "path": "/avatar/assets/hair/hair_mohawk_01.png",
           "filename": "hair_mohawk_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1849,14 +2423,21 @@
           "path": "/avatar/assets/hair/hair_mohawk_02.png",
           "filename": "hair_mohawk_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1871,14 +2452,21 @@
           "path": "/avatar/assets/hair/hair_neutral_01.png",
           "filename": "hair_neutral_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1893,14 +2481,21 @@
           "path": "/avatar/assets/hair/hair_neutral_02.png",
           "filename": "hair_neutral_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1915,14 +2510,21 @@
           "path": "/avatar/assets/hair/hair_neutral_03.png",
           "filename": "hair_neutral_03.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1937,14 +2539,21 @@
           "path": "/avatar/assets/hair/hair_ponytail_01.png",
           "filename": "hair_ponytail_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1959,14 +2568,21 @@
           "path": "/avatar/assets/hair/hair_pulledBack_01.png",
           "filename": "hair_pulledBack_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -1981,14 +2597,21 @@
           "path": "/avatar/assets/hair/hair_pulledBack_02.png",
           "filename": "hair_pulledBack_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2003,14 +2626,21 @@
           "path": "/avatar/assets/hair/hair_short_01.png",
           "filename": "hair_short_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2025,14 +2655,21 @@
           "path": "/avatar/assets/hair/hair_short_02.png",
           "filename": "hair_short_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2047,14 +2684,21 @@
           "path": "/avatar/assets/hair/hair_short_clean_01.png",
           "filename": "hair_short_clean_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2069,14 +2713,21 @@
           "path": "/avatar/assets/hair/hair_short_spiky_01.png",
           "filename": "hair_short_spiky_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2091,14 +2742,21 @@
           "path": "/avatar/assets/hair/hair_undercut_01.png",
           "filename": "hair_undercut_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2113,14 +2771,21 @@
           "path": "/avatar/assets/hair/hair_wavy_01.png",
           "filename": "hair_wavy_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2135,14 +2800,21 @@
           "path": "/avatar/assets/hair/hair_wavy_02.png",
           "filename": "hair_wavy_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2157,14 +2829,21 @@
           "path": "/avatar/assets/hair/hair_wild_01.png",
           "filename": "hair_wild_01.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2179,14 +2858,21 @@
           "path": "/avatar/assets/hair/hair_wild_02.png",
           "filename": "hair_wild_02.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2201,14 +2887,21 @@
           "path": "/avatar/assets/hair/hair_wild_03.png",
           "filename": "hair_wild_03.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2233,14 +2926,21 @@
           "path": "/avatar/assets/heads/body-light.png",
           "filename": "body-light.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "warm_light",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2255,14 +2955,21 @@
           "path": "/avatar/assets/heads/body-medium.png",
           "filename": "body-medium.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "warm_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2277,14 +2984,21 @@
           "path": "/avatar/assets/heads/head_1.png",
           "filename": "head_1.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2299,14 +3013,21 @@
           "path": "/avatar/assets/heads/head_2.png",
           "filename": "head_2.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2321,14 +3042,21 @@
           "path": "/avatar/assets/heads/head_3.png",
           "filename": "head_3.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2343,14 +3071,21 @@
           "path": "/avatar/assets/heads/head_4.png",
           "filename": "head_4.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2365,14 +3100,21 @@
           "path": "/avatar/assets/heads/head_5.png",
           "filename": "head_5.png",
           "weight": 1,
-          "resolution": null,
-          "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "resolution": 512,
+          "tone": "neutral_medium",
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
-          "supportsTint": false,
+          "supportsTint": true,
           "normalMap": null,
           "roughnessMap": null,
           "atlas": null,
@@ -2397,11 +3139,18 @@
           "path": "/avatar/assets/mouths/mouth_asymmetric_01.png",
           "filename": "mouth_asymmetric_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2419,11 +3168,18 @@
           "path": "/avatar/assets/mouths/mouth_downturned_01.png",
           "filename": "mouth_downturned_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2441,11 +3197,18 @@
           "path": "/avatar/assets/mouths/mouth_downturned_02.png",
           "filename": "mouth_downturned_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2463,11 +3226,18 @@
           "path": "/avatar/assets/mouths/mouth_flat_01.png",
           "filename": "mouth_flat_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2485,11 +3255,18 @@
           "path": "/avatar/assets/mouths/mouth_flat_02.png",
           "filename": "mouth_flat_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2507,11 +3284,18 @@
           "path": "/avatar/assets/mouths/mouth_flat_03.png",
           "filename": "mouth_flat_03.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2529,11 +3313,18 @@
           "path": "/avatar/assets/mouths/mouth_frown_01.png",
           "filename": "mouth_frown_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2551,11 +3342,18 @@
           "path": "/avatar/assets/mouths/mouth_frown_02.png",
           "filename": "mouth_frown_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2573,11 +3371,18 @@
           "path": "/avatar/assets/mouths/mouth_fullLips_01.png",
           "filename": "mouth_fullLips_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2595,11 +3400,18 @@
           "path": "/avatar/assets/mouths/mouth_neutral_01.png",
           "filename": "mouth_neutral_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2617,11 +3429,18 @@
           "path": "/avatar/assets/mouths/mouth_neutral_02.png",
           "filename": "mouth_neutral_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2639,11 +3458,18 @@
           "path": "/avatar/assets/mouths/mouth_neutral_03.png",
           "filename": "mouth_neutral_03.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2661,11 +3487,18 @@
           "path": "/avatar/assets/mouths/mouth_open_01.png",
           "filename": "mouth_open_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2683,11 +3516,18 @@
           "path": "/avatar/assets/mouths/mouth_open_02.png",
           "filename": "mouth_open_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2705,11 +3545,18 @@
           "path": "/avatar/assets/mouths/mouth_open_singing_01.png",
           "filename": "mouth_open_singing_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2727,11 +3574,18 @@
           "path": "/avatar/assets/mouths/mouth_smile_01.png",
           "filename": "mouth_smile_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2749,11 +3603,18 @@
           "path": "/avatar/assets/mouths/mouth_smile_02.png",
           "filename": "mouth_smile_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2771,11 +3632,18 @@
           "path": "/avatar/assets/mouths/mouth_smile_wide_01.png",
           "filename": "mouth_smile_wide_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2793,11 +3661,18 @@
           "path": "/avatar/assets/mouths/mouth_smirk_01.png",
           "filename": "mouth_smirk_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2815,11 +3690,18 @@
           "path": "/avatar/assets/mouths/mouth_smirk_02.png",
           "filename": "mouth_smirk_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2837,11 +3719,18 @@
           "path": "/avatar/assets/mouths/mouth_smirk_left_01.png",
           "filename": "mouth_smirk_left_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2859,11 +3748,18 @@
           "path": "/avatar/assets/mouths/mouth_smirk_right_01.png",
           "filename": "mouth_smirk_right_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2881,11 +3777,18 @@
           "path": "/avatar/assets/mouths/mouth_thinLips_01.png",
           "filename": "mouth_thinLips_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2903,11 +3806,18 @@
           "path": "/avatar/assets/mouths/mouth_thin_01.png",
           "filename": "mouth_thin_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2925,11 +3835,18 @@
           "path": "/avatar/assets/mouths/mouth_thin_02.png",
           "filename": "mouth_thin_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2947,11 +3864,18 @@
           "path": "/avatar/assets/mouths/mouth_wide_01.png",
           "filename": "mouth_wide_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -2969,11 +3893,18 @@
           "path": "/avatar/assets/mouths/mouth_wide_02.png",
           "filename": "mouth_wide_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3001,11 +3932,18 @@
           "path": "/avatar/assets/noses/nose_broken_01.png",
           "filename": "nose_broken_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3023,11 +3961,18 @@
           "path": "/avatar/assets/noses/nose_button_01.png",
           "filename": "nose_button_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3045,11 +3990,18 @@
           "path": "/avatar/assets/noses/nose_button_02.png",
           "filename": "nose_button_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3067,11 +4019,18 @@
           "path": "/avatar/assets/noses/nose_crooked_left_01.png",
           "filename": "nose_crooked_left_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3089,11 +4048,18 @@
           "path": "/avatar/assets/noses/nose_crooked_left_02.png",
           "filename": "nose_crooked_left_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3111,11 +4077,18 @@
           "path": "/avatar/assets/noses/nose_crooked_right_01.png",
           "filename": "nose_crooked_right_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3133,11 +4106,18 @@
           "path": "/avatar/assets/noses/nose_crooked_right_02.png",
           "filename": "nose_crooked_right_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3155,11 +4135,18 @@
           "path": "/avatar/assets/noses/nose_hooked_01.png",
           "filename": "nose_hooked_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3177,11 +4164,18 @@
           "path": "/avatar/assets/noses/nose_hooked_02.png",
           "filename": "nose_hooked_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3199,11 +4193,18 @@
           "path": "/avatar/assets/noses/nose_narrow_01.png",
           "filename": "nose_narrow_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3221,11 +4222,18 @@
           "path": "/avatar/assets/noses/nose_narrow_02.png",
           "filename": "nose_narrow_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3243,11 +4251,18 @@
           "path": "/avatar/assets/noses/nose_neutral_01.png",
           "filename": "nose_neutral_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3265,11 +4280,18 @@
           "path": "/avatar/assets/noses/nose_neutral_02.png",
           "filename": "nose_neutral_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3287,11 +4309,18 @@
           "path": "/avatar/assets/noses/nose_prominent_01.png",
           "filename": "nose_prominent_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3309,11 +4338,18 @@
           "path": "/avatar/assets/noses/nose_prominent_02.png",
           "filename": "nose_prominent_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3331,11 +4367,18 @@
           "path": "/avatar/assets/noses/nose_straight_01.png",
           "filename": "nose_straight_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3353,11 +4396,18 @@
           "path": "/avatar/assets/noses/nose_straight_02.png",
           "filename": "nose_straight_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3375,11 +4425,18 @@
           "path": "/avatar/assets/noses/nose_upturned_01.png",
           "filename": "nose_upturned_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3397,11 +4454,18 @@
           "path": "/avatar/assets/noses/nose_upturned_02.png",
           "filename": "nose_upturned_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3419,11 +4483,18 @@
           "path": "/avatar/assets/noses/nose_wide_01.png",
           "filename": "nose_wide_01.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3441,11 +4512,18 @@
           "path": "/avatar/assets/noses/nose_wide_02.png",
           "filename": "nose_wide_02.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3473,11 +4551,18 @@
           "path": "/avatar/assets/paper/paper_1.png",
           "filename": "paper_1.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3505,11 +4590,18 @@
           "path": "/avatar/assets/shading/shading_1.png",
           "filename": "shading_1.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,
@@ -3527,11 +4619,18 @@
           "path": "/avatar/assets/shading/shading_2.png",
           "filename": "shading_2.png",
           "weight": 1,
-          "resolution": null,
+          "resolution": 512,
           "tone": null,
-          "genderTags": [],
-          "styleTags": [],
-          "ageRange": [],
+          "genderTags": [
+            "unisex"
+          ],
+          "styleTags": [
+            "default"
+          ],
+          "ageRange": [
+            0,
+            100
+          ],
           "variants": [],
           "hueVariants": [],
           "supportsTint": false,

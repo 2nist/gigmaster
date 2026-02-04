@@ -5,9 +5,12 @@
   "scripts": {
     "generate": "node scripts/generate.js",
     "generate:alpha": "node scripts/generate.js --alpha",
+    "avatar": "node scripts/generate.js --batch batches/avatars.json",
+    "avatar:icons": "node scripts/generate.js --batch batches/avatars.json --downscale 128",
     "remove-bg": "node scripts/remove-bg.js --input outputs/eyes"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "sharp": "^0.34.5"
   }
 }

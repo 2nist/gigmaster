@@ -1,6 +1,6 @@
 {
   "category": "eyes",
-  "count": 24,
-  "seedStart": 1000,
-  "batchSize": 4
+  "count": 3,
+  "seedStart": 2000,
+  "batchSize": 1
 }
