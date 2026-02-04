@@ -7,7 +7,9 @@
 
 import React from 'react';
 import { AvatarCanvas } from './AvatarCanvas';
+import PhaserAvatar from './PhaserAvatar';
 import { getAvatarSeed, getAvatarArchetype, resolveAvatarSize } from '../avatar/avatarUtils';
+import { usePhaserAvatars } from '../config/featureFlags';
 
 /**
  * @param {Object} props
@@ -22,6 +24,8 @@ export function AvatarDisplay({ entity, seed, archetype, size = 'md', className 
   const resolvedSeed = entity == null ? (seed ?? 'unknown') : getAvatarSeed(entity);
   const resolvedArchetype = entity == null ? archetype : getAvatarArchetype(entity);
   const resolvedSize = resolveAvatarSize(size);
+
+  const AvatarComp = usePhaserAvatars ? PhaserAvatar : AvatarCanvas;
 
   return (
     <div
@@ -39,7 +43,7 @@ export function AvatarDisplay({ entity, seed, archetype, size = 'md', className 
       role={alt ? 'img' : undefined}
       aria-label={alt || undefined}
     >
-      <AvatarCanvas
+      <AvatarComp
         seed={resolvedSeed}
         archetype={resolvedArchetype}
         size={resolvedSize}

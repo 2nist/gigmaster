@@ -9,6 +9,8 @@
 
 import React from 'react';
 import { AvatarCanvas } from '../AvatarCanvas.jsx';
+import PhaserAvatar from '../PhaserAvatar';
+import { usePhaserAvatars } from '../../config/featureFlags';
 
 // Face shape variations (SVG paths or CSS-based)
 const FACE_SHAPES = ['oval', 'round', 'square', 'heart', 'diamond', 'long', 'wide'];
@@ -78,9 +80,11 @@ export const EnhancedAvatar = ({
     console.warn('[EnhancedAvatar] Using fallback seed, traits:', traits);
   }
 
+  const AvatarComp = usePhaserAvatars ? PhaserAvatar : AvatarCanvas;
+
   return (
     <div className={`enhanced-avatar relative`} style={{ width: sizeMap[size], height: sizeMap[size] }}>
-      <AvatarCanvas
+      <AvatarComp
         seed={avatarSeed}
         archetype={archetype}
         size={sizeMap[size]}

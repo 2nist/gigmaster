@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "path": { "type": "string" },
+                "category": { "type": "string" },
+                "frames": { "type": "integer" }
+              },
+              "required": ["id", "path"]
+            }
+          }
+        },
+        "required": ["name", "features"]
+      }
+    }
+  }
+}
