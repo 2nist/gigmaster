@@ -37,8 +37,8 @@ export async function generateSongFromAnywhere({ bandData, context = {}, options
       fanbase: bandData.fanbase || {}
     };
 
-    const genre = options.genre || context.genre || 'rock';
-    const songName = options.songName || context.songName || null;
+    const genre = options.genre || context.genre || context.eventData?.genre || 'rock';
+    const songName = options.songName || context.eventData?.songName || context.songName || null;
     const seed = options.seed || context.seed || `${gameState.bandName}-${gameState.week}-${genre}`;
 
     return MusicGenerator.generateSong(gameState, genre, {

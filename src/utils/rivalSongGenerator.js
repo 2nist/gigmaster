@@ -39,8 +39,8 @@ export async function generateRivalSong(bandData, options = {}) {
   // Determine genre if not provided
   const songGenre = genre || bandData.genre || 'rock';
 
-  // Generate song name if not provided
-  const generatedSongName = songName || generateSongName(bandData, songGenre);
+  // Generate song name if not provided (include band name)
+  const generatedSongName = songName || `${bandData.name} - ${generateSongName(bandData, songGenre)}`;
 
   // Generate seed for reproducibility
   const songSeed = seed || `${bandData.id || bandData.name}-${bandGameState.week}-${songGenre}`;

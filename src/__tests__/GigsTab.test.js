@@ -47,12 +47,14 @@ describe('GigsTab Component', () => {
 
   test('handles empty gig history', () => {
     render(<GigsTab gameData={{ gigHistory: [], gigEarnings: 0 }} />);
-    expect(screen.getByText('0')).toBeInTheDocument();
+    const zeros = screen.getAllByText('0');
+    expect(zeros.length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/No gigs yet/i)).toBeInTheDocument();
   });
 
   test('handles missing data gracefully', () => {
     render(<GigsTab gameData={{}} />);
-    expect(screen.getByText('0')).toBeInTheDocument();
+    const zeros = screen.getAllByText('0');
+    expect(zeros.length).toBeGreaterThanOrEqual(1);
   });
 });

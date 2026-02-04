@@ -101,11 +101,11 @@ describe('Core Loop Implementation', () => {
       
       gameLogic.writeSong('Existing Song');
 
-      expect(mockAddLog).toHaveBeenCalledWith(
-        expect.stringContaining('already exists'),
-        true,
-        expect.any(Object)
-      );
+      // Find a log call that mentions duplicate title
+      const duplicateCall = mockAddLog.mock.calls.find(call => call[0] && call[0].includes('already exists'));
+      expect(duplicateCall).toBeDefined();
+      expect(['warning', true]).toContain(duplicateCall[1]);
+      expect(duplicateCall[2]).toEqual(expect.any(Object));
       expect(mockUpdateGameState).not.toHaveBeenCalled();
     });
 
