@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-04T00:43:49.459Z",
+  "generatedAt": "2026-02-04T08:36:41.276Z",
   "version": 2,
   "layers": [
     {
@@ -2228,6 +2228,50 @@
       "zIndex": null,
       "blendMode": "NORMAL",
       "features": [
+        {
+          "id": "body-light",
+          "path": "/avatar/assets/heads/body-light.png",
+          "filename": "body-light.png",
+          "weight": 1,
+          "resolution": null,
+          "tone": null,
+          "genderTags": [],
+          "styleTags": [],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": null,
+          "metadataNotes": null
+        },
+        {
+          "id": "body-medium",
+          "path": "/avatar/assets/heads/body-medium.png",
+          "filename": "body-medium.png",
+          "weight": 1,
+          "resolution": null,
+          "tone": null,
+          "genderTags": [],
+          "styleTags": [],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": null,
+          "metadataNotes": null
+        },
         {
           "id": "head_1",
           "path": "/avatar/assets/heads/head_1.png",
