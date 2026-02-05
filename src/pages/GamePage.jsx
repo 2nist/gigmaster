@@ -16,6 +16,7 @@ import {
 } from '../components/Tabs';
 import { RightPanel } from '../components/Panels';
 import { useChartSystem } from '../hooks/useChartSystem';
+import { useMusicGeneration } from '../hooks/useMusicGeneration';
 import { calculateLogoStyle, ensureFontLoaded } from '../utils/helpers';
 import { buildConsequenceEvent } from '../utils/enhancedCopy';
 
@@ -64,10 +65,13 @@ export const GamePage = ({
   setMaturityLevel,
   themeSystem,
   victoryConditions,
-  onRegisterEventChoiceHandler
+  onRegisterEventChoiceHandler,
+  musicGeneration,
+  tuningSystem
 }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [chartTab, setChartTab] = useState('topChart'); // Chart sidebar tab
+  const [showCharts, setShowCharts] = useState(true); // Toggle for chart sidebar
   const [autoSaving, setAutoSaving] = useState(false);
   const [eventQueue, setEventQueue] = useState([]);
   const [weeklySummaryData, setWeeklySummaryData] = useState(null);
@@ -507,6 +511,20 @@ export const GamePage = ({
 
             {/* Theme Selector & Actions - Compact */}
             <div className="flex items-center flex-shrink-0 gap-2">
+              {/* Charts Toggle Button */}
+              <button
+                onClick={() => setShowCharts(!showCharts)}
+                className={`px-2 py-1 rounded-md cursor-pointer flex items-center gap-1 transition-all text-xs ${
+                  showCharts
+                    ? 'bg-secondary text-secondary-foreground'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                }`}
+                title={showCharts ? 'Hide Charts' : 'Show Charts'}
+              >
+                📊
+                {showCharts ? 'Hide' : 'Show'} Charts
+              </button>
+
               {themeSystem && (
                 <>
                   <label className="hidden text-xs font-semibold text-muted-foreground sm:inline">Theme:</label>
@@ -621,26 +639,28 @@ export const GamePage = ({
       />
 
       {/* Right Sidebar - Charts */}
-      <Card className="flex-shrink-0 hidden p-4 border-l w-80 border-border/20 lg:block">
-        <RightPanel
-          activeTab={chartTab}
-          onTabChange={setChartTab}
-          chartLeaders={chartLeaders}
-          albumChart={albumChart}
-          songChart={songChart}
-          playerLogoState={gameState?.state || {}}
-          onBandClick={(band) => {
-            // Handle band click - could open band stats modal
-            if (band.isPlayer) {
-              // Show player stats
-              console.log('Player band clicked:', band);
-            } else {
-              // Show rival stats
-              console.log('Rival band clicked:', band);
-            }
-          }}
-        />
-      </Card>
+      {showCharts && (
+        <Card className="flex-shrink-0 hidden p-4 border-l w-80 border-border/20 md:block">
+          <RightPanel
+            activeTab={chartTab}
+            onTabChange={setChartTab}
+            chartLeaders={chartLeaders}
+            albumChart={albumChart}
+            songChart={songChart}
+            playerLogoState={gameState?.state || {}}
+            onBandClick={(band) => {
+              // Handle band click - could open band stats modal
+              if (band.isPlayer) {
+                // Show player stats
+                console.log('Player band clicked:', band);
+              } else {
+                // Show rival stats
+                console.log('Rival band clicked:', band);
+              }
+            }}
+          />
+        </Card>
+      )}
     </div>
   );
 };
@@ -673,7 +693,9 @@ const TabContent = ({
   enhancedFeatures,
   setContentPreference,
   setMaturityLevel,
-  victoryConditions
+  victoryConditions,
+  musicGeneration,
+  tuningSystem
 }) => {
   switch (tabId) {
     case 'dashboard':
@@ -703,6 +725,7 @@ const TabContent = ({
         gameLogic={gameLogic}
         recordingSystem={recordingSystem}
         modalState={modalState}
+        musicGeneration={musicGeneration}
       />;
     case 'band':
       return <BandTab 
@@ -710,6 +733,7 @@ const TabContent = ({
         gameState={gameState}
         bandManagement={bandManagement}
         onAdvanceWeek={onAdvanceWeek}
+        tuningSystem={tuningSystem}
       />;
     case 'gigs':
       return <GigsTab 

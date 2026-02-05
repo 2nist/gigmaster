@@ -1,0 +1,32 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Messy Hair Example - Painterly Style -->
+  <defs>
+    <radialGradient id="hairGradient" cx="0.3" cy="0.3" r="0.8">
+      <stop offset="0%" style="stop-color:#B8860B;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#654321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2F1B14;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Main hair mass -->
+  <path d="M 362 412 Q 412 352 512 362 Q 612 352 662 412 Q 712 462 662 512 Q 612 562 512 552 Q 412 562 362 512 Q 312 462 362 412 Z" fill="url(#hairGradient)"/>
+  
+  <!-- Hair strands -->
+  <path d="M 387 387 Q 407 347 427 367" fill="none" stroke="#8B4513" stroke-width="3" opacity="0.8"/>
+  <path d="M 437 377 Q 457 337 477 357" fill="none" stroke="#8B4513" stroke-width="3" opacity="0.8"/>
+  <path d="M 487 372 Q 507 332 527 352" fill="none" stroke="#8B4513" stroke-width="3" opacity="0.8"/>
+  <path d="M 537 377 Q 557 337 577 357" fill="none" stroke="#8B4513" stroke-width="3" opacity="0.8"/>
+  <path d="M 587 387 Q 607 347 627 367" fill="none" stroke="#8B4513" stroke-width="3" opacity="0.8"/>
+  
+  <!-- Side strands -->
+  <path d="M 362 462 Q 342 442 352 422" fill="none" stroke="#654321" stroke-width="2" opacity="0.6"/>
+  <path d="M 662 462 Q 682 442 672 422" fill="none" stroke="#654321" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Highlights -->
+  <path d="M 412 392 Q 432 372 452 392" fill="none" stroke="#DAA520" stroke-width="2" opacity="0.5"/>
+  <path d="M 512 382 Q 532 362 552 382" fill="none" stroke="#DAA520" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Shadow under hair -->
+  <ellipse cx="512" cy="552" rx="150" ry="20" fill="#000000" opacity="0.2"/>
+</svg>

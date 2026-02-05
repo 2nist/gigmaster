@@ -4,7 +4,7 @@ import Card from '../../ui/Card';
 import Button from '../../ui/Button';
 import { AuditionPanel } from '../AuditionPanel.jsx';
 import { RehearsalPanel } from '../RehearsalPanel.jsx';
-import { MemberToneSettingsPanel } from '../MemberToneSettingsPanel.jsx';
+import MemberTuningPanel from '../MemberTuningPanel.jsx';
 import { InstrumentCustomizer } from '../InstrumentCustomizer/InstrumentCustomizer.jsx';
 import { AvatarDisplay } from '../AvatarDisplay.jsx';
 import { generateSkillTraits } from '../../utils/memberSkillTraits.js';
@@ -24,7 +24,8 @@ export const BandTab = ({
   gameData, 
   gameState,
   bandManagement,
-  onAdvanceWeek
+  onAdvanceWeek,
+  tuningSystem
 }) => {
   const [showRecruitment, setShowRecruitment] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -33,6 +34,7 @@ export const BandTab = ({
   const [showToneSettings, setShowToneSettings] = useState(false);
   const [toneSettingsMember, setToneSettingsMember] = useState(null);
   const [showInstrumentCustomizer, setShowInstrumentCustomizer] = useState(false);
+  const [showTuningSystem, setShowTuningSystem] = useState(false);
 
   const MUSICIAN_ROLES = [
     { id: 'vocal', name: 'Vocalist', cost: 500 },
@@ -175,6 +177,10 @@ export const BandTab = ({
           <Button onClick={() => setShowAuditions(true)} className="flex items-center gap-2 px-4 py-2 rounded-md bg-secondary text-secondary-foreground">
             <Mic size={16} />
             Auditions
+          </Button>
+          <Button onClick={() => setShowTuningSystem(true)} disabled={members.length === 0} className="flex items-center gap-2 px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700">
+            <Settings size={16} />
+            Tuning System
           </Button>
           <Button onClick={() => setShowRecruitment(!showRecruitment)} className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground">
             <Plus size={16} />
@@ -408,6 +414,31 @@ export const BandTab = ({
             });
           }}
         />
+      )}
+
+      {/* Tuning System Modal */}
+      {showTuningSystem && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div style={{ maxWidth: '1200px', width: '100%', maxHeight: '90vh', overflow: 'auto' }}>
+            <MemberTuningPanel
+              tuningSystem={tuningSystem}
+              bandMembers={members}
+              onClose={() => setShowTuningSystem(false)}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

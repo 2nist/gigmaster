@@ -1,9 +1,0 @@
-cartoon, anime, chibi, cute,
-photorealistic, smooth shading, color,
-digital painting, vector art,
-childlike, mascot, emoji,
-profile view, side view, three-quarter view, tilted head,
-full body, torso, background scene,
-sepia, brown, skin tone,
-blurry, out of focus, soft, smudged, low contrast,
-inconsistent style, different art style, mixed techniques

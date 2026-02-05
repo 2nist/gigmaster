@@ -1,15 +1,20 @@
 /**
- * ToneRenderer - Converts generated music to audio via Tone.js
+ * ToneRenderer - Enhanced audio renderer with advanced Tone.js integration
  * 
- * Renders drums, harmony, and melody as playable audio.
- * Handles synth synthesis, timing, and real-time playback.
- * Includes genre-specific and instrument-specific audio effects.
+ * Features:
+ * - Multi-layer instrument synthesis
+ * - Dynamic reverb and spatial effects
+ * - Real-time effects processing
+ * - Genre-specific audio profiles
+ * - Member skill-responsive audio
+ * - Advanced mixing and mastering
  */
 
 import * as Tone from 'tone';
 import { getGenreEffects, adjustEffectsForGameState, DEFAULT_EFFECTS } from './EffectsConfig.js';
 import { getKeyboardTypeForGenre } from './KeyboardConfig.js';
 import { SeededRandom } from '../utils/SeededRandom.js';
+import { GENRE_AUDIO_PROFILES } from '../profiles/GENRE_AUDIO_PROFILES.js';
 
 export class ToneRenderer {
   constructor() {
@@ -17,39 +22,68 @@ export class ToneRenderer {
     this.isPlaying = false;
     this.currentTime = 0;
     
-    // Synth instances
+    // Enhanced synth instances with multiple layers
     this.melodySynth = null;
+    this.melodyLayer2 = null; // Second layer for richer sound
     this.harmonyVoices = [];
     this.keyboardSynth = null;
-    this.keyboardType = null; // 'piano', 'electric-piano', 'synth'
+    this.keyboardLayer2 = null; // Second keyboard layer
+    this.bassSynth = null; // Dedicated bass synth
+    this.keyboardType = null;
+    
+    // Enhanced drum synthesis
     this.drums = {
       kick: null,
       snare: null,
-      hihat: null
+      hihat: null,
+      tom: null, // Additional percussion
+      cymbal: null
     };
     
-    // Effect chains
+    // Advanced effect chains with multiple stages
     this.masterEffects = {
+      compressor: null,
+      limiter: null,
       reverb: null,
-      compressor: null
+      delay: null
     };
+    
     this.melodyEffects = {
       distortion: null,
       delay: null,
       chorus: null,
-      filter: null
+      phaser: null,
+      filter: null,
+      reverb: null
     };
+    
     this.harmonyEffects = {
       reverb: null,
       chorus: null,
       distortion: null,
-      filter: null
+      filter: null,
+      delay: null
     };
+    
     this.drumEffects = {
       compression: null,
       reverb: null,
       distortion: null,
-      filter: null
+      filter: null,
+      eq: null
+    };
+    
+    this.bassEffects = {
+      compression: null,
+      distortion: null,
+      filter: null,
+      chorus: null
+    };
+    
+    // Spatial effects for 3D audio
+    this.spatialEffects = {
+      reverb: null,
+      panner: null
     };
     
     // Member skill traits for playback
@@ -76,15 +110,18 @@ export class ToneRenderer {
     
     this.scheduledNotes = [];
     this.currentSong = null;
-    this.traitRNG = null; // Seeded RNG for deterministic trait effects
+    this.traitRNG = null;
+    
+    // Audio analysis for dynamic processing
+    this.audioAnalyzer = null;
+    this.frequencyData = null;
   }
 
   /**
-   * Initialize Tone.js context and synths with effects
+   * Initialize Tone.js context with enhanced synths and effects
    */
   async initialize(song = null) {
     if (this.isInitialized) {
-      // Re-initialize effects if song changed
       if (song) {
         await this._setupEffects(song);
       }
@@ -94,13 +131,19 @@ export class ToneRenderer {
     // Start Tone.js audio context
     await Tone.start();
     
-    // Create master effects chain first
+    // Initialize audio analyzer for dynamic processing
+    this.audioAnalyzer = new Tone.Analyser('fft', 256);
+    this.frequencyData = new Float32Array(256);
+    
+    // Create advanced master effects chain
     this.masterEffects.compressor = new Tone.Compressor({
-      threshold: -22,
+      threshold: -24,
       ratio: 4,
-      attack: 0.005,
+      attack: 0.003,
       release: 0.1
     });
+    
+    this.masterEffects.limiter = new Tone.Limiter(-6);
     
     this.masterEffects.reverb = new Tone.Reverb({
       roomSize: 0.3,
@@ -108,20 +151,40 @@ export class ToneRenderer {
       wet: 0.1
     });
     
-    // Connect master effects
-    this.masterEffects.compressor.connect(this.masterEffects.reverb);
+    this.masterEffects.delay = new Tone.FeedbackDelay('8n', 0.1);
+    
+    // Connect master chain: compressor -> limiter -> delay -> reverb -> destination
+    this.masterEffects.compressor.connect(this.masterEffects.limiter);
+    this.masterEffects.limiter.connect(this.masterEffects.delay);
+    this.masterEffects.delay.connect(this.masterEffects.reverb);
     this.masterEffects.reverb.toDestination();
     
-    // Create keyboard effects BEFORE _setupEffects (needed by _initializeKeyboard)
-    this.keyboardEffects = {
-      reverb: new Tone.Reverb({ roomSize: 0.4, wet: 0 }),
-      chorus: new Tone.Chorus(1.2, 2.5, 0.5),
-      filter: new Tone.Filter(8000, 'lowpass'),
-      delay: new Tone.FeedbackDelay('8n', 0)
-    };
+    // Connect analyzer to master chain
+    this.masterEffects.reverb.connect(this.audioAnalyzer);
     
-    // Create melody synth with effects
-    this.melodySynth = new Tone.PolySynth(Tone.Synth, {
+    // Create enhanced melody synth with dual layers
+    this.melodySynth = new Tone.PolySynth(Tone.FMSynth, {
+      harmonicity: 2,
+      modulationIndex: 3,
+      detune: 0,
+      oscillator: { type: 'sawtooth' },
+      envelope: {
+        attack: 0.01,
+        decay: 0.2,
+        sustain: 0.3,
+        release: 0.8
+      },
+      modulation: { type: 'square' },
+      modulationEnvelope: {
+        attack: 0.5,
+        decay: 0.01,
+        sustain: 1,
+        release: 0.5
+      }
+    });
+    
+    // Second melody layer for richness
+    this.melodyLayer2 = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'triangle' },
       envelope: {
         attack: 0.005,
@@ -131,21 +194,31 @@ export class ToneRenderer {
       }
     });
     
-    // Create melody effects
+    // Enhanced melody effects chain
     this.melodyEffects.distortion = new Tone.Distortion(0);
     this.melodyEffects.delay = new Tone.FeedbackDelay('8n', 0);
     this.melodyEffects.chorus = new Tone.Chorus(1.5, 3.5, 0.7);
+    this.melodyEffects.phaser = new Tone.Phaser({
+      frequency: 0.5,
+      octaves: 2,
+      baseFrequency: 1000
+    });
     this.melodyEffects.filter = new Tone.Filter(8000, 'lowpass');
+    this.melodyEffects.reverb = new Tone.Reverb({ roomSize: 0.2, wet: 0 });
     
-    // Connect melody chain: synth -> filter -> distortion -> delay -> chorus -> master
-    this.melodySynth
-      .connect(this.melodyEffects.filter)
+    // Connect melody chain: synths -> filter -> distortion -> phaser -> chorus -> delay -> reverb -> master
+    this.melodySynth.connect(this.melodyEffects.filter);
+    this.melodyLayer2.connect(this.melodyEffects.filter);
+    this.melodyEffects.filter
       .connect(this.melodyEffects.distortion)
-      .connect(this.melodyEffects.delay)
+      .connect(this.melodyEffects.phaser)
       .connect(this.melodyEffects.chorus)
+      .connect(this.melodyEffects.delay)
+      .connect(this.melodyEffects.reverb)
       .connect(this.masterEffects.compressor);
     
-    this.melodySynth.volume.value = -8;
+    this.melodySynth.volume.value = -6;
+    this.melodyLayer2.volume.value = -10;
     
     // Connect keyboard effects (already created above)
     this.keyboardEffects.filter
@@ -154,40 +227,76 @@ export class ToneRenderer {
       .connect(this.keyboardEffects.reverb)
       .connect(this.masterEffects.compressor);
     
-    // Setup effects AFTER keyboard effects are created (needed by _initializeKeyboard)
-    if (song) {
-      await this._setupEffects(song);
-    }
-
-    // Create harmony voices (4-voice polyphony for chords) with effects
+    // Create enhanced harmony voices with richer synthesis
     this.harmonyEffects.reverb = new Tone.Reverb({ roomSize: 0.3, wet: 0 });
     this.harmonyEffects.chorus = new Tone.Chorus(1.2, 2.5, 0.5);
     this.harmonyEffects.distortion = new Tone.Distortion(0);
     this.harmonyEffects.filter = new Tone.Filter(5000, 'lowpass');
+    this.harmonyEffects.delay = new Tone.FeedbackDelay('16n', 0);
     
     // Connect harmony effects
     this.harmonyEffects.filter
       .connect(this.harmonyEffects.distortion)
       .connect(this.harmonyEffects.chorus)
+      .connect(this.harmonyEffects.delay)
       .connect(this.harmonyEffects.reverb)
       .connect(this.masterEffects.compressor);
     
-    for (let i = 0; i < 4; i++) {
+    // Create 6 harmony voices for richer chord textures
+    for (let i = 0; i < 6; i++) {
       const voice = new Tone.Synth({
-        oscillator: { type: 'sine' },
+        oscillator: { 
+          type: i % 2 === 0 ? 'sine' : 'triangle' // Alternate waveforms
+        },
         envelope: {
-          attack: 0.01,
+          attack: 0.01 + (i * 0.005), // Staggered attack times
           decay: 0.15,
           sustain: 0.2,
           release: 0.6
         }
       });
       voice.connect(this.harmonyEffects.filter);
-      voice.volume.value = -12 + (i * -1); // Slightly quieter
+      voice.volume.value = -14 + (i * -0.5); // Slightly different volumes
       this.harmonyVoices.push(voice);
     }
+    
+    // Create dedicated bass synth
+    this.bassSynth = new Tone.Synth({
+      oscillator: { type: 'sawtooth' },
+      envelope: {
+        attack: 0.01,
+        decay: 0.1,
+        sustain: 0.8,
+        release: 0.3
+      },
+      filter: {
+        Q: 2,
+        frequency: 300
+      }
+    });
+    
+    // Bass effects
+    this.bassEffects.compression = new Tone.Compressor({
+      threshold: -18,
+      ratio: 3,
+      attack: 0.01,
+      release: 0.1
+    });
+    this.bassEffects.distortion = new Tone.Distortion(0);
+    this.bassEffects.filter = new Tone.Filter(2000, 'lowpass');
+    this.bassEffects.chorus = new Tone.Chorus(0.5, 2, 0.3);
+    
+    // Connect bass chain
+    this.bassSynth
+      .connect(this.bassEffects.filter)
+      .connect(this.bassEffects.distortion)
+      .connect(this.bassEffects.chorus)
+      .connect(this.bassEffects.compression)
+      .connect(this.masterEffects.compressor);
+    
+    this.bassSynth.volume.value = -8;
 
-    // Create drum synths with effects
+    // Create enhanced drum synths with more realistic sounds
     this.drumEffects.compression = new Tone.Compressor({
       threshold: -20,
       ratio: 5,
@@ -196,37 +305,56 @@ export class ToneRenderer {
     });
     this.drumEffects.reverb = new Tone.Reverb({ roomSize: 0.2, wet: 0 });
     this.drumEffects.distortion = new Tone.Distortion(0);
-    // Use lowpass filter for drums to preserve low frequencies (kick needs bass)
     this.drumEffects.filter = new Tone.Filter(8000, 'lowpass');
+    this.drumEffects.eq = new Tone.EQ3({
+      low: 0,
+      mid: 0,
+      high: 0,
+      lowFrequency: 250,
+      highFrequency: 4000
+    });
     
     // Connect drum effects
     this.drumEffects.filter
       .connect(this.drumEffects.distortion)
       .connect(this.drumEffects.compression)
+      .connect(this.drumEffects.eq)
       .connect(this.drumEffects.reverb)
       .connect(this.masterEffects.compressor);
     
-    // Kick drum - use MembraneSynth for better kick sound (more realistic)
-    this.drums.kick = new Tone.MembraneSynth({
-      pitchDecay: 0.05,
-      octaves: 10,
+    // Enhanced kick drum with multiple oscillators for realism
+    this.drums.kick = new Tone.Synth({
       oscillator: {
-        type: 'sine'
+        type: 'sine',
+        modulationType: 'sine',
+        modulationIndex: 10,
+        harmonicity: 0.5
       },
       envelope: {
         attack: 0.001,
         decay: 0.4,
         sustain: 0,
         release: 0.1
+      },
+      filter: {
+        Q: 1,
+        frequency: 200
+      },
+      filterEnvelope: {
+        attack: 0.001,
+        decay: 0.3,
+        sustain: 0,
+        release: 0.1,
+        baseFrequency: 50,
+        octaves: 3
       }
     });
     this.drums.kick.connect(this.drumEffects.filter);
-    this.drums.kick.volume.value = 0; // Increased from -6 to 0 for better audibility
-
-    // Snare drum
-    this.drums.snare = new Tone.MembraneSynth({
-      pitchDecay: 0.08,
-      octaves: 1,
+    this.drums.kick.volume.value = -2;
+    
+    // Enhanced snare with noise and tone components
+    this.drums.snare = new Tone.NoiseSynth({
+      noise: { type: 'white' },
       envelope: {
         attack: 0.001,
         decay: 0.2,
@@ -234,10 +362,24 @@ export class ToneRenderer {
         release: 0.1
       }
     });
+    
+    // Add tonal component to snare
+    this.drums.snareTone = new Tone.Synth({
+      oscillator: { type: 'triangle' },
+      envelope: {
+        attack: 0.001,
+        decay: 0.1,
+        sustain: 0,
+        release: 0.05
+      }
+    });
+    
     this.drums.snare.connect(this.drumEffects.filter);
-    this.drums.snare.volume.value = -2; // Increased from -8 to -2
-
-    // Hi-hat (high-frequency click)
+    this.drums.snareTone.connect(this.drumEffects.filter);
+    this.drums.snare.volume.value = -4;
+    this.drums.snareTone.volume.value = -8;
+    
+    // Enhanced hi-hat with metal synthesis
     this.drums.hihat = new Tone.MetalSynth({
       frequency: 200,
       envelope: {
@@ -245,47 +387,89 @@ export class ToneRenderer {
         decay: 0.1,
         release: 0
       },
-      harmonics: [12, 8, 4]
+      harmonics: [12, 8, 4, 2],
+      modulationIndex: 32,
+      resonance: 3000,
+      octaves: 1.5
     });
     this.drums.hihat.connect(this.drumEffects.filter);
-    this.drums.hihat.volume.value = -8; // Increased from -14 to -8
+    this.drums.hihat.volume.value = -6;
+    
+    // Additional percussion: tom and cymbal
+    this.drums.tom = new Tone.MembraneSynth({
+      pitchDecay: 0.1,
+      octaves: 2,
+      oscillator: { type: 'sine' },
+      envelope: {
+        attack: 0.001,
+        decay: 0.3,
+        sustain: 0,
+        release: 0.2
+      }
+    });
+    this.drums.tom.connect(this.drumEffects.filter);
+    this.drums.tom.volume.value = -8;
+    
+    this.drums.cymbal = new Tone.MetalSynth({
+      frequency: 300,
+      envelope: {
+        attack: 0.001,
+        decay: 0.8,
+        release: 0.5
+      },
+      harmonics: [8, 6, 4, 2],
+      modulationIndex: 16,
+      resonance: 2000,
+      octaves: 2
+    });
+    this.drums.cymbal.connect(this.drumEffects.filter);
+    this.drums.cymbal.volume.value = -10;
 
-    // Keyboard will be initialized when song is rendered (needs genre info)
-    this.keyboardSynth = null;
-    this.keyboardType = null;
-
-    this.isInitialized = true;
+    // Spatial effects for 3D audio
+    this.spatialEffects = {
+      reverb: new Tone.Reverb({ roomSize: 0.5, wet: 0.2 }),
+      panner: new Tone.Panner(0) // Center position initially
+    };
+    
+    // Connect spatial effects to master chain
+    this.spatialEffects.panner.connect(this.spatialEffects.reverb);
+    this.spatialEffects.reverb.connect(this.masterEffects.compressor);
   }
   
   /**
    * Initialize keyboard synth based on genre
    */
   async _initializeKeyboard(genre) {
-    // Ensure keyboardEffects exists
+    // Ensure keyboardEffects exists with enhanced effects including phaser
     if (!this.keyboardEffects || !this.keyboardEffects.reverb) {
       console.warn('_initializeKeyboard: keyboardEffects not initialized, creating defaults');
       this.keyboardEffects = {
         reverb: new Tone.Reverb({ roomSize: 0.4, wet: 0 }),
         chorus: new Tone.Chorus(1.2, 2.5, 0.5),
         filter: new Tone.Filter(8000, 'lowpass'),
-        delay: new Tone.FeedbackDelay('8n', 0)
+        delay: new Tone.FeedbackDelay('8n', 0),
+        phaser: new Tone.Phaser({
+          frequency: 0.5,
+          octaves: 5,
+          baseFrequency: 1000
+        })
       };
     }
     if (this.keyboardSynth && this.keyboardType === getKeyboardTypeForGenre(genre)) {
       return; // Already initialized with correct type
     }
-    
+
     // Dispose old keyboard if exists
     if (this.keyboardSynth) {
       this.keyboardSynth.dispose();
     }
-    
+
     const keyboardType = getKeyboardTypeForGenre(genre);
     this.keyboardType = keyboardType;
-    
+
     switch (keyboardType) {
       case 'piano':
-        // Acoustic piano - use FM synth for piano-like sound
+        // Enhanced acoustic piano - dual-layer synthesis for richer sound
         this.keyboardSynth = new Tone.PolySynth(Tone.FMSynth, {
           harmonicity: 3,
           modulationIndex: 10,
@@ -309,15 +493,36 @@ export class ToneRenderer {
             release: 0.5
           }
         });
-        // Piano effects - more reverb, less distortion
+
+        // Add a second layer for piano body resonance
+        this.keyboardSynth2 = new Tone.PolySynth(Tone.Synth, {
+          oscillator: {
+            type: 'triangle',
+            partials: [1, 0.3, 0.1]
+          },
+          envelope: {
+            attack: 0.02,
+            decay: 0.8,
+            sustain: 0.05,
+            release: 1.2
+          }
+        });
+
+        // Piano effects - more reverb, less distortion, subtle phaser
         await this.keyboardEffects.reverb.set({ roomSize: 0.6 });
         this.keyboardEffects.reverb.wet.value = 0.3;
         this.keyboardEffects.chorus.set({ frequency: 0.8, delayTime: 2, depth: 0.4 });
         this.keyboardEffects.chorus.wet.value = 0.15;
+        this.keyboardEffects.phaser.frequency.value = 0.3;
+        this.keyboardEffects.phaser.wet.value = 0.1;
+
+        // Connect both layers to effects chain
+        this.keyboardSynth.connect(this.keyboardEffects.filter);
+        this.keyboardSynth2.connect(this.keyboardEffects.filter);
         break;
-        
+
       case 'electric-piano':
-        // Electric piano - Rhodes/Wurlitzer style
+        // Enhanced electric piano - Rhodes/Wurlitzer style with dual oscillators
         this.keyboardSynth = new Tone.PolySynth(Tone.Synth, {
           oscillator: {
             type: 'triangle'
@@ -329,15 +534,36 @@ export class ToneRenderer {
             release: 0.4
           }
         });
-        // Electric piano effects - chorus, light reverb
+
+        // Add a second layer for tine simulation
+        this.keyboardSynth2 = new Tone.PolySynth(Tone.Synth, {
+          oscillator: {
+            type: 'sawtooth',
+            partials: [1, 0.5, 0.2]
+          },
+          envelope: {
+            attack: 0.01,
+            decay: 0.2,
+            sustain: 0.2,
+            release: 0.6
+          }
+        });
+
+        // Electric piano effects - chorus, light reverb, phaser for movement
         await this.keyboardEffects.reverb.set({ roomSize: 0.4 });
         this.keyboardEffects.reverb.wet.value = 0.2;
         this.keyboardEffects.chorus.set({ frequency: 1.5, delayTime: 3, depth: 0.6 });
         this.keyboardEffects.chorus.wet.value = 0.3;
+        this.keyboardEffects.phaser.frequency.value = 0.8;
+        this.keyboardEffects.phaser.wet.value = 0.15;
+
+        // Connect both layers
+        this.keyboardSynth.connect(this.keyboardEffects.filter);
+        this.keyboardSynth2.connect(this.keyboardEffects.filter);
         break;
-        
+
       case 'synth':
-        // Synthesizer - electronic sound
+        // Enhanced synthesizer - electronic sound with dual oscillators
         this.keyboardSynth = new Tone.PolySynth(Tone.Synth, {
           oscillator: {
             type: 'sawtooth'
@@ -349,16 +575,37 @@ export class ToneRenderer {
             release: 0.3
           }
         });
-        // Synth effects - filter sweeps, delay
+
+        // Add a second layer for richer harmonics
+        this.keyboardSynth2 = new Tone.PolySynth(Tone.Synth, {
+          oscillator: {
+            type: 'square',
+            partials: [1, 0.3, 0.1, 0.05]
+          },
+          envelope: {
+            attack: 0.02,
+            decay: 0.3,
+            sustain: 0.4,
+            release: 0.4
+          }
+        });
+
+        // Synth effects - filter sweeps, delay, phaser for movement
         this.keyboardEffects.filter.set({ frequency: 4000, type: 'lowpass', Q: 2 });
         this.keyboardEffects.delay.set({ delayTime: '8n', feedback: 0.3 });
         this.keyboardEffects.delay.wet.value = 0.2;
         this.keyboardEffects.chorus.set({ frequency: 2, delayTime: 4, depth: 0.7 });
         this.keyboardEffects.chorus.wet.value = 0.25;
+        this.keyboardEffects.phaser.frequency.value = 1.2;
+        this.keyboardEffects.phaser.wet.value = 0.2;
+
+        // Connect both layers
+        this.keyboardSynth.connect(this.keyboardEffects.filter);
+        this.keyboardSynth2.connect(this.keyboardEffects.filter);
         break;
-        
+
       default:
-        // Fallback to electric piano
+        // Enhanced fallback to electric piano
         this.keyboardSynth = new Tone.PolySynth(Tone.Synth, {
           oscillator: { type: 'triangle' },
           envelope: {
@@ -368,11 +615,35 @@ export class ToneRenderer {
             release: 0.4
           }
         });
+
+        // Add basic second layer
+        this.keyboardSynth2 = new Tone.PolySynth(Tone.Synth, {
+          oscillator: { type: 'sine' },
+          envelope: {
+            attack: 0.01,
+            decay: 0.2,
+            sustain: 0.2,
+            release: 0.5
+          }
+        });
+
+        // Connect both layers
+        this.keyboardSynth.connect(this.keyboardEffects.filter);
+        this.keyboardSynth2.connect(this.keyboardEffects.filter);
     }
-    
-    // Connect keyboard to effects
-    this.keyboardSynth.connect(this.keyboardEffects.filter);
+
+    // Connect effects chain: filter -> phaser -> chorus -> delay -> reverb -> master
+    this.keyboardEffects.filter.connect(this.keyboardEffects.phaser);
+    this.keyboardEffects.phaser.connect(this.keyboardEffects.chorus);
+    this.keyboardEffects.chorus.connect(this.keyboardEffects.delay);
+    this.keyboardEffects.delay.connect(this.keyboardEffects.reverb);
+    this.keyboardEffects.reverb.connect(this.masterEffects.input || Tone.Destination);
+
+    // Set volume for both layers
     this.keyboardSynth.volume.value = -10;
+    if (this.keyboardSynth2) {
+      this.keyboardSynth2.volume.value = -12; // Slightly quieter second layer
+    }
   }
   
   /**
@@ -528,156 +799,317 @@ export class ToneRenderer {
   }
   
   /**
-   * Apply member tone settings to instruments
+   * Apply member tuning parameters from MemberTuningSystem
+   * @param {string} memberId - Member identifier (e.g., 'drummer', 'guitarist')
+   * @param {Object} tuningParameters - Tuning parameters from MemberTuningSystem
    */
-  async _applyMemberToneSettings() {
-    // Apply drummer settings
-    const drummerSettings = this.memberToneSettings.drummer;
-    if (drummerSettings) {
-      const volume = drummerSettings.volume || 0.8;
-      const volumeDB = -20 + (volume * 20);
-      if (this.drums.kick) this.drums.kick.volume.value = volumeDB - 6;
+  applyMemberTuning(memberId, tuningParameters) {
+    if (!tuningParameters) {
+      console.warn(`applyMemberTuning: No tuning parameters provided for ${memberId}`);
+      return;
+    }
+
+    console.log(`Applying tuning for ${memberId}:`, tuningParameters);
+
+    // Map member roles to instrument groups
+    const instrumentMap = {
+      drummer: 'drums',
+      guitarist: 'melody',
+      'lead-guitar': 'melody',
+      'rhythm-guitar': 'harmony',
+      bassist: 'bass',
+      keyboardist: 'keyboard',
+      vocalist: 'melody' // Map vocalist to melody for now
+    };
+
+    const instrumentGroup = instrumentMap[memberId];
+    if (!instrumentGroup) {
+      console.warn(`applyMemberTuning: Unknown member role ${memberId}`);
+      return;
+    }
+
+    // Apply tuning based on instrument group
+    switch (instrumentGroup) {
+      case 'drums':
+        this._applyDrumTuning(tuningParameters);
+        break;
+      case 'melody':
+        this._applyMelodyTuning(tuningParameters);
+        break;
+      case 'harmony':
+        this._applyHarmonyTuning(tuningParameters);
+        break;
+      case 'bass':
+        this._applyBassTuning(tuningParameters);
+        break;
+      case 'keyboard':
+        this._applyKeyboardTuning(tuningParameters);
+        break;
+    }
+
+    // Store tuning parameters for persistence
+    if (!this.memberToneSettings[memberId]) {
+      this.memberToneSettings[memberId] = {};
+    }
+    this.memberToneSettings[memberId].tuningParameters = tuningParameters;
+  }
+
+  /**
+   * Apply drum tuning parameters
+   */
+  _applyDrumTuning(parameters) {
+    // Volume & Dynamics
+    if (parameters.volume !== undefined && this.drums.kick) {
+      const volumeDB = parameters.volume;
+      this.drums.kick.volume.value = volumeDB - 6;
       if (this.drums.snare) this.drums.snare.volume.value = volumeDB - 8;
       if (this.drums.hihat) this.drums.hihat.volume.value = volumeDB - 14;
-      
-      if (drummerSettings.effects?.reverb?.enabled && this.drumEffects.reverb) {
-        await this.drumEffects.reverb.set({ roomSize: drummerSettings.effects.reverb.roomSize || 0.2 });
-        this.drumEffects.reverb.wet.value = drummerSettings.effects.reverb.wet || 0.1;
-      }
-      if (drummerSettings.effects?.distortion?.enabled && this.drumEffects.distortion) {
-        this.drumEffects.distortion.distortion = drummerSettings.effects.distortion.amount || 0.3;
-        this.drumEffects.distortion.wet.value = drummerSettings.effects.distortion.wet || 0.3;
-      }
-      if (drummerSettings.effects?.compression?.enabled && this.drumEffects.compression) {
-        this.drumEffects.compression.set({
-          threshold: drummerSettings.effects.compression.threshold || -20,
-          ratio: drummerSettings.effects.compression.ratio || 5,
-          attack: drummerSettings.effects.compression.attack || 0.002,
-          release: drummerSettings.effects.compression.release || 0.1
-        });
-      }
-      if (drummerSettings.effects?.filter?.enabled && this.drumEffects.filter) {
-        this.drumEffects.filter.set({
-          frequency: drummerSettings.effects.filter.frequency || 10000,
-          type: drummerSettings.effects.filter.type || 'highpass',
-          Q: drummerSettings.effects.filter.Q || 1
-        });
-      }
     }
-    
-    // Apply guitarist/lead-guitar settings (melody)
-    const leadGuitarSettings = this.memberToneSettings['lead-guitar'];
-    const guitarSettings = this.memberToneSettings.guitarist;
-    const melodySettings = leadGuitarSettings || guitarSettings;
-    if (melodySettings && this.melodySynth) {
-      const volume = melodySettings.volume || 0.8;
-      const volumeDB = -20 + (volume * 20);
-      this.melodySynth.volume.value = volumeDB - 8;
-      
-      if (melodySettings.effects?.distortion?.enabled && this.melodyEffects.distortion) {
-        this.melodyEffects.distortion.distortion = melodySettings.effects.distortion.amount || 0.2;
-        this.melodyEffects.distortion.wet.value = melodySettings.effects.distortion.wet || 0.3;
-      }
-      if (melodySettings.effects?.delay?.enabled && this.melodyEffects.delay) {
-        this.melodyEffects.delay.set({
-          delayTime: melodySettings.effects.delay.delayTime || '8n',
-          feedback: melodySettings.effects.delay.feedback || 0.2
-        });
-        this.melodyEffects.delay.wet.value = melodySettings.effects.delay.wet || 0.15;
-      }
-      if (melodySettings.effects?.chorus?.enabled && this.melodyEffects.chorus) {
-        this.melodyEffects.chorus.set({
-          frequency: melodySettings.effects.chorus.frequency || 1.5,
-          delayTime: melodySettings.effects.chorus.delayTime || 3.5,
-          depth: melodySettings.effects.chorus.depth || 0.7
-        });
-        this.melodyEffects.chorus.wet.value = melodySettings.effects.chorus.wet || 0.2;
-      }
-      if (melodySettings.effects?.filter?.enabled && this.melodyEffects.filter) {
-        this.melodyEffects.filter.set({
-          frequency: melodySettings.effects.filter.frequency || 8000,
-          type: melodySettings.effects.filter.type || 'lowpass',
-          Q: melodySettings.effects.filter.Q || 1
-        });
-      }
+
+    // Reverb
+    if (parameters.reverb && this.drumEffects.reverb) {
+      this.drumEffects.reverb.wet.value = parameters.reverb.wet;
+      this.drumEffects.reverb.set({ roomSize: parameters.reverb.roomSize || 0.2 });
     }
-    
-    // Apply keyboardist settings
-    const keyboardSettings = this.memberToneSettings.keyboardist;
-    if (keyboardSettings && this.keyboardSynth) {
-      const volume = keyboardSettings.volume || 0.8;
-      const volumeDB = -20 + (volume * 20);
-      this.keyboardSynth.volume.value = volumeDB - 10;
-      
-      if (keyboardSettings.effects?.reverb?.enabled && this.keyboardEffects.reverb) {
-        await this.keyboardEffects.reverb.set({ roomSize: keyboardSettings.effects.reverb.roomSize || 0.4 });
-        this.keyboardEffects.reverb.wet.value = keyboardSettings.effects.reverb.wet || 0.2;
-      }
-      if (keyboardSettings.effects?.chorus?.enabled && this.keyboardEffects.chorus) {
-        this.keyboardEffects.chorus.set({
-          frequency: keyboardSettings.effects.chorus.frequency || 1.2,
-          delayTime: keyboardSettings.effects.chorus.delayTime || 2.5,
-          depth: keyboardSettings.effects.chorus.depth || 0.5
-        });
-        this.keyboardEffects.chorus.wet.value = keyboardSettings.effects.chorus.wet || 0.2;
-      }
-      if (keyboardSettings.effects?.delay?.enabled && this.keyboardEffects.delay) {
-        this.keyboardEffects.delay.set({
-          delayTime: keyboardSettings.effects.delay.delayTime || '8n',
-          feedback: keyboardSettings.effects.delay.feedback || 0.2
-        });
-        this.keyboardEffects.delay.wet.value = keyboardSettings.effects.delay.wet || 0.15;
-      }
-      if (keyboardSettings.effects?.filter?.enabled && this.keyboardEffects.filter) {
-        this.keyboardEffects.filter.set({
-          frequency: keyboardSettings.effects.filter.frequency || 8000,
-          type: keyboardSettings.effects.filter.type || 'lowpass',
-          Q: keyboardSettings.effects.filter.Q || 1
-        });
-      }
+
+    // Distortion
+    if (parameters.distortion && this.drumEffects.distortion) {
+      this.drumEffects.distortion.distortion = parameters.distortion.distortion;
+      this.drumEffects.distortion.wet.value = parameters.distortion.wet;
     }
-    
-    // Apply bassist/rhythm-guitar settings (harmony)
-    const bassSettings = this.memberToneSettings.bassist;
-    const rhythmGuitarSettings = this.memberToneSettings['rhythm-guitar'];
-    const harmonySettings = bassSettings || rhythmGuitarSettings;
-    if (harmonySettings && this.harmonyVoices.length > 0) {
-      const volume = harmonySettings.volume || 0.8;
-      const volumeDB = -20 + (volume * 20);
-      this.harmonyVoices.forEach(voice => {
-        voice.volume.value = volumeDB - 12;
+
+    // Compression
+    if (parameters.compressor && this.drumEffects.compression) {
+      this.drumEffects.compression.set({
+        threshold: parameters.compressor.threshold,
+        ratio: parameters.compressor.ratio,
+        attack: parameters.compressor.attack,
+        release: parameters.compressor.release
       });
-      
-      if (harmonySettings.effects?.reverb?.enabled && this.harmonyEffects.reverb) {
-        await this.harmonyEffects.reverb.set({ roomSize: harmonySettings.effects.reverb.roomSize || 0.3 });
-        this.harmonyEffects.reverb.wet.value = harmonySettings.effects.reverb.wet || 0.15;
-      }
-      if (harmonySettings.effects?.chorus?.enabled && this.harmonyEffects.chorus) {
-        this.harmonyEffects.chorus.set({
-          frequency: harmonySettings.effects.chorus.frequency || 1.2,
-          delayTime: harmonySettings.effects.chorus.delayTime || 2.5,
-          depth: harmonySettings.effects.chorus.depth || 0.5
-        });
-        this.harmonyEffects.chorus.wet.value = harmonySettings.effects.chorus.wet || 0.2;
-      }
-      if (harmonySettings.effects?.distortion?.enabled && this.harmonyEffects.distortion) {
-        this.harmonyEffects.distortion.distortion = harmonySettings.effects.distortion.amount || 0.2;
-        this.harmonyEffects.distortion.wet.value = harmonySettings.effects.distortion.wet || 0.2;
-      }
-      if (harmonySettings.effects?.filter?.enabled && this.harmonyEffects.filter) {
-        this.harmonyEffects.filter.set({
-          frequency: harmonySettings.effects.filter.frequency || 5000,
-          type: harmonySettings.effects.filter.type || 'lowpass',
-          Q: harmonySettings.effects.filter.Q || 1
-        });
-      }
+    }
+
+    // EQ
+    if (parameters.eq && this.drumEffects.eq) {
+      this.drumEffects.eq.set({
+        low: parameters.eq.low,
+        mid: parameters.eq.mid,
+        high: parameters.eq.high
+      });
     }
   }
 
   /**
-   * Extract member traits from song game context
-   * Enhanced to use skill modifiers from EnhancedSongGenerator
+   * Apply melody tuning parameters (guitar/lead guitar)
    */
+  _applyMelodyTuning(parameters) {
+    // Volume & Dynamics
+    if (parameters.volume !== undefined && this.melodySynth) {
+      const volumeDB = parameters.volume;
+      this.melodySynth.volume.value = volumeDB - 8;
+      if (this.melodyLayer2) this.melodyLayer2.volume.value = volumeDB - 10;
+    }
+
+    // Tone Shaping
+    if (parameters.brightness !== undefined && this.melodyEffects.filter) {
+      // Brightness affects filter cutoff
+      const cutoff = 4000 + (parameters.brightness * 6000); // 4k-10k Hz
+      this.melodyEffects.filter.set({ frequency: cutoff });
+    }
+
+    // Effects
+    if (parameters.reverb && this.melodyEffects.reverb) {
+      this.melodyEffects.reverb.wet.value = parameters.reverb.wet;
+      this.melodyEffects.reverb.set({ roomSize: parameters.reverb.roomSize });
+    }
+
+    if (parameters.delay && this.melodyEffects.delay) {
+      this.melodyEffects.delay.set({
+        delayTime: parameters.delay.delayTime,
+        feedback: parameters.delay.feedback
+      });
+      this.melodyEffects.delay.wet.value = parameters.delay.wet;
+    }
+
+    if (parameters.distortion && this.melodyEffects.distortion) {
+      this.melodyEffects.distortion.distortion = parameters.distortion.distortion;
+      this.melodyEffects.distortion.wet.value = parameters.distortion.wet;
+    }
+
+    if (parameters.chorus && this.melodyEffects.chorus) {
+      this.melodyEffects.chorus.set({
+        frequency: parameters.chorus.frequency,
+        delayTime: parameters.chorus.delayTime,
+        depth: parameters.chorus.depth
+      });
+      this.melodyEffects.chorus.wet.value = parameters.chorus.wet;
+    }
+
+    if (parameters.phaser && this.melodyEffects.phaser) {
+      this.melodyEffects.phaser.set({
+        frequency: parameters.phaser.frequency,
+        octaves: parameters.phaser.octaves,
+        baseFrequency: parameters.phaser.baseFrequency
+      });
+      this.melodyEffects.phaser.wet.value = parameters.phaser.wet;
+    }
+
+    // Compressor
+    if (parameters.compressor && this.masterEffects.compressor) {
+      this.masterEffects.compressor.set({
+        threshold: parameters.compressor.threshold,
+        ratio: parameters.compressor.ratio,
+        attack: parameters.compressor.attack,
+        release: parameters.compressor.release
+      });
+    }
+
+    // EQ
+    if (parameters.eq && this.melodyEffects.filter) {
+      // Adjust filter based on EQ settings
+      const freq = 8000 + (parameters.eq.high * 4000); // 8k-12k for highs
+      this.melodyEffects.filter.set({ frequency: freq });
+    }
+  }
+
+  /**
+   * Apply harmony tuning parameters (rhythm guitar)
+   */
+  _applyHarmonyTuning(parameters) {
+    // Volume & Dynamics
+    if (parameters.volume !== undefined && this.harmonyVoices.length > 0) {
+      const volumeDB = parameters.volume;
+      this.harmonyVoices.forEach(voice => {
+        voice.volume.value = volumeDB - 12;
+      });
+    }
+
+    // Tone Shaping
+    if (parameters.brightness !== undefined && this.harmonyEffects.filter) {
+      const cutoff = 3000 + (parameters.brightness * 3000); // 3k-6k Hz
+      this.harmonyEffects.filter.set({ frequency: cutoff });
+    }
+
+    // Effects
+    if (parameters.reverb && this.harmonyEffects.reverb) {
+      this.harmonyEffects.reverb.wet.value = parameters.reverb.wet;
+      this.harmonyEffects.reverb.set({ roomSize: parameters.reverb.roomSize });
+    }
+
+    if (parameters.chorus && this.harmonyEffects.chorus) {
+      this.harmonyEffects.chorus.set({
+        frequency: parameters.chorus.frequency,
+        delayTime: parameters.chorus.delayTime,
+        depth: parameters.chorus.depth
+      });
+      this.harmonyEffects.chorus.wet.value = parameters.chorus.wet;
+    }
+
+    if (parameters.distortion && this.harmonyEffects.distortion) {
+      this.harmonyEffects.distortion.distortion = parameters.distortion.distortion;
+      this.harmonyEffects.distortion.wet.value = parameters.distortion.wet;
+    }
+
+    // EQ
+    if (parameters.eq && this.harmonyEffects.filter) {
+      const freq = 5000 + (parameters.eq.high * 3000); // 5k-8k for highs
+      this.harmonyEffects.filter.set({ frequency: freq });
+    }
+  }
+
+  /**
+   * Apply bass tuning parameters
+   */
+  _applyBassTuning(parameters) {
+    // Volume & Dynamics
+    if (parameters.volume !== undefined && this.bassSynth) {
+      const volumeDB = parameters.volume;
+      this.bassSynth.volume.value = volumeDB - 8;
+    }
+
+    // Tone Shaping
+    if (parameters.brightness !== undefined && this.bassEffects.filter) {
+      const cutoff = 1000 + (parameters.brightness * 1000); // 1k-2k Hz
+      this.bassEffects.filter.set({ frequency: cutoff });
+    }
+
+    // Effects
+    if (parameters.reverb && this.spatialEffects?.reverb) {
+      this.spatialEffects.reverb.wet.value = parameters.reverb.wet;
+      this.spatialEffects.reverb.set({ roomSize: parameters.reverb.roomSize });
+    }
+
+    if (parameters.distortion && this.bassEffects.distortion) {
+      this.bassEffects.distortion.distortion = parameters.distortion.distortion;
+      this.bassEffects.distortion.wet.value = parameters.distortion.wet;
+    }
+
+    if (parameters.chorus && this.bassEffects.chorus) {
+      this.bassEffects.chorus.set({
+        frequency: parameters.chorus.frequency,
+        delayTime: parameters.chorus.delayTime,
+        depth: parameters.chorus.depth
+      });
+      this.bassEffects.chorus.wet.value = parameters.chorus.wet;
+    }
+
+    // Compressor
+    if (parameters.compressor && this.bassEffects.compression) {
+      this.bassEffects.compression.set({
+        threshold: parameters.compressor.threshold,
+        ratio: parameters.compressor.ratio,
+        attack: parameters.compressor.attack,
+        release: parameters.compressor.release
+      });
+    }
+  }
+
+  /**
+   * Apply keyboard tuning parameters
+   */
+  _applyKeyboardTuning(parameters) {
+    // Volume & Dynamics
+    if (parameters.volume !== undefined && this.keyboardSynth) {
+      const volumeDB = parameters.volume;
+      this.keyboardSynth.volume.value = volumeDB - 10;
+      if (this.keyboardSynth2) this.keyboardSynth2.volume.value = volumeDB - 12;
+    }
+
+    // Tone Shaping
+    if (parameters.brightness !== undefined && this.keyboardEffects?.filter) {
+      const cutoff = 6000 + (parameters.brightness * 4000); // 6k-10k Hz
+      this.keyboardEffects.filter.set({ frequency: cutoff });
+    }
+
+    // Effects
+    if (parameters.reverb && this.keyboardEffects?.reverb) {
+      this.keyboardEffects.reverb.wet.value = parameters.reverb.wet;
+      this.keyboardEffects.reverb.set({ roomSize: parameters.reverb.roomSize });
+    }
+
+    if (parameters.chorus && this.keyboardEffects?.chorus) {
+      this.keyboardEffects.chorus.set({
+        frequency: parameters.chorus.frequency,
+        delayTime: parameters.chorus.delayTime,
+        depth: parameters.chorus.depth
+      });
+      this.keyboardEffects.chorus.wet.value = parameters.chorus.wet;
+    }
+
+    if (parameters.phaser && this.keyboardEffects?.phaser) {
+      this.keyboardEffects.phaser.set({
+        frequency: parameters.phaser.frequency,
+        octaves: parameters.phaser.octaves,
+        baseFrequency: parameters.phaser.baseFrequency
+      });
+      this.keyboardEffects.phaser.wet.value = parameters.phaser.wet;
+    }
+
+    // EQ via filter
+    if (parameters.eq && this.keyboardEffects?.filter) {
+      const freq = 8000 + (parameters.eq.high * 2000); // 8k-10k for highs
+      this.keyboardEffects.filter.set({ frequency: freq });
+    }
+  }
   _extractMemberTraits(song) {
     const gameContext = song?.gameContext || {};
     const bandMembers = gameContext.bandMembers || 
@@ -1403,14 +1835,27 @@ export class ToneRenderer {
           console.warn('Keyboard note missing pitch, skipping', note);
           return;
         }
-        // Apply velocity to keyboard
+        // Apply velocity to keyboard layers
         const keyboardVolume = -10 + (1 - (note.velocity || 0.8)) * 10;
         this.keyboardSynth.volume.value = keyboardVolume;
+
+        // Trigger primary layer
         this.keyboardSynth.triggerAttackRelease(
           note.note,
           note.duration,
           time
         );
+
+        // Trigger second layer if available (dual-layer synthesis)
+        if (this.keyboardSynth2) {
+          const secondaryVolume = keyboardVolume - 2; // Slightly quieter
+          this.keyboardSynth2.volume.value = secondaryVolume;
+          this.keyboardSynth2.triggerAttackRelease(
+            note.note,
+            note.duration,
+            time
+          );
+        }
         break;
         
       default:
@@ -1473,6 +1918,7 @@ export class ToneRenderer {
     // Dispose synths
     if (this.melodySynth) this.melodySynth.dispose();
     if (this.keyboardSynth) this.keyboardSynth.dispose();
+    if (this.keyboardSynth2) this.keyboardSynth2.dispose();
     this.harmonyVoices.forEach(voice => voice.dispose());
     
     if (this.drums.kick) this.drums.kick.dispose();
@@ -1486,6 +1932,9 @@ export class ToneRenderer {
     Object.values(this.drumEffects).forEach(effect => effect?.dispose());
     if (this.keyboardEffects) {
       Object.values(this.keyboardEffects).forEach(effect => effect?.dispose());
+    }
+    if (this.spatialEffects) {
+      Object.values(this.spatialEffects).forEach(effect => effect?.dispose());
     }
     
     this.isInitialized = false;

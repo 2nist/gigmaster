@@ -48,7 +48,9 @@ import {
   useMerchandiseSystem,
   useSponsorshipSystem,
   useVictoryConditions,
-  useTheme
+  useTheme,
+  useMusicGeneration,
+  useTuningSystem
 } from './hooks';
 
 // Import page components
@@ -192,10 +194,11 @@ function App() {
   // Victory conditions tracking
   const victoryConditions = useVictoryConditions(gameState.state, gameState.state?.selectedScenario);
 
-  // Update victory conditions on each game state change
-  useEffect(() => {
-    victoryConditions.updateGoalProgress(gameState.state);
-  }, [gameState.state?.week, gameState.state?.fame, gameState.state?.money]);
+  // Initialize music generation with tuning system
+  const musicGeneration = useMusicGeneration(gameState.state, gameState.updateGameState);
+
+  // Initialize tuning system
+  const tuningSystem = useTuningSystem(gameState.state, gameState.updateGameState);
 
   // Show loading state while game data loads
   if (dataLoading) {
@@ -458,6 +461,8 @@ function App() {
           radioCharting={radioCharting}
           merchandise={merchandise}
           sponsorships={sponsorships}
+          musicGeneration={musicGeneration}
+          tuningSystem={tuningSystem}
           onReturnToLanding={() => gameState.setStep('landing')}
           onSave={() => {
             if (gameState.state?.bandName) {

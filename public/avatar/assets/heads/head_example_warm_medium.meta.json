@@ -1,0 +1,9 @@
+{
+  "resolution": 1024,
+  "tone": "warm_medium",
+  "genderTags": ["neutral"],
+  "styleTags": ["realistic", "example"],
+  "supportsTint": false,
+  "author": "AI Generated Example",
+  "notes": "Example head showing painterly style with warm medium skin tone. Use as reference for skin gradients, shadow placement, and highlight positioning."
+}

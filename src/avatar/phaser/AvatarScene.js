@@ -64,6 +64,12 @@ const resolveAssetPath = (path) => {
     return path;
   }
 
+  // If path starts with /avatar/, treat it as absolute from root but account for Vite base
+  if (path.startsWith('/avatar/')) {
+    // Vite serves from /gigmaster/ base, so prepend that
+    return `/gigmaster${path}`;
+  }
+
   // Prefer an explicit base if available, otherwise derive from current location
   let baseCandidate = BASE_URL || '/';
   if ((typeof window !== 'undefined') && window.location && window.location.pathname) {
@@ -279,13 +285,21 @@ class AvatarScene extends Phaser.Scene {
           .setOrigin(0.5)
           .setAlpha(0);
 
-        this.tweens.timeline({
+        // Create a simple blink effect with two chained tweens
+        this.tweens.add({
           targets: blinkImg,
-          tweens: [
-            { alpha: 1, duration: 80 },
-            { alpha: 0, duration: 120 }
-          ],
-          onComplete: () => { blinkImg.destroy(); }
+          alpha: 1,
+          duration: 80,
+          onComplete: () => {
+            this.tweens.add({
+              targets: blinkImg,
+              alpha: 0,
+              duration: 120,
+              onComplete: () => {
+                blinkImg.destroy();
+              }
+            });
+          }
         });
       }
     });

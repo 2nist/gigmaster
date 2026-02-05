@@ -8,8 +8,9 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { MusicGenerator, ToneRenderer } from '../music';
 import { EnhancedSongGenerator } from '../music/EnhancedSongGenerator.js';
 import { MIDIExporter } from '../music/renderers/MIDIExporter';
+import { useTuningSystem } from './useTuningSystem';
 
-export const useMusicGeneration = () => {
+export const useMusicGeneration = (gameState, updateGameState) => {
   // Song state
   const [currentSong, setCurrentSong] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -24,6 +25,9 @@ export const useMusicGeneration = () => {
   const songCacheRef = useRef({});
   const rendererRef = useRef(null);
   const progressIntervalRef = useRef(null);
+
+  // Initialize tuning system
+  const tuningSystem = useTuningSystem(gameState, updateGameState);
 
   /**
    * Generate song from game state
@@ -155,7 +159,7 @@ export const useMusicGeneration = () => {
   /**
    * Initialize and render song for playback
    */
-  const renderForPlayback = useCallback(async (song = currentSong) => {
+  const renderForPlayback = useCallback(async (song = currentSong, applyTuning = true, memberId = null) => {
     if (!song) {
       setGenerationError('No song to render');
       return null;
@@ -168,6 +172,15 @@ export const useMusicGeneration = () => {
 
       const renderResult = await rendererRef.current.render(song);
       setDuration(renderResult.duration);
+
+      // Apply tuning if requested and tuning system is available
+      if (applyTuning && tuningSystem.isInitialized && tuningSystem.tuningSystem) {
+        const targetMemberId = memberId || (gameState?.bandMembers?.[0]?.id);
+        if (targetMemberId) {
+          tuningSystem.applyTuningToRenderer(rendererRef.current, targetMemberId);
+        }
+      }
+
       setGenerationError(null);
 
       return renderResult;
@@ -176,7 +189,7 @@ export const useMusicGeneration = () => {
       setGenerationError(`Render error: ${error.message}`);
       throw error;
     }
-  }, [currentSong]);
+  }, [currentSong, tuningSystem, gameState?.bandMembers]);
 
   /**
    * Play current song
@@ -369,7 +382,10 @@ export const useMusicGeneration = () => {
     getSongAnalysis,
 
     // Cache management
-    clearCache
+    clearCache,
+
+    // Tuning system integration
+    tuningSystem
   };
 };
 

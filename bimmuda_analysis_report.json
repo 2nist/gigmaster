@@ -1,0 +1,71 @@
+{
+  "analysis_summary": {
+    "total_files": 1498,
+    "processed_files": 1498,
+    "error_count": 0,
+    "success_rate": "100.00%"
+  },
+  "genre_distribution": {
+    "unknown": 1498
+  },
+  "era_distribution": {
+    "unknown": 1498
+  },
+  "lyrical_themes": {},
+  "quality_distribution": {
+    "high": 1498,
+    "medium": 0,
+    "low": 0
+  },
+  "temporal_distribution": {
+    "by_decade": {
+      "0": 1498
+    },
+    "by_year": {
+      "null": 1498
+    },
+    "peak_decade": "0",
+    "coverage_years": 1
+  },
+  "top_genres_by_era": {
+    "unknown": [
+      [
+        "unknown",
+        1498
+      ]
+    ]
+  },
+  "lyrical_insights": {
+    "lyrics_coverage": "0.00%",
+    "total_themes_identified": 0,
+    "average_themes_per_song": "NaN",
+    "most_common_themes": []
+  },
+  "quality_insights": {
+    "average_quality": "0.933",
+    "quality_distribution": {
+      "high": 1498,
+      "medium": 0,
+      "low": 0
+    },
+    "quality_by_era": {
+      "unknown": 0.9333333333333312
+    },
+    "high_quality_percentage": "100.00%"
+  },
+  "recommendations": [
+    {
+      "type": "diversification",
+      "message": "Consider balancing unknown dominance (100.0% of dataset)"
+    },
+    {
+      "type": "era_expansion",
+      "message": "Limited era coverage (1 eras). Consider expanding historical range."
+    },
+    {
+      "type": "lyrics_enhancement",
+      "message": "Only 0.0% files have lyrics. Consider lyrics integration."
+    }
+  ],
+  "errors": []
+}

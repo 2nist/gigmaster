@@ -7,6 +7,10 @@
     "generate:alpha": "node scripts/generate.js --alpha",
     "avatar": "node scripts/generate.js --batch batches/avatars.json",
     "avatar:icons": "node scripts/generate.js --batch batches/avatars.json --downscale 128",
+    "heads": "node scripts/generate.js --batch batches/heads.json",
+    "hair": "node scripts/generate.js --batch batches/hair.json",
+    "accessories": "node scripts/generate.js --batch batches/accessories.json",
+    "facialHair": "node scripts/generate.js --batch batches/facialHair.json",
     "remove-bg": "node scripts/remove-bg.js --input outputs/eyes"
   },
   "dependencies": {

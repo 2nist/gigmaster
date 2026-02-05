@@ -19,7 +19,7 @@ import MidiParser from 'midi-parser-js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import processor
+// Import processors
 import { LakhProcessor } from '../src/music/preprocessing/melody/LakhProcessor.js';
 
 /**
@@ -144,9 +144,11 @@ function parseClassicalJson(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const data = JSON.parse(content);
     
-    // Classical JSON has sections with chord information
-    // For melody extraction, we'd need note data which may not be in this format
-    // For now, return null - this format may need different handling
+    // When in Rome format contains chord progressions, not melody notes
+    // For melody extraction, we would need note data which this format doesn't have
+    // The WhenInRomeProcessor is designed for full classical piece analysis
+    // Return null for now - melody extraction from this format needs different handling
+    console.log(`   Skipping ${path.basename(filePath)} - chord-based format, no melody notes`);
     return null;
   } catch (error) {
     console.warn(`Failed to parse JSON ${filePath}: ${error.message}`);
@@ -157,15 +159,15 @@ function parseClassicalJson(filePath) {
 /**
  * Process melody phrases
  */
-async function processMelodyPhrases(inputDir, outputFile, options = {}) {
+async function processMelodyPhrases(inputPath, outputFile, options = {}) {
   const { limit = 50 } = options;
   
-  console.log(`\n🎵 Processing melody phrases from: ${inputDir}`);
+  console.log(`\n🎵 Processing melody phrases from: ${inputPath}`);
   console.log(`📁 Output: ${outputFile}`);
   console.log(`🔢 Limit: ${limit} phrases for core set\n`);
   
   // Resolve paths
-  const inputPath = path.resolve(__dirname, '..', inputDir);
+  const inputResolvedPath = path.resolve(__dirname, '..', inputPath);
   const outputPath = path.resolve(__dirname, '..', outputFile);
   
   // Ensure output directory exists
@@ -176,8 +178,8 @@ async function processMelodyPhrases(inputDir, outputFile, options = {}) {
   
   // Find files
   console.log('🔍 Scanning for files...');
-  const midiFiles = findMidiFiles(inputPath);
-  const jsonFiles = findJsonFiles(inputPath);
+  const midiFiles = findMidiFiles(inputResolvedPath);
+  const jsonFiles = findJsonFiles(inputResolvedPath);
   console.log(`   Found ${midiFiles.length} MIDI files and ${jsonFiles.length} JSON files\n`);
   
   if (midiFiles.length === 0 && jsonFiles.length === 0) {
@@ -241,8 +243,6 @@ async function processMelodyPhrases(inputDir, outputFile, options = {}) {
       console.warn(`   Warning: Failed to process phrase: ${error.message}`);
     }
   }
-  
-  console.log(`✅ Processed ${processedPhrases.length} phrases\n`);
   
   // Select diverse set
   console.log('🎯 Selecting core set...');

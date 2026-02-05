@@ -3,7 +3,8 @@ import { User, ArrowRight, SkipForward } from 'lucide-react';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { AvatarCreator } from '../components/AvatarCreator';
-import { generateRandomAvatarConfig, getAvatarUrlFromConfig } from '../utils/avatarConfig';
+import { configToPhaserSeed, configToPhaserArchetype } from '../utils/avatarConfig';
+import PhaserAvatar from '../components/PhaserAvatar';
 
 /**
  * AvatarCreation.jsx - Create your character's avatar
@@ -55,6 +56,10 @@ export const AvatarCreation = ({
   // Generate avatar URL from config
   const avatarUrl = useMemo(() => getAvatarUrlFromConfig(avatarConfig, 200), [avatarConfig]);
 
+  // Convert config to Phaser seed and archetype for preview
+  const seed = useMemo(() => configToPhaserSeed(avatarConfig), [avatarConfig]);
+  const archetype = useMemo(() => configToPhaserArchetype(avatarConfig), [avatarConfig]);
+
   const handleSaveAvatar = (config) => {
     setAvatarConfig(config);
     setShowAvatarCreator(false);
@@ -87,10 +92,17 @@ export const AvatarCreation = ({
         {/* Avatar Preview */}
         <div className="mb-8 flex flex-col items-center">
           <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/50 mb-4 bg-muted">
-            <img
-              src={avatarUrl}
-              alt="Your Avatar"
-              className="w-full h-full object-cover"
+            <PhaserAvatar
+              seed={seed}
+              archetype={archetype}
+              size={128}
+              lightingPreset="stage"
+              applyTint={true}
+              preserveDrawingBuffer={false}
+              onGenerated={(dataUrl) => {
+                // Handle generated avatar data URL if needed
+                console.log('Avatar preview generated');
+              }}
             />
           </div>
           <Button

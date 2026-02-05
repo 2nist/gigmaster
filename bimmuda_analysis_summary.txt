@@ -1,0 +1,47 @@
+
+BIMMUDA DATASET ANALYSIS REPORT
+===============================
+
+OVERVIEW
+--------
+Total Files: 1498
+Processed: 1498
+Success Rate: 100.00%
+Errors: 0
+
+GENRE DISTRIBUTION
+------------------
+unknown: 1498 (100.0%)
+
+ERA DISTRIBUTION
+----------------
+unknown: 1498 (100.0%)
+
+QUALITY METRICS
+---------------
+High Quality: 1498 (100.0%)
+Medium Quality: 0 (0.0%)
+Low Quality: 0 (0.0%)
+
+TEMPORAL COVERAGE
+-----------------
+Peak Decade: 0s
+Years Covered: 1
+Coverage: 0s
+
+LYRICAL ANALYSIS
+----------------
+Lyrics Coverage: 0.00%
+Themes Identified: 0
+Avg Themes/Song: NaN
+
+TOP THEMES:
+
+
+RECOMMENDATIONS
+---------------
+- Consider balancing unknown dominance (100.0% of dataset)
+- Limited era coverage (1 eras). Consider expanding historical range.
+- Only 0.0% files have lyrics. Consider lyrics integration.
+
+Generated: 2026-02-05T21:26:43.199Z

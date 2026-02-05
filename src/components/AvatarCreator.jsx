@@ -2,12 +2,13 @@
  * AvatarCreator - Interactive avatar customization component
  * 
  * Allows players to customize their avatar or band member avatars
- * using Avataaars-style options
+ * using Phaser-based procedural generation
  */
 
 import React, { useState, useCallback } from 'react';
 import { X, Save, RotateCcw, User } from 'lucide-react';
-import { AVATAR_OPTIONS, generateRandomAvatarConfig, getAvatarUrlFromConfig } from '../utils/avatarConfig.js';
+import { AVATAR_OPTIONS, generateRandomAvatarConfig, getAvatarUrlFromConfig, configToPhaserSeed, configToPhaserArchetype } from '../utils/avatarConfig.js';
+import PhaserAvatar from './PhaserAvatar';
 
 export const AvatarCreator = ({ 
   initialConfig = null, 
@@ -37,6 +38,10 @@ export const AvatarCreator = ({
   }, [config, onSave, onClose]);
 
   const avatarUrl = getAvatarUrlFromConfig(config, 150);
+
+  // Convert config to Phaser seed and archetype
+  const seed = configToPhaserSeed(config);
+  const archetype = configToPhaserArchetype(config);
 
   return (
     <div style={{
@@ -92,10 +97,17 @@ export const AvatarCreator = ({
             border: '3px solid #0ff',
             backgroundColor: '#222'
           }}>
-            <img
-              src={avatarUrl}
-              alt="Avatar Preview"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            <PhaserAvatar
+              seed={seed}
+              archetype={archetype}
+              size={150}
+              lightingPreset="stage"
+              applyTint={true}
+              preserveDrawingBuffer={false}
+              onGenerated={(dataUrl) => {
+                // Handle generated avatar data URL if needed
+                console.log('Avatar generated:', dataUrl ? dataUrl.length : 0, 'chars');
+              }}
             />
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>

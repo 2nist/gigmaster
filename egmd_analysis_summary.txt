@@ -1,0 +1,59 @@
+
+E-GMD DATASET ANALYSIS REPORT
+=============================
+
+OVERVIEW
+--------
+Total Files: 29111
+Processed: 29111
+Success Rate: 100.00%
+Errors: 0
+
+GENRE DISTRIBUTION
+------------------
+rock: 9503 (32.6%)
+funk: 9288 (31.9%)
+latin: 3612 (12.4%)
+jazz: 2537 (8.7%)
+soul: 2236 (7.7%)
+hiphop: 1763 (6.1%)
+afrobeat: 172 (0.6%)
+
+BPM DISTRIBUTION
+----------------
+unknown BPM: 29111 (100.0%)
+
+COMPLEXITY DISTRIBUTION
+-----------------------
+Low: 0 (0.0%)
+Medium: 29111 (100.0%)
+High: 0 (0.0%)
+
+PATTERN TYPES
+-------------
+standard: 29111 (100.0%)
+
+QUALITY METRICS
+---------------
+High Quality: 29111 (100.0%)
+Medium Quality: 0 (0.0%)
+Low Quality: 0 (0.0%)
+
+RHYTHMIC INSIGHTS
+-----------------
+Average Density: 0.000
+Average Syncopation: 0.000
+Most Complex Genre: soul
+
+TEMPO ANALYSIS
+--------------
+Most Common Tempo: fast
+Tempo Coverage: 0 patterns
+
+RECOMMENDATIONS
+---------------
+- Expand underrepresented genres: afrobeat (172), hiphop (1763)
+- Add patterns for missing BPM ranges: 60-80, 160-180, 180-200
+- Only 0.0% high complexity patterns. Consider adding more intricate rhythms.
+
+Generated: 2026-02-05T21:28:06.488Z

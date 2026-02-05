@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-04T09:09:38.068Z",
+  "generatedAt": "2026-02-04T17:56:51.679Z",
   "version": 2,
   "layers": [
     {
@@ -212,6 +212,60 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "accessory_example_glasses",
+          "path": "/avatar/assets/accessories/accessory_example_glasses.png",
+          "filename": "accessory_example_glasses.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "glasses",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example glasses accessory showing painterly style. Demonstrates lens reflections, frame gradients, and temple details."
+        },
+        {
+          "id": "accessory_example_glasses",
+          "path": "/avatar/assets/accessories/accessory_example_glasses.svg",
+          "filename": "accessory_example_glasses.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "glasses",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example glasses accessory showing painterly style. Demonstrates lens reflections, frame gradients, and temple details."
         },
         {
           "id": "accessory_glasses_02",
@@ -1237,6 +1291,62 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "eye_example_neutral",
+          "path": "/avatar/assets/eyes/eye_example_neutral.png",
+          "filename": "eye_example_neutral.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example",
+            "neutral"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example neutral eye showing painterly style. Demonstrates iris gradient, pupil depth, catch light placement, and subtle eyelid shadows."
+        },
+        {
+          "id": "eye_example_neutral",
+          "path": "/avatar/assets/eyes/eye_example_neutral.svg",
+          "filename": "eye_example_neutral.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example",
+            "neutral"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example neutral eye showing painterly style. Demonstrates iris gradient, pupil depth, catch light placement, and subtle eyelid shadows."
         }
       ]
     },
@@ -1392,6 +1502,68 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "facialHair_example_beard",
+          "path": "/avatar/assets/facialHair/facialHair_example_beard.png",
+          "filename": "facialHair_example_beard.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "masculine"
+          ],
+          "styleTags": [
+            "beard",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [
+            "black",
+            "brown",
+            "gray"
+          ],
+          "supportsTint": true,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example beard showing painterly style. Demonstrates hair strand details, gradient shadows, and mustache integration."
+        },
+        {
+          "id": "facialHair_example_beard",
+          "path": "/avatar/assets/facialHair/facialHair_example_beard.svg",
+          "filename": "facialHair_example_beard.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "masculine"
+          ],
+          "styleTags": [
+            "beard",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [
+            "black",
+            "brown",
+            "gray"
+          ],
+          "supportsTint": true,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example beard showing painterly style. Demonstrates hair strand details, gradient shadows, and mustache integration."
         },
         {
           "id": "facialHair_goatee_01",
@@ -2185,6 +2357,70 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "hair_example_messy",
+          "path": "/avatar/assets/hair/hair_example_messy.png",
+          "filename": "hair_example_messy.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "rock",
+            "messy",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [
+            "brown",
+            "black",
+            "blonde"
+          ],
+          "supportsTint": true,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example messy hair showing painterly style. Demonstrates neutral gray base for tinting, strand details, and highlight placement."
+        },
+        {
+          "id": "hair_example_messy",
+          "path": "/avatar/assets/hair/hair_example_messy.svg",
+          "filename": "hair_example_messy.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "rock",
+            "messy",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [
+            "brown",
+            "black",
+            "blonde"
+          ],
+          "supportsTint": true,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example messy hair showing painterly style. Demonstrates neutral gray base for tinting, strand details, and highlight placement."
         },
         {
           "id": "hair_fade_01",
@@ -3123,6 +3359,60 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "head_example_warm_medium",
+          "path": "/avatar/assets/heads/head_example_warm_medium.png",
+          "filename": "head_example_warm_medium.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": "warm_medium",
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example head showing painterly style with warm medium skin tone. Use as reference for skin gradients, shadow placement, and highlight positioning."
+        },
+        {
+          "id": "head_example_warm_medium",
+          "path": "/avatar/assets/heads/head_example_warm_medium.svg",
+          "filename": "head_example_warm_medium.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": "warm_medium",
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example head showing painterly style with warm medium skin tone. Use as reference for skin gradients, shadow placement, and highlight positioning."
         }
       ]
     },
@@ -3220,6 +3510,62 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "mouth_example_neutral",
+          "path": "/avatar/assets/mouths/mouth_example_neutral.png",
+          "filename": "mouth_example_neutral.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example",
+            "neutral"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example neutral mouth showing painterly style. Demonstrates lip gradients, subtle border definition, and highlight placement."
+        },
+        {
+          "id": "mouth_example_neutral",
+          "path": "/avatar/assets/mouths/mouth_example_neutral.svg",
+          "filename": "mouth_example_neutral.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example",
+            "neutral"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example neutral mouth showing painterly style. Demonstrates lip gradients, subtle border definition, and highlight placement."
         },
         {
           "id": "mouth_flat_01",
@@ -4129,6 +4475,62 @@
           "intensity": null,
           "metadataAuthor": null,
           "metadataNotes": null
+        },
+        {
+          "id": "nose_example_neutral",
+          "path": "/avatar/assets/noses/nose_example_neutral.png",
+          "filename": "nose_example_neutral.png",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example",
+            "neutral"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example neutral nose showing painterly style. Demonstrates subtle nostril shadows, bridge definition, and skin tone gradients."
+        },
+        {
+          "id": "nose_example_neutral",
+          "path": "/avatar/assets/noses/nose_example_neutral.svg",
+          "filename": "nose_example_neutral.svg",
+          "weight": 1,
+          "resolution": 1024,
+          "tone": null,
+          "genderTags": [
+            "neutral"
+          ],
+          "styleTags": [
+            "realistic",
+            "example",
+            "neutral"
+          ],
+          "ageRange": [],
+          "variants": [],
+          "hueVariants": [],
+          "supportsTint": false,
+          "normalMap": null,
+          "roughnessMap": null,
+          "atlas": null,
+          "frame": null,
+          "zIndex": null,
+          "intensity": null,
+          "metadataAuthor": "AI Generated Example",
+          "metadataNotes": "Example neutral nose showing painterly style. Demonstrates subtle nostril shadows, bridge definition, and skin tone gradients."
         },
         {
           "id": "nose_hooked_01",

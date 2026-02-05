@@ -151,6 +151,40 @@ export function getAvatarUrlFromConfig(config, size = 200) {
 }
 
 /**
+ * Convert Avataaars config to Phaser seed
+ */
+export function configToPhaserSeed(config) {
+  return `${config.hair}-${config.hairColor}-${config.skin}-${config.eyes}-${config.clothing}-${config.accessories}`;
+}
+
+/**
+ * Convert Avataaars config to Phaser archetype
+ */
+export function configToPhaserArchetype(config) {
+  // Map clothing styles to archetypes
+  const clothingArchetypes = {
+    'BlazerShirt': 'professional',
+    'BlazerSweater': 'professional',
+    'CollarSweater': 'casual',
+    'GraphicShirt': 'rebellious',
+    'Hoodie': 'casual',
+    'Overall': 'casual',
+    'ShirtCrewNeck': 'neutral',
+    'ShirtScoopNeck': 'neutral',
+    'ShirtVNeck': 'neutral'
+  };
+
+  // Determine archetype based on hair and clothing
+  if (config.hair.includes('Dreads') || config.accessories === 'Sunglasses') {
+    return 'rebellious';
+  } else if (config.clothing in clothingArchetypes) {
+    return clothingArchetypes[config.clothing];
+  }
+  
+  return 'neutral';
+}
+
+/**
  * Get avatar URL (backward compatible with existing system)
  */
 export function getAvatarUrl(seed, style = 'avataaars', role = null, personality = null) {

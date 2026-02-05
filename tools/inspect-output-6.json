@@ -1,0 +1,471 @@
+{
+  "url": "http://localhost:5176/gigmaster/?poc=avatar",
+  "timestamp": 1770196316520,
+  "diagnostics": {
+    "imgs": [],
+    "texts": "Phaser Avatar PoC\nSeed\nLighting Preset\nstage\nstudio\nnoir\nnone\nApply tone tint\nDebug selection to console\nAmbient Override\nClear\nSnapshot\nWaiting...\nSelected Features\npaper: paper_1 • styles default\nhead: head_2 • tone neutral_medium • styles default\neyes: eyes_narrow_01 • tone neutral_medium • styles default\nnose: nose_button_02 • styles default\nmouth: mouth_neutral_03 • styles default\nfacialHair: facialHair_heavyStubble_02 • styles default\nhair: hair_curly_wild_01 • tone neutral_medium • styles default\naccessories: accessory_scar_01 • styles default\nshading: shading_1 • styles default\nAvatarDisplay (feature-flagged)\nEnhancedAvatar (feature-flagged)",
+    "scripts": [
+      "[inline]",
+      "http://localhost:5176/gigmaster/@vite/client",
+      "http://localhost:5176/gigmaster/src/main.jsx?t=1770196178129"
+    ],
+    "title": "Rockstar Band Manager (React)",
+    "errors": null,
+    "pageUrl": "http://localhost:5176/gigmaster/?poc=avatar",
+    "gotoRespStatus": null,
+    "networkResponses": [
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smile_wide_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_frown_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_frown_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_open_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_open_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_open_singing_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_asymmetric_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_fullLips_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_thinLips_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_patchy_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_patchy_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_patchy_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_heavyStubble_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_heavyStubble_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_long_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_short_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_stubble_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_stubble_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_thin_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_thick_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_goatee_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_goatee_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_sideburns_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_sideburns_long_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_messy_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_messy_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_messy_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_pulledBack_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_pulledBack_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_ponytail_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_bun_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_beanie_low_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_beanie_low_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_cap_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_wild_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_wild_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_wild_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_curly_wild_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_clean_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_clean_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_clean_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_short_clean_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_bald_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_bald_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_neutral_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_neutral_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_neutral_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_long_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_long_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_long_straight_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_short_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_short_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_short_spiky_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_curly_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_curly_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_wavy_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_wavy_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_mohawk_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_mohawk_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_fade_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_undercut_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_headphones_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_headphones_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_headphones_over_ear_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_pencil_behind_ear.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_glasses_crooked_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_glasses_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_glasses_round_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_glasses_sunglasses_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_glasses_aviator_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_earplug_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_earplug_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_scar_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_scar_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_coffee_stain_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_earring_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_earring_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_earring_stud_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_piercing_nose_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_piercing_lip_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_piercing_eyebrow_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_bandana_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/accessories/accessory_headband_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/shading/shading_1.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/shading/shading_2.png",
+        "status": 200,
+        "ok": true
+      }
+    ],
+    "generatedImgSrc": null,
+    "avatarContainerHtml": "<div id=\"root\"><div style=\"padding: 20px;\"><h2>Phaser Avatar PoC</h2><div style=\"display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; max-width: 720px;\"><label style=\"display: flex; flex-direction: column; font-size: 14px;\">Seed<input type=\"text\" value=\"poc-seed-1\" style=\"padding: 4px; font-size: 14px;\"></label><label style=\"display: flex; flex-direction: column; font-size: 14px;\">Lighting Preset<select style=\"padding: 4px; font-size: 14px;\"><option value=\"stage\">stage</option><option value=\"studio\">studio</option><option value=\"noir\">noir</option><option value=\"none\">none</option></select></label><label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px;\"><input type=\"checkbox\" checked=\"\">Apply tone tint</label><label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px;\"><input type=\"checkbox\">Debug selection to console</label><label style=\"display: flex; flex-direction: column; font-size: 14px;\">Ambient Override<input type=\"color\" value=\"#000000\" style=\"width: 40px; height: 32px; padding: 0px; border: none;\"><button type=\"button\" style=\"margin-top: 4px; font-size: 12px;\">Clear</button></label></div><div style=\"display: flex; gap: 20px;\"><div><div style=\"width: 256px; height: 256px;\"><canvas width=\"256\" height=\"256\"></canvas></div></div><div><h3>Snapshot</h3><div style=\"width: 256px; height: 256px; background: rgb(240, 240, 240); display: flex; align-items: center; justify-content: center;\">Waiting...</div><div style=\"margin-top: 12px;\"><h4 style=\"margin: 4px 0px;\">Selected Features</h4><div style=\"max-height: 180px; overflow: auto; font-size: 12px; border: 1px solid rgb(221, 221, 221); padding: 8px; border-radius: 4px; background: rgb(250, 250, 250);\"><div style=\"margin-bottom: 6px;\"><strong>paper</strong>: paper_1 • styles default</div><div style=\"margin-bottom: 6px;\"><strong>head</strong>: head_2 • tone neutral_medium • styles default</div><div style=\"margin-bottom: 6px;\"><strong>eyes</strong>: eyes_narrow_01 • tone neutral_medium • styles default</div><div style=\"margin-bottom: 6px;\"><strong>nose</strong>: nose_button_02 • styles default</div><div style=\"margin-bottom: 6px;\"><strong>mouth</strong>: mouth_neutral_03 • styles default</div><div style=\"margin-bottom: 6px;\"><strong>facialHair</strong>: facialHair_heavyStubble_02 • styles default</div><div style=\"margin-bottom: 6px;\"><strong>hair</strong>: hair_curly_wild_01 • tone neutral_medium • styles default</div><div style=\"margin-bottom: 6px;\"><strong>accessories</strong>: accessory_scar_01 • styles default</div><div style=\"margin-bottom: 6px;\"><strong>shading</strong>: shading_1 • styles default</div></div></div></div></div><hr style=\"margin: 20px 0px;\"><h3>AvatarDisplay (feature-flagged)</h3><div class=\"avatar-display\" style=\"width: 256px; height: 256px; min-width: 256px; min-height: 256px; flex-shrink: 0; overflow: hidden; border-radius: 4px; background-color: rgb(255, 255, 255);\"><div class=\"avatar-canvas-wrapper avatar-display-canvas\" style=\"position: relative; width: 256px; height: 256px; overflow: hidden;\"><canvas width=\"1024\" height=\"1024\" class=\"avatar-canvas\" style=\"display: block; width: 100%; height: 100%; object-fit: contain; background-color: rgb(255, 255, 255);\"></canvas></div></div><h3>EnhancedAvatar (feature-flagged)</h3><div class=\"enhanced-avatar relative\" style=\"width: 192px; height: 192px;\"><div class=\"avatar-canvas-wrapper w-full h-full\" style=\"position: relative; width: 192px; height: 192px; overflow: hidden;\"><canvas width=\"1024\" height=\"1024\" class=\"avatar-canvas\" style=\"display: block; width: 100%; height: 100%; object-fit: contain; background-color: rgb(255, 255, 255);\"></canvas></div></div></div></div>"
+  }
+}
