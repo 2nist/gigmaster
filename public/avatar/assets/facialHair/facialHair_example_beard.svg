@@ -1,0 +1,32 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Beard Example - Painterly Style -->
+  <defs>
+    <radialGradient id="beardGradient" cx="0.5" cy="0.6" r="0.8">
+      <stop offset="0%" style="stop-color:#2F1B14;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#3D2817;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#1C110A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F0A05;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Main beard shape -->
+  <path d="M 437 562 Q 462 582 512 577 Q 562 582 587 562 Q 612 542 587 522 Q 562 502 512 507 Q 462 502 437 522 Q 412 542 437 562 Z" fill="url(#beardGradient)"/>
+  
+  <!-- Beard hairs -->
+  <path d="M 447 552 Q 457 532 467 542" fill="none" stroke="#1C110A" stroke-width="1" opacity="0.8"/>
+  <path d="M 477 547 Q 487 527 497 537" fill="none" stroke="#1C110A" stroke-width="1" opacity="0.8"/>
+  <path d="M 507 552 Q 517 532 527 542" fill="none" stroke="#1C110A" stroke-width="1" opacity="0.8"/>
+  <path d="M 537 547 Q 547 527 557 537" fill="none" stroke="#1C110A" stroke-width="1" opacity="0.8"/>
+  
+  <!-- Chin hairs -->
+  <path d="M 497 577 Q 507 597 517 587" fill="none" stroke="#0F0A05" stroke-width="1" opacity="0.7"/>
+  <path d="M 507 577 Q 517 597 527 587" fill="none" stroke="#0F0A05" stroke-width="1" opacity="0.7"/>
+  
+  <!-- Sideburns -->
+  <path d="M 437 542 Q 427 522 437 502" fill="none" stroke="#2F1B14" stroke-width="2" opacity="0.9"/>
+  <path d="M 587 542 Q 597 522 587 502" fill="none" stroke="#2F1B14" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Mustache -->
+  <path d="M 487 537 Q 497 527 507 537" fill="none" stroke="#1C110A" stroke-width="2" opacity="0.8"/>
+  <path d="M 517 537 Q 527 527 537 537" fill="none" stroke="#1C110A" stroke-width="2" opacity="0.8"/>
+</svg>

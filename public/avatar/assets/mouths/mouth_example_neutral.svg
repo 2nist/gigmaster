@@ -1,0 +1,28 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Neutral Mouth Example - Painterly Style -->
+  <defs>
+    <radialGradient id="lipGradient" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF69B4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DC143C;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Upper lip shadow -->
+  <path d="M 412 512 Q 462 505 512 512 Q 562 505 612 512 Q 562 518 512 512 Q 462 518 412 512 Z" fill="#000000" opacity="0.1"/>
+  
+  <!-- Lower lip -->
+  <path d="M 412 512 Q 462 525 512 520 Q 562 525 612 512 Q 562 515 512 520 Q 462 515 412 512 Z" fill="url(#lipGradient)"/>
+  
+  <!-- Upper lip -->
+  <path d="M 412 512 Q 462 505 512 512 Q 562 505 612 512 Q 562 507 512 512 Q 462 507 412 512 Z" fill="url(#lipGradient)"/>
+  
+  <!-- Lip border -->
+  <path d="M 412 512 Q 462 505 512 512 Q 562 505 612 512 Q 562 525 512 520 Q 462 525 412 512 Z" fill="none" stroke="#8B0000" stroke-width="1" opacity="0.6"/>
+  
+  <!-- Center line -->
+  <line x1="462" y1="512" x2="562" y2="512" stroke="#FFFFFF" stroke-width="0.5" opacity="0.3"/>
+  
+  <!-- Subtle highlight -->
+  <ellipse cx="487" cy="508" rx="8" ry="3" fill="#FFFFFF" opacity="0.4"/>
+</svg>

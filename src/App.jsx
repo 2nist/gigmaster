@@ -48,11 +48,14 @@ import {
   useMerchandiseSystem,
   useSponsorshipSystem,
   useVictoryConditions,
-  useTheme
+  useTheme,
+  useMusicGeneration,
+  useTuningSystem
 } from './hooks';
 
 // Import page components
 import { LandingPage, GamePage, LogoDesigner, BandCreation, ScenarioSelection, CharacterCreation, AvatarCreation, AuditionFlow } from './pages';
+import AvatarPoC from './pages/AvatarPoC'; // Dev PoC page (temporary)
 import { EnhancedEventModal } from './components/EnhancedEventModal';
 import { VictoryScreen } from './components/VictoryScreen';
 import { initializeFirstPersonMode } from './utils/preMadeBand';
@@ -82,6 +85,18 @@ function App() {
   
   // Initialize theme system
   const themeSystem = useTheme();
+
+  // Dev shortcut: if URL contains ?poc=avatar render the AvatarPoC page directly
+  if (typeof window !== 'undefined') {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('poc') === 'avatar') {
+        return <AvatarPoC />;
+      }
+    } catch (e) {
+      // ignore in non-browser environments
+    }
+  }
 
   // Load game data (song titles, genres, etc.)
   const { data: gameData, loading: dataLoading, error: dataError } = useGameData();
@@ -183,6 +198,11 @@ function App() {
   useEffect(() => {
     victoryConditions.updateGoalProgress(gameState.state);
   }, [gameState.state?.week, gameState.state?.fame, gameState.state?.money]);
+  // Initialize music generation with tuning system
+  const musicGeneration = useMusicGeneration(gameState.state, gameState.updateGameState);
+
+  // Initialize tuning system
+  const tuningSystem = useTuningSystem(gameState.state, gameState.updateGameState);
 
   // Show loading state while game data loads
   if (dataLoading) {
@@ -445,6 +465,8 @@ function App() {
           radioCharting={radioCharting}
           merchandise={merchandise}
           sponsorships={sponsorships}
+          musicGeneration={musicGeneration}
+          tuningSystem={tuningSystem}
           onReturnToLanding={() => gameState.setStep('landing')}
           onSave={() => {
             if (gameState.state?.bandName) {

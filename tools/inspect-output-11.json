@@ -1,0 +1,1025 @@
+{
+  "url": "http://localhost:5176/gigmaster/?poc=avatar",
+  "timestamp": 1770206627227,
+  "diagnostics": {
+    "imgs": [],
+    "texts": "Phaser Avatar PoC\nSeed\nLighting Preset\nstage\nstudio\nnoir\nnone\nApply tone tint\nDebug selection to console\nAmbient Override\nClear\nSnapshot\nWaiting...\nAvatarDisplay (feature-flagged)\nEnhancedAvatar (feature-flagged)",
+    "scripts": [
+      "[inline]",
+      "http://localhost:5176/gigmaster/@vite/client",
+      "http://localhost:5176/gigmaster/src/main.jsx?t=1770206414490"
+    ],
+    "title": "Rockstar Band Manager (React)",
+    "errors": null,
+    "pageUrl": "http://localhost:5176/gigmaster/?poc=avatar",
+    "gotoRespStatus": 200,
+    "networkResponses": [
+      {
+        "url": "http://localhost:5176/avatar/assets/paper/paper_1.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/paper/paper_1.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/paper/paper_1.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/heads/head_1.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/heads/head_2.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/heads/head_3.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/heads/head_4.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/heads/head_5.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_tired_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_tired_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_tired_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_narrow_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_narrow_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_heavyLid_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_heavyLid_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_open_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_open_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_wide_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_squinting_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_squinting_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_neutral_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_neutral_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_neutral_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_angry_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_intense_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_sad_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_droopy_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/eyes/eyes_asymmetric_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_narrow_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_narrow_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_crooked_left_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_crooked_left_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_crooked_right_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_crooked_right_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/heads/head_2.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/heads/head_1.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/eyes/eyes_tired_03.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/eyes/eyes_wide_01.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_wide_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/noses/nose_button_02.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/noses/nose_wide_01.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_wide_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_hooked_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_hooked_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_straight_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_straight_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_prominent_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_prominent_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_neutral_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_neutral_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_upturned_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_upturned_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_button_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_broken_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/noses/nose_button_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_flat_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_flat_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_downturned_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_downturned_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_flat_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smirk_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smirk_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_neutral_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smirk_left_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smirk_right_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_neutral_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_neutral_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_thin_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_thin_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_wide_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smile_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_wide_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/mouths/mouth_neutral_03.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/mouths/mouth_downturned_01.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/facialHair/facialHair_heavyStubble_01.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/hair/hair_pulledBack_02.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/hair/hair_clean_02.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smile_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/accessories/accessory_glasses_round_01.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_smile_wide_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_frown_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_frown_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_open_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_open_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_open_singing_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_asymmetric_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_fullLips_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/mouths/mouth_thinLips_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_patchy_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_patchy_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_patchy_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_heavyStubble_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_heavyStubble_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/accessories/accessory_earplug_02.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_long_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_short_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_stubble_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_beard_03.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_stubble_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_thin_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_mustache_thick_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_goatee_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_goatee_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_sideburns_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_messy_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/facialHair/facialHair_sideburns_long_01.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_messy_02.png",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/shading/shading_1.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/avatar/assets/shading/shading_1.png",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://localhost:5176/gigmaster/avatar/assets/hair/hair_messy_03.png",
+        "status": 200,
+        "ok": true
+      }
+    ],
+    "rtSnapshot": {
+      "called": false,
+      "srcPresent": false,
+      "srcPreview": null,
+      "error": null
+    },
+    "canvasChecks": [
+      {
+        "index": 0,
+        "width": 256,
+        "height": 256,
+        "dataUrlPreview": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAI+klEQVR4AezUB2okyxIF0OHvf8//SSCBaNqUSRPmwAwyXZUZca64//v379///Wfgb6Dn38B3AXxl7x8BAh0FFEDH1O1M4EdAAfxA+EKgm8D3vgrgW8F/Ak0FFEDT4K1N4F"
+      },
+      {
+        "index": 1,
+        "width": 1024,
+        "height": 1024,
+        "dataUrlPreview": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAAAQAElEQVR4AezaV3IcWbItUNib/5zvaxaLRYgUIY5wsdqKQGbEEe7L8bWt/9//+R8BAgQIECBAgAABAgQIECBQXeD//t+H/xEgQIAAAQIECBAgQIAAAQLFBT4+BADlR6xBAg"
+      },
+      {
+        "index": 2,
+        "width": 1024,
+        "height": 1024,
+        "dataUrlPreview": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAAAQAElEQVR4AezaV3IcWbItUNib/5zvaxaLRYgUIY5wsdqKQGbEEe7L8bWt/9//+R8BAgQIECBAgAABAgQIECBQXeD//t+H/xEgQIAAAQIECBAgQIAAAQLFBT4+BADlR6xBAg"
+      }
+    ],
+    "generatedImgSrc": null,
+    "avatarContainerHtml": "<div id=\"root\"><div style=\"padding: 20px;\"><h2>Phaser Avatar PoC</h2><div style=\"display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; max-width: 720px;\"><label style=\"display: flex; flex-direction: column; font-size: 14px;\">Seed<input type=\"text\" value=\"poc-seed-1\" style=\"padding: 4px; font-size: 14px;\"></label><label style=\"display: flex; flex-direction: column; font-size: 14px;\">Lighting Preset<select style=\"padding: 4px; font-size: 14px;\"><option value=\"stage\">stage</option><option value=\"studio\">studio</option><option value=\"noir\">noir</option><option value=\"none\">none</option></select></label><label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px;\"><input type=\"checkbox\" checked=\"\">Apply tone tint</label><label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px;\"><input type=\"checkbox\">Debug selection to console</label><label style=\"display: flex; flex-direction: column; font-size: 14px;\">Ambient Override<input type=\"color\" value=\"#000000\" style=\"width: 40px; height: 32px; padding: 0px; border: none;\"><button type=\"button\" style=\"margin-top: 4px; font-size: 12px;\">Clear</button></label></div><div style=\"display: flex; gap: 20px;\"><div><div style=\"width: 256px; height: 256px;\"><canvas width=\"256\" height=\"256\"></canvas></div></div><div><h3>Snapshot</h3><div style=\"width: 256px; height: 256px; background: rgb(240, 240, 240); display: flex; align-items: center; justify-content: center;\">Waiting...</div></div></div><hr style=\"margin: 20px 0px;\"><h3>AvatarDisplay (feature-flagged)</h3><div class=\"avatar-display\" style=\"width: 256px; height: 256px; min-width: 256px; min-height: 256px; flex-shrink: 0; overflow: hidden; border-radius: 4px; background-color: rgb(255, 255, 255);\"><div class=\"avatar-canvas-wrapper avatar-display-canvas\" style=\"position: relative; width: 256px; height: 256px; overflow: hidden;\"><canvas width=\"1024\" height=\"1024\" class=\"avatar-canvas\" style=\"display: block; width: 100%; height: 100%; object-fit: contain; background-color: rgb(255, 255, 255);\"></canvas><div style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.7); color: white; padding: 8px 16px; border-radius: 4px; font-size: 12px;\">Generating...</div></div></div><h3>EnhancedAvatar (feature-flagged)</h3><div class=\"enhanced-avatar relative\" style=\"width: 192px; height: 192px;\"><div class=\"avatar-canvas-wrapper w-full h-full\" style=\"position: relative; width: 192px; height: 192px; overflow: hidden;\"><canvas width=\"1024\" height=\"1024\" class=\"avatar-canvas\" style=\"display: block; width: 100%; height: 100%; object-fit: contain; background-color: rgb(255, 255, 255);\"></canvas><div style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.7); color: white; padding: 8px 16px; border-radius: 4px; font-size: 12px;\">Generating...</div></div></div></div></div>",
+    "consoleMessages": [
+      {
+        "type": "warning",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/node_modules/.vite/deps/tone.js?v=bd71aef6",
+          "lineNumber": 7607,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "warning",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/node_modules/.vite/deps/tone.js?v=bd71aef6",
+          "lineNumber": 2864,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "%c %c %c %c %c Phaser v3.90.0 (WebGL | Web Audio) %c https://phaser.io/v390 background: #ff0000 background: #ffff00 background: #00ff00 background: #00ffff color: #ffffff; background: #000000 background: transparent",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/node_modules/.vite/deps/phaser.js?v=87022b2a",
+          "lineNumber": 8455,
+          "columnNumber": 32
+        }
+      },
+      {
+        "type": "log",
+        "text": "[AvatarCanvas] Feature selections: [paper, head, eyes, nose, mouth, facialHair, hair, accessories, shading]",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/components/AvatarCanvas.jsx?t=1770196178129",
+          "lineNumber": 60,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "[AvatarCanvas] Feature selections: [paper, head, eyes, nose, mouth, facialHair, hair, accessories, shading]",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/components/AvatarCanvas.jsx?t=1770196178129",
+          "lineNumber": 60,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "Applied theme class: theme-synthwave",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/hooks/useTheme.js",
+          "lineNumber": 102,
+          "columnNumber": 12
+        }
+      },
+      {
+        "type": "log",
+        "text": "Dark mode OFF",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/hooks/useTheme.js",
+          "lineNumber": 110,
+          "columnNumber": 14
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/paper/paper_1.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "warning",
+        "text": "[.WebGL-0x18f40563c000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/?poc=avatar",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/paper/paper_1.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/paper/paper_1.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "warning",
+        "text": "[.WebGL-0x18f40563c000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/?poc=avatar",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "warning",
+        "text": "[.WebGL-0x18f40563c000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/?poc=avatar",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "warning",
+        "text": "[.WebGL-0x18f40563c000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/?poc=avatar",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/heads/head_2.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/heads/head_1.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/heads/head_2.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/heads/head_1.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/eyes/eyes_tired_03.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/eyes/eyes_wide_01.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/eyes/eyes_tired_03.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/eyes/eyes_wide_01.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/noses/nose_button_02.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/noses/nose_wide_01.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/noses/nose_button_02.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/noses/nose_wide_01.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/mouths/mouth_neutral_03.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/mouths/mouth_downturned_01.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/mouths/mouth_neutral_03.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/facialHair/facialHair_heavyStubble_01.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/mouths/mouth_downturned_01.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/hair/hair_pulledBack_02.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/facialHair/facialHair_heavyStubble_01.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/hair/hair_clean_02.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/hair/hair_pulledBack_02.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/accessories/accessory_glasses_round_01.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/hair/hair_clean_02.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/accessories/accessory_earplug_02.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/accessories/accessory_glasses_round_01.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/shading/shading_1.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/accessories/accessory_earplug_02.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "location": {
+          "url": "http://localhost:5176/avatar/assets/shading/shading_1.png",
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "type": "log",
+        "text": "[Avatar] Missing asset: /avatar/assets/shading/shading_1.png (will use placeholder)",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/avatar/drawAvatar.js",
+          "lineNumber": 115,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "[AvatarCanvas] Avatar generated and cached",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/components/AvatarCanvas.jsx?t=1770196178129",
+          "lineNumber": 64,
+          "columnNumber": 16
+        }
+      },
+      {
+        "type": "log",
+        "text": "[AvatarCanvas] Avatar generated and cached",
+        "location": {
+          "url": "http://localhost:5176/gigmaster/src/components/AvatarCanvas.jsx?t=1770196178129",
+          "lineNumber": 64,
+          "columnNumber": 16
+        }
+      }
+    ],
+    "pageErrors": []
+  }
+}

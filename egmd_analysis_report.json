@@ -1,0 +1,145 @@
+{
+  "analysis_summary": {
+    "total_files": 29111,
+    "processed_files": 29111,
+    "error_count": 0,
+    "success_rate": "100.00%"
+  },
+  "genre_distribution": {
+    "rock": 9503,
+    "funk": 9288,
+    "latin": 3612,
+    "jazz": 2537,
+    "soul": 2236,
+    "hiphop": 1763,
+    "afrobeat": 172
+  },
+  "bpm_distribution": {
+    "unknown": 29111
+  },
+  "complexity_distribution": {
+    "low": 0,
+    "medium": 29111,
+    "high": 0
+  },
+  "pattern_type_distribution": {
+    "standard": 29111
+  },
+  "quality_distribution": {
+    "high": 29111,
+    "medium": 0,
+    "low": 0
+  },
+  "genre_bpm_matrix": {
+    "afrobeat": {
+      "unknown": {
+        "count": 172,
+        "percentage": "100.0%"
+      }
+    },
+    "funk": {
+      "unknown": {
+        "count": 9288,
+        "percentage": "100.0%"
+      }
+    },
+    "hiphop": {
+      "unknown": {
+        "count": 1763,
+        "percentage": "100.0%"
+      }
+    },
+    "jazz": {
+      "unknown": {
+        "count": 2537,
+        "percentage": "100.0%"
+      }
+    },
+    "latin": {
+      "unknown": {
+        "count": 3612,
+        "percentage": "100.0%"
+      }
+    },
+    "rock": {
+      "unknown": {
+        "count": 9503,
+        "percentage": "100.0%"
+      }
+    },
+    "soul": {
+      "unknown": {
+        "count": 2236,
+        "percentage": "100.0%"
+      }
+    }
+  },
+  "rhythmic_insights": {
+    "average_density": "0.000",
+    "average_syncopation": "0.000",
+    "density_by_genre": {
+      "afrobeat": "0.000",
+      "funk": "0.000",
+      "hiphop": "0.000",
+      "jazz": "0.000",
+      "latin": "0.000",
+      "rock": "0.000",
+      "soul": "0.000"
+    },
+    "syncopation_by_genre": {
+      "afrobeat": "0.000",
+      "funk": "0.000",
+      "hiphop": "0.000",
+      "jazz": "0.000",
+      "latin": "0.000",
+      "rock": "0.000",
+      "soul": "0.000"
+    },
+    "most_complex_genre": "soul"
+  },
+  "quality_insights": {
+    "average_quality": "0.899",
+    "quality_distribution": {
+      "high": 29111,
+      "medium": 0,
+      "low": 0
+    },
+    "quality_by_genre": {
+      "afrobeat": "0.900",
+      "funk": "0.900",
+      "hiphop": "0.900",
+      "soul": "0.900",
+      "jazz": "0.899",
+      "latin": "0.899",
+      "rock": "0.899"
+    },
+    "quality_by_complexity": {
+      "medium": "0.899"
+    },
+    "high_quality_percentage": "100.00%"
+  },
+  "tempo_analysis": {
+    "tempo_distribution": {
+      "slow": 0,
+      "medium": 0,
+      "fast": 0
+    },
+    "most_common_tempo": "fast",
+    "tempo_coverage": 0
+  },
+  "recommendations": [
+    {
+      "type": "genre_expansion",
+      "message": "Expand underrepresented genres: afrobeat (172), hiphop (1763)"
+    },
+    {
+      "type": "tempo_expansion",
+      "message": "Add patterns for missing BPM ranges: 60-80, 160-180, 180-200"
+    },
+    {
+      "type": "complexity_expansion",
+      "message": "Only 0.0% high complexity patterns. Consider adding more intricate rhythms."
+    }
+  ],
+  "errors": []
+}

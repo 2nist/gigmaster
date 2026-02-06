@@ -1,0 +1,1377 @@
+{
+  "analysis_summary": {
+    "total_files": 324,
+    "processed_files": 324,
+    "error_count": 0,
+    "success_rate": "100.00%"
+  },
+  "composer_distribution": {
+    "12 Variationen uber einen russichen Tanz von P Wranitzky B071": 1,
+    "12 Variations on Ah Vous dirais-je Maman for the Piano K265": 1,
+    "13 Variationen uber Es war einmal ein alter Mann aus Das rote Kappchen von K Ditters von Dittersdorf B066": 1,
+    "24 Variationen uber Venni Amore von V Righini B065": 1,
+    "32 Variationen fur das pianoforte B080": 1,
+    "6 Variationen uber Nel cor piu non mi sento von G Paisiello B070": 1,
+    "7 Variations on a Quartet by Winter B075": 1,
+    "7 Variations on God Save the King in C Major B078": 1,
+    "8 Variationen uber das Lied Ein Weib ist das herrlichste Ding K613": 1,
+    "9 Variationen uber ein Minuett von Duport K573": 1,
+    "9 Variationen uber Quant e piu bello von G Paisiello B069": 1,
+    "Abendbild": 1,
+    "Abermals am See": 1,
+    "Abschied": 1,
+    "Acht Variationen uber das Trio Tandeln und Scherzen aus der Oper Soliman oder die drei Sultaninnen von Sussmayer B076": 1,
+    "Acht Variationen uber Une fievre brulante aus Richard Coeur de Lion von AEM Gretry B072": 1,
+    "Ach Gott vom Himmel sieh darein": 1,
+    "Ah Dolente Partita": 1,
+    "Allein zu dir Herr Jesu Christ": 1,
+    "Allnächtlich im Traume": 1,
+    "Amoroso": 1,
+    "Am leuchtenden Sommermorgen": 1,
+    "Am Meer": 1,
+    "Andante and variations in G for piano duet K501 K501": 1,
+    "Anima del cor mio": 1,
+    "Anima Dolorosa Che Vivendo": 1,
+    "Anima mia perdona": 1,
+    "An Maria aus Novalis geistlichen Liedern": 1,
+    "An Wasserfluessen Babylon": 1,
+    "Aufenthalt": 1,
+    "Auf dem Flusse": 1,
+    "Auf einem grünen Hügel": 1,
+    "Aus alten Märchen winkt es": 1,
+    "Aus der Ferne": 1,
+    "Aus meinen Tränen sprießen": 1,
+    "Aus meines Herzens Grunde": 1,
+    "Aus tiefer Not schrei ich zu dir 1": 1,
+    "A Memory": 1,
+    "A un Giro sol de Belli Occhi Lucenti": 1,
+    "Berceuse": 1,
+    "Bergeslust": 1,
+    "Betteley der Vögel": 1,
+    "Chacony Chaconne in G Minor Z730": 1,
+    "Che se tu seil cor mio Seconda parte": 1,
+    "Chio non tami cor mio": 1,
+    "Christus der ist mein Leben": 1,
+    "Christ lag in Todesbanden": 1,
+    "Cor mio mentre vi miro": 1,
+    "Cor mio non mori E mori": 1,
+    "Crucifixus from the B Minor mass BWV232": 1,
+    "Cruda amarilli che col nome ancora": 1,
+    "Daphne am Bach": 1,
+    "Das Fischermädchen": 1,
+    "Das ist ein Flöten und Geigen": 1,
+    "Das Rosenband D280": 1,
+    "Das Ständchen": 1,
+    "Das Wandern": 1,
+    "Das Wirthshaus": 1,
+    "Der Atlas": 1,
+    "Der Doppelgänger": 1,
+    "Der greise Kopf": 1,
+    "Der Leiermann Spätere Fassung": 1,
+    "Der Lindenbaum": 1,
+    "Der Maiabend": 1,
+    "Der Mond kommt still gegangen": 1,
+    "Der Mond": 1,
+    "Der Rosenkranz": 1,
+    "Der Scholar": 1,
+    "Der Spinnerin Nachtlied": 1,
+    "Der stuermische Morgen": 1,
+    "Der Sänger geht": 1,
+    "Der traurige Wanderer": 1,
+    "Der verzweifelte Liebhaber": 1,
+    "Der Wegweiser": 1,
+    "Die alten bösen Lieder": 1,
+    "Die Blume der Blumen": 1,
+    "Die Ersehnte": 1,
+    "Die frühen Gräber": 1,
+    "Die gute Nacht": 1,
+    "Die Kapelle": 1,
+    "Die Kraehe": 1,
+    "Die Mainacht": 1,
+    "Die Nacht": 1,
+    "Die Nebensonnen": 1,
+    "Die Post": 1,
+    "Die Rose die Lilie": 1,
+    "Die Stadt": 1,
+    "Die Sterne D939": 1,
+    "Die stille Lotosblume": 1,
+    "Die Tanne Sieh Doris wie vom Mond bestrahlt": 1,
+    "Die Taubenpost": 1,
+    "Die Veilchen": 1,
+    "Die Wetterfahne": 1,
+    "Die Wiese": 1,
+    "Dorinda ah dirò mia se mia non sei": 1,
+    "Duettino": 1,
+    "Durch die bunten Rosenhecken": 1,
+    "Du bist die Ruh": 1,
+    "Du bist wie eine Blume": 1,
+    "Du nahst": 1,
+    "Ecco Silvio colei che in odio hai tanto": 1,
+    "Ecoo piegando le genocchie a terra": 1,
+    "Einsamkeit Urspruengliche Fassung": 1,
+    "Ein feste Burg ist unser Gott": 1,
+    "Ein Jüngling liebt ein Mädchen": 1,
+    "Ein recht Gemüth": 1,
+    "Ellens Gesang III D839 Ave Maria": 1,
+    "Era Lanima mea": 1,
+    "Erinnrung zum Bach": 1,
+    "Ermuntre dich mein schwacher Geist": 1,
+    "Erschienen ist der herrliche Tag": 1,
+    "Erstarrung": 1,
+    "Er besucht den Klostergarten und den Kirchoff über den letztern findet sich folgendes Gedicht": 1,
+    "Es ist das Heil uns kommen her": 1,
+    "Es woll uns Gott genaedig sein 2": 1,
+    "Ferir quel petto Silvio": 1,
+    "Ferne": 1,
+    "Freuet euch ihr Christen alle": 1,
+    "Frühlingsblumen": 1,
+    "Frühlingslied": 1,
+    "Frühlingssehnsucht": 1,
+    "Frühlingstraum": 1,
+    "Für die Laute componirt": 1,
+    "Gefrorne Thränen": 1,
+    "Gondellied": 1,
+    "Gute Nacht": 1,
+    "Heymdal aus Ariels Offenbarungen": 1,
+    "Hier liegt ein Spielmann begraben": 1,
+    "Hör ich das Liedchen klingen": 1,
+    "Ich dank dir lieber Herre": 1,
+    "Ich grolle nicht": 1,
+    "Ich hab im Traum geweinet": 1,
+    "Ich hab mein Sach Gott heimgestellt": 1,
+    "Ich kanns nicht fassen": 1,
+    "Ich stand in dunklen Träumen": 1,
+    "Ich will meine Seele tauchen": 1,
+    "Ida aus Ariels Offenbarungen": 1,
+    "Ihr Bild": 1,
+    "Im Dorfe": 1,
+    "Im Herbste": 1,
+    "Im Rhein im heiligen Strome": 1,
+    "Im wunderschönen Monat Mai": 1,
+    "In der Ferne": 1,
+    "Io mi son giovinetta": 1,
+    "Io Pur Verra la Dove Sete": 1,
+    "Irrlicht": 1,
+    "Jesu nun sei gepreiset": 1,
+    "Kaeuzlein": 1,
+    "Kriegers Ahnung": 1,
+    "Kriegslied des Mays": 1,
+    "La Giovinetta Pianta": 1,
+    "La piaga cho nel core": 1,
+    "La tra l sangue e le morti egro giacente": 1,
+    "Letzte Hoffnung": 1,
+    "Le chemin du ciel": 1,
+    "Le Colibri": 1,
+    "LHeure dAzur": 1,
+    "Liebesbotschaft": 1,
+    "Liebesfrühling": 1,
+    "Liebesklage des Mädchens": 1,
+    "Liebeszauber": 1,
+    "Liebe und Frühling II": 1,
+    "Liebst du um Schönheit": 1,
+    "Lied Immer sich rein kindlich erfreun": 1,
+    "Longe da te cor mio": 1,
+    "Luci serene e chiare": 1,
+    "Lumi Miei Cari Lumi": 1,
+    "Maiglöckchen": 1,
+    "Mayenlied": 1,
+    "Ma Dove Oh Lasso Me": 1,
+    "Ma se con la pieta non e in te spenta": 1,
+    "Menschenkind merk eben": 1,
+    "Morgenständchen": 1,
+    "Muth": 1,
+    "Nachgefühl": 1,
+    "Nachtzauber": 1,
+    "Nach Sevilla": 1,
+    "Nach Süden": 1,
+    "Neun Variationen uber einen Marsch von E Chr Dressler B063": 1,
+    "Noch ein Bergmannslied": 1,
+    "Non piu guerra pietate": 1,
+    "Nun lob mein Seel den Herren": 1,
+    "Nun seh ich wohl warum so dunkle Flammen": 1,
+    "Occhi un tempo mia vita": 1,
+    "Oft denk ich sie sind nur ausgegangen": 1,
+    "Ohime se tanto amate": 1,
+    "Oh Roses for the flush of youth": 1,
+    "Oh the Summer": 1,
+    "Oh what comes over the Sea": 1,
+    "Ondei di morte la sua faccia impressa": 1,
+    "Op 127 Quartet No 12": 1,
+    "Op 130 Quartet No 13": 1,
+    "Op 131 Quartet No 14": 1,
+    "Op 132 Quartet No 15": 1,
+    "Op 135 Quartet No 16": 1,
+    "Op 18 No 1 Quartet No 1": 1,
+    "Op 18 No 2 Quartet No 2": 1,
+    "Op 18 No 3 Quartet No 3": 1,
+    "Op 18 No 4 Quartet No 4": 1,
+    "Op 18 No 5 Quartet No 5": 1,
+    "Op 18 No 6 Quartet No 6": 1,
+    "Op 59 No 1 Quartet No 7": 1,
+    "Op 59 No 2 Quartet No 8": 1,
+    "Op 59 No 3 Quartet No 9": 1,
+    "Op 74 Quartet No 10": 1,
+    "Op 95 Quartet No 11": 1,
+    "O come gran martire": 1,
+    "O dolc anima mia dunque e pur vero": 1,
+    "O Herre Gott dein goettlich Wort": 1,
+    "O lass mich dein gedenken": 1,
+    "O Mirtillo Mirtill Anima Mia": 1,
+    "O Primavera Gioventù de lAnno": 1,
+    "O rossignuol chin queste verdi fronde": 1,
+    "Pause": 1,
+    "Perfidissimo Volto": 1,
+    "Piagne sospira E quandi caldi raggi": 1,
+    "Piano Sonata 10 Op14 No2 Movement 1": 1,
+    "Piano Sonata 11 Op22 Movement 1": 1,
+    "Piano Sonata 12 Op26 Movement 1": 1,
+    "Piano Sonata 13 Op27 No1 Movement 1": 1,
+    "Piano Sonata 14 Op27 No2Moonlight Movement 1": 1,
+    "Piano Sonata 15 Op28Pastorale Movement 1": 1,
+    "Piano Sonata 16 Op31 No1 Movement 1": 1,
+    "Piano Sonata 17 Op31 No2 Movement 1": 1,
+    "Piano Sonata 18 Op31 No3 Movement 1": 1,
+    "Piano Sonata 19 Op49 No1 Movement 1": 1,
+    "Piano Sonata 1 Op2 No1 Movement 1": 1,
+    "Piano Sonata 20 Op49 No2 Movement 1": 1,
+    "Piano Sonata 21 Op53 Movement 1": 1,
+    "Piano Sonata 22 Op54 Movement 1": 1,
+    "Piano Sonata 23 Op57Appassionata Movement 1": 1,
+    "Piano Sonata 24 Op78 Movement 1": 1,
+    "Piano Sonata 25 Op79Sonatina Movement 1": 1,
+    "Piano Sonata 26 Op81aLes Adieux Movement 1": 1,
+    "Piano Sonata 27 Op90 Movement 1": 1,
+    "Piano Sonata 28 Op101 Movement 1": 1,
+    "Piano Sonata 29 Op106Hammerklavier Movement 1": 1,
+    "Piano Sonata 2 Op2 No2 Movement 1": 1,
+    "Piano Sonata 30 Op109 Movement 1": 1,
+    "Piano Sonata 31 Op110 Movement 1": 1,
+    "Piano Sonata 32 Op111 Movement 1": 1,
+    "Piano Sonata 3 Op2 No3 Movement 1": 1,
+    "Piano Sonata 4 Op7 Movement 1": 1,
+    "Piano Sonata 5 Op10 No1 Movement 1": 1,
+    "Piano Sonata 6 Op10 No2 Movement 1": 1,
+    "Piano Sonata 7 Op10 No3 Movement 1": 1,
+    "Piano Sonata 8 Op13Pathetique Movement 1": 1,
+    "Piano Sonata 9 Op14 No1 Movement 1": 1,
+    "Poi Chella in Sé Tornó Deserto e Muto Terza e Ultima Parte": 1,
+    "Prelude No10": 1,
+    "Prelude No11": 1,
+    "Prelude No12": 1,
+    "Prelude No13": 1,
+    "Prelude No14": 1,
+    "Prelude No15": 1,
+    "Prelude No16": 1,
+    "Prelude No17": 1,
+    "Prelude No18": 1,
+    "Prelude No19": 1,
+    "Prelude No1": 1,
+    "Prelude No20": 1,
+    "Prelude No21": 1,
+    "Prelude No22": 1,
+    "Prelude No23": 1,
+    "Prelude No24": 1,
+    "Prelude No2": 1,
+    "Prelude No3": 1,
+    "Prelude No4": 1,
+    "Prelude No5": 1,
+    "Prelude No6": 1,
+    "Prelude No7": 1,
+    "Prelude No8": 1,
+    "Prelude No9": 1,
+    "Puer natus in Bethlehem": 1,
+    "Purcell Sonata in G Minor Z807": 1,
+    "Quellaugellin che canta": 1,
+    "Rast Spätere Fassung": 1,
+    "Rimanti in pace": 1,
+    "Rückblick": 1,
+    "Schmetterling": 1,
+    "Schwanenlied": 1,
+    "Sechs leichte variationen B077": 1,
+    "Sechs Variationen in F uber die Arie Salve tu Domine aus der Oper I filosofi immaginarii K398": 1,
+    "Sechs Variationen uber ein Schweizer Lied B064": 1,
+    "Sehnsucht": 1,
+    "Seit ich ihn gesehen": 1,
+    "Se per estremo ardore": 1,
+    "Sfogava con le stelle": 1,
+    "She sat and sang alway": 1,
+    "Sieben Variationen in D uber das hollandische Lied Willem van Nassau K025": 1,
+    "Sie liebten sich beide": 1,
+    "Six Variations on an Original Theme Opus34": 1,
+    "Six Variations on an Original Theme Opus76": 1,
+    "Si Chio Vorrei Morire": 1,
+    "Sovra tenere erbette e bianchi fiori": 1,
+    "Stracciami pur il core": 1,
+    "String Quartet in A Major - No1 Allegro di molto e scherzando": 1,
+    "String Quartet in A Major - No2 Adagio": 1,
+    "String Quartet in A Major - No3 Menuetto": 1,
+    "String Quartet in A Major - No4 Fuga a tre soggetti Allegro": 1,
+    "String Quartet in C Major - No1 Moderato": 1,
+    "String Quartet in C Major - No2 Adagio": 1,
+    "String Quartet in C Major - No3 Menuetto Allegretto": 1,
+    "String Quartet in C Major - No4 Fuga a quattro soggeti Allegro": 1,
+    "String Quartet in D Major - No1 Allegro di molto": 1,
+    "String Quartet in D Major - No2 Un poco Adagio affettuoso": 1,
+    "String Quartet in D Major - No3 Menuetto alla zingarese": 1,
+    "String Quartet in D Major - No4 Presto e scherzando": 1,
+    "String Quartet in E-flat Major - No1 Allegro moderato": 1,
+    "String Quartet in E-flat Major - No2 Menuetto un poco allegretto": 1,
+    "String Quartet in E-flat Major - No3 Affettuoso e sostenuto": 1,
+    "String Quartet in E-flat Major - No4 Finale Presto": 1,
+    "String Quartet in F Minor - No1 Moderato": 1,
+    "String Quartet in F Minor - No2 Menuetto": 1,
+    "String Quartet in F Minor - No3 Adagio": 1,
+    "String Quartet in F Minor - No4 Fuga a due soggetti": 1,
+    "String Quartet in G Minor - No1 Allegro con spirito": 1,
+    "String Quartet in G Minor - No2 Menuetto Allegretto": 1,
+    "String Quartet in G Minor - No3 Poco adagio": 1,
+    "String Quartet in G Minor - No4 Allegro di molto": 1,
+    "Ständchen": 1,
+    "Sérénade à Rosine VWV 1137": 1,
+    "À toi": 1,
+    "Éternel amour": 1
+  },
+  "period_distribution": {
+    "Unknown": 324
+  },
+  "work_type_distribution": {
+    "Other": 324
+  },
+  "difficulty_distribution": {
+    "intermediate": 324
+  },
+  "quality_distribution": {
+    "high": 0,
+    "medium": 324,
+    "low": 0
+  },
+  "cultural_significance": {
+    "supreme": 0,
+    "major": 0,
+    "minor": 324
+  },
+  "composer_period_matrix": {
+    "12 Variationen uber einen russichen Tanz von P Wranitzky B071": {
+      "Unknown": 1
+    },
+    "12 Variations on Ah Vous dirais-je Maman for the Piano K265": {
+      "Unknown": 1
+    },
+    "13 Variationen uber Es war einmal ein alter Mann aus Das rote Kappchen von K Ditters von Dittersdorf B066": {
+      "Unknown": 1
+    },
+    "24 Variationen uber Venni Amore von V Righini B065": {
+      "Unknown": 1
+    },
+    "32 Variationen fur das pianoforte B080": {
+      "Unknown": 1
+    },
+    "6 Variationen uber Nel cor piu non mi sento von G Paisiello B070": {
+      "Unknown": 1
+    },
+    "7 Variations on a Quartet by Winter B075": {
+      "Unknown": 1
+    },
+    "7 Variations on God Save the King in C Major B078": {
+      "Unknown": 1
+    },
+    "8 Variationen uber das Lied Ein Weib ist das herrlichste Ding K613": {
+      "Unknown": 1
+    },
+    "9 Variationen uber ein Minuett von Duport K573": {
+      "Unknown": 1
+    },
+    "9 Variationen uber Quant e piu bello von G Paisiello B069": {
+      "Unknown": 1
+    },
+    "Abendbild": {
+      "Unknown": 1
+    },
+    "Abermals am See": {
+      "Unknown": 1
+    },
+    "Abschied": {
+      "Unknown": 1
+    },
+    "Acht Variationen uber das Trio Tandeln und Scherzen aus der Oper Soliman oder die drei Sultaninnen von Sussmayer B076": {
+      "Unknown": 1
+    },
+    "Acht Variationen uber Une fievre brulante aus Richard Coeur de Lion von AEM Gretry B072": {
+      "Unknown": 1
+    },
+    "Ach Gott vom Himmel sieh darein": {
+      "Unknown": 1
+    },
+    "Ah Dolente Partita": {
+      "Unknown": 1
+    },
+    "Allein zu dir Herr Jesu Christ": {
+      "Unknown": 1
+    },
+    "Allnächtlich im Traume": {
+      "Unknown": 1
+    },
+    "Amoroso": {
+      "Unknown": 1
+    },
+    "Am leuchtenden Sommermorgen": {
+      "Unknown": 1
+    },
+    "Am Meer": {
+      "Unknown": 1
+    },
+    "Andante and variations in G for piano duet K501 K501": {
+      "Unknown": 1
+    },
+    "Anima del cor mio": {
+      "Unknown": 1
+    },
+    "Anima Dolorosa Che Vivendo": {
+      "Unknown": 1
+    },
+    "Anima mia perdona": {
+      "Unknown": 1
+    },
+    "An Maria aus Novalis geistlichen Liedern": {
+      "Unknown": 1
+    },
+    "An Wasserfluessen Babylon": {
+      "Unknown": 1
+    },
+    "Aufenthalt": {
+      "Unknown": 1
+    },
+    "Auf dem Flusse": {
+      "Unknown": 1
+    },
+    "Auf einem grünen Hügel": {
+      "Unknown": 1
+    },
+    "Aus alten Märchen winkt es": {
+      "Unknown": 1
+    },
+    "Aus der Ferne": {
+      "Unknown": 1
+    },
+    "Aus meinen Tränen sprießen": {
+      "Unknown": 1
+    },
+    "Aus meines Herzens Grunde": {
+      "Unknown": 1
+    },
+    "Aus tiefer Not schrei ich zu dir 1": {
+      "Unknown": 1
+    },
+    "A Memory": {
+      "Unknown": 1
+    },
+    "A un Giro sol de Belli Occhi Lucenti": {
+      "Unknown": 1
+    },
+    "Berceuse": {
+      "Unknown": 1
+    },
+    "Bergeslust": {
+      "Unknown": 1
+    },
+    "Betteley der Vögel": {
+      "Unknown": 1
+    },
+    "Chacony Chaconne in G Minor Z730": {
+      "Unknown": 1
+    },
+    "Che se tu seil cor mio Seconda parte": {
+      "Unknown": 1
+    },
+    "Chio non tami cor mio": {
+      "Unknown": 1
+    },
+    "Christus der ist mein Leben": {
+      "Unknown": 1
+    },
+    "Christ lag in Todesbanden": {
+      "Unknown": 1
+    },
+    "Cor mio mentre vi miro": {
+      "Unknown": 1
+    },
+    "Cor mio non mori E mori": {
+      "Unknown": 1
+    },
+    "Crucifixus from the B Minor mass BWV232": {
+      "Unknown": 1
+    },
+    "Cruda amarilli che col nome ancora": {
+      "Unknown": 1
+    },
+    "Daphne am Bach": {
+      "Unknown": 1
+    },
+    "Das Fischermädchen": {
+      "Unknown": 1
+    },
+    "Das ist ein Flöten und Geigen": {
+      "Unknown": 1
+    },
+    "Das Rosenband D280": {
+      "Unknown": 1
+    },
+    "Das Ständchen": {
+      "Unknown": 1
+    },
+    "Das Wandern": {
+      "Unknown": 1
+    },
+    "Das Wirthshaus": {
+      "Unknown": 1
+    },
+    "Der Atlas": {
+      "Unknown": 1
+    },
+    "Der Doppelgänger": {
+      "Unknown": 1
+    },
+    "Der greise Kopf": {
+      "Unknown": 1
+    },
+    "Der Leiermann Spätere Fassung": {
+      "Unknown": 1
+    },
+    "Der Lindenbaum": {
+      "Unknown": 1
+    },
+    "Der Maiabend": {
+      "Unknown": 1
+    },
+    "Der Mond kommt still gegangen": {
+      "Unknown": 1
+    },
+    "Der Mond": {
+      "Unknown": 1
+    },
+    "Der Rosenkranz": {
+      "Unknown": 1
+    },
+    "Der Scholar": {
+      "Unknown": 1
+    },
+    "Der Spinnerin Nachtlied": {
+      "Unknown": 1
+    },
+    "Der stuermische Morgen": {
+      "Unknown": 1
+    },
+    "Der Sänger geht": {
+      "Unknown": 1
+    },
+    "Der traurige Wanderer": {
+      "Unknown": 1
+    },
+    "Der verzweifelte Liebhaber": {
+      "Unknown": 1
+    },
+    "Der Wegweiser": {
+      "Unknown": 1
+    },
+    "Die alten bösen Lieder": {
+      "Unknown": 1
+    },
+    "Die Blume der Blumen": {
+      "Unknown": 1
+    },
+    "Die Ersehnte": {
+      "Unknown": 1
+    },
+    "Die frühen Gräber": {
+      "Unknown": 1
+    },
+    "Die gute Nacht": {
+      "Unknown": 1
+    },
+    "Die Kapelle": {
+      "Unknown": 1
+    },
+    "Die Kraehe": {
+      "Unknown": 1
+    },
+    "Die Mainacht": {
+      "Unknown": 1
+    },
+    "Die Nacht": {
+      "Unknown": 1
+    },
+    "Die Nebensonnen": {
+      "Unknown": 1
+    },
+    "Die Post": {
+      "Unknown": 1
+    },
+    "Die Rose die Lilie": {
+      "Unknown": 1
+    },
+    "Die Stadt": {
+      "Unknown": 1
+    },
+    "Die Sterne D939": {
+      "Unknown": 1
+    },
+    "Die stille Lotosblume": {
+      "Unknown": 1
+    },
+    "Die Tanne Sieh Doris wie vom Mond bestrahlt": {
+      "Unknown": 1
+    },
+    "Die Taubenpost": {
+      "Unknown": 1
+    },
+    "Die Veilchen": {
+      "Unknown": 1
+    },
+    "Die Wetterfahne": {
+      "Unknown": 1
+    },
+    "Die Wiese": {
+      "Unknown": 1
+    },
+    "Dorinda ah dirò mia se mia non sei": {
+      "Unknown": 1
+    },
+    "Duettino": {
+      "Unknown": 1
+    },
+    "Durch die bunten Rosenhecken": {
+      "Unknown": 1
+    },
+    "Du bist die Ruh": {
+      "Unknown": 1
+    },
+    "Du bist wie eine Blume": {
+      "Unknown": 1
+    },
+    "Du nahst": {
+      "Unknown": 1
+    },
+    "Ecco Silvio colei che in odio hai tanto": {
+      "Unknown": 1
+    },
+    "Ecoo piegando le genocchie a terra": {
+      "Unknown": 1
+    },
+    "Einsamkeit Urspruengliche Fassung": {
+      "Unknown": 1
+    },
+    "Ein feste Burg ist unser Gott": {
+      "Unknown": 1
+    },
+    "Ein Jüngling liebt ein Mädchen": {
+      "Unknown": 1
+    },
+    "Ein recht Gemüth": {
+      "Unknown": 1
+    },
+    "Ellens Gesang III D839 Ave Maria": {
+      "Unknown": 1
+    },
+    "Era Lanima mea": {
+      "Unknown": 1
+    },
+    "Erinnrung zum Bach": {
+      "Unknown": 1
+    },
+    "Ermuntre dich mein schwacher Geist": {
+      "Unknown": 1
+    },
+    "Erschienen ist der herrliche Tag": {
+      "Unknown": 1
+    },
+    "Erstarrung": {
+      "Unknown": 1
+    },
+    "Er besucht den Klostergarten und den Kirchoff über den letztern findet sich folgendes Gedicht": {
+      "Unknown": 1
+    },
+    "Es ist das Heil uns kommen her": {
+      "Unknown": 1
+    },
+    "Es woll uns Gott genaedig sein 2": {
+      "Unknown": 1
+    },
+    "Ferir quel petto Silvio": {
+      "Unknown": 1
+    },
+    "Ferne": {
+      "Unknown": 1
+    },
+    "Freuet euch ihr Christen alle": {
+      "Unknown": 1
+    },
+    "Frühlingsblumen": {
+      "Unknown": 1
+    },
+    "Frühlingslied": {
+      "Unknown": 1
+    },
+    "Frühlingssehnsucht": {
+      "Unknown": 1
+    },
+    "Frühlingstraum": {
+      "Unknown": 1
+    },
+    "Für die Laute componirt": {
+      "Unknown": 1
+    },
+    "Gefrorne Thränen": {
+      "Unknown": 1
+    },
+    "Gondellied": {
+      "Unknown": 1
+    },
+    "Gute Nacht": {
+      "Unknown": 1
+    },
+    "Heymdal aus Ariels Offenbarungen": {
+      "Unknown": 1
+    },
+    "Hier liegt ein Spielmann begraben": {
+      "Unknown": 1
+    },
+    "Hör ich das Liedchen klingen": {
+      "Unknown": 1
+    },
+    "Ich dank dir lieber Herre": {
+      "Unknown": 1
+    },
+    "Ich grolle nicht": {
+      "Unknown": 1
+    },
+    "Ich hab im Traum geweinet": {
+      "Unknown": 1
+    },
+    "Ich hab mein Sach Gott heimgestellt": {
+      "Unknown": 1
+    },
+    "Ich kanns nicht fassen": {
+      "Unknown": 1
+    },
+    "Ich stand in dunklen Träumen": {
+      "Unknown": 1
+    },
+    "Ich will meine Seele tauchen": {
+      "Unknown": 1
+    },
+    "Ida aus Ariels Offenbarungen": {
+      "Unknown": 1
+    },
+    "Ihr Bild": {
+      "Unknown": 1
+    },
+    "Im Dorfe": {
+      "Unknown": 1
+    },
+    "Im Herbste": {
+      "Unknown": 1
+    },
+    "Im Rhein im heiligen Strome": {
+      "Unknown": 1
+    },
+    "Im wunderschönen Monat Mai": {
+      "Unknown": 1
+    },
+    "In der Ferne": {
+      "Unknown": 1
+    },
+    "Io mi son giovinetta": {
+      "Unknown": 1
+    },
+    "Io Pur Verra la Dove Sete": {
+      "Unknown": 1
+    },
+    "Irrlicht": {
+      "Unknown": 1
+    },
+    "Jesu nun sei gepreiset": {
+      "Unknown": 1
+    },
+    "Kaeuzlein": {
+      "Unknown": 1
+    },
+    "Kriegers Ahnung": {
+      "Unknown": 1
+    },
+    "Kriegslied des Mays": {
+      "Unknown": 1
+    },
+    "La Giovinetta Pianta": {
+      "Unknown": 1
+    },
+    "La piaga cho nel core": {
+      "Unknown": 1
+    },
+    "La tra l sangue e le morti egro giacente": {
+      "Unknown": 1
+    },
+    "Letzte Hoffnung": {
+      "Unknown": 1
+    },
+    "Le chemin du ciel": {
+      "Unknown": 1
+    },
+    "Le Colibri": {
+      "Unknown": 1
+    },
+    "LHeure dAzur": {
+      "Unknown": 1
+    },
+    "Liebesbotschaft": {
+      "Unknown": 1
+    },
+    "Liebesfrühling": {
+      "Unknown": 1
+    },
+    "Liebesklage des Mädchens": {
+      "Unknown": 1
+    },
+    "Liebeszauber": {
+      "Unknown": 1
+    },
+    "Liebe und Frühling II": {
+      "Unknown": 1
+    },
+    "Liebst du um Schönheit": {
+      "Unknown": 1
+    },
+    "Lied Immer sich rein kindlich erfreun": {
+      "Unknown": 1
+    },
+    "Longe da te cor mio": {
+      "Unknown": 1
+    },
+    "Luci serene e chiare": {
+      "Unknown": 1
+    },
+    "Lumi Miei Cari Lumi": {
+      "Unknown": 1
+    },
+    "Maiglöckchen": {
+      "Unknown": 1
+    },
+    "Mayenlied": {
+      "Unknown": 1
+    },
+    "Ma Dove Oh Lasso Me": {
+      "Unknown": 1
+    },
+    "Ma se con la pieta non e in te spenta": {
+      "Unknown": 1
+    },
+    "Menschenkind merk eben": {
+      "Unknown": 1
+    },
+    "Morgenständchen": {
+      "Unknown": 1
+    },
+    "Muth": {
+      "Unknown": 1
+    },
+    "Nachgefühl": {
+      "Unknown": 1
+    },
+    "Nachtzauber": {
+      "Unknown": 1
+    },
+    "Nach Sevilla": {
+      "Unknown": 1
+    },
+    "Nach Süden": {
+      "Unknown": 1
+    },
+    "Neun Variationen uber einen Marsch von E Chr Dressler B063": {
+      "Unknown": 1
+    },
+    "Noch ein Bergmannslied": {
+      "Unknown": 1
+    },
+    "Non piu guerra pietate": {
+      "Unknown": 1
+    },
+    "Nun lob mein Seel den Herren": {
+      "Unknown": 1
+    },
+    "Nun seh ich wohl warum so dunkle Flammen": {
+      "Unknown": 1
+    },
+    "Occhi un tempo mia vita": {
+      "Unknown": 1
+    },
+    "Oft denk ich sie sind nur ausgegangen": {
+      "Unknown": 1
+    },
+    "Ohime se tanto amate": {
+      "Unknown": 1
+    },
+    "Oh Roses for the flush of youth": {
+      "Unknown": 1
+    },
+    "Oh the Summer": {
+      "Unknown": 1
+    },
+    "Oh what comes over the Sea": {
+      "Unknown": 1
+    },
+    "Ondei di morte la sua faccia impressa": {
+      "Unknown": 1
+    },
+    "Op 127 Quartet No 12": {
+      "Unknown": 1
+    },
+    "Op 130 Quartet No 13": {
+      "Unknown": 1
+    },
+    "Op 131 Quartet No 14": {
+      "Unknown": 1
+    },
+    "Op 132 Quartet No 15": {
+      "Unknown": 1
+    },
+    "Op 135 Quartet No 16": {
+      "Unknown": 1
+    },
+    "Op 18 No 1 Quartet No 1": {
+      "Unknown": 1
+    },
+    "Op 18 No 2 Quartet No 2": {
+      "Unknown": 1
+    },
+    "Op 18 No 3 Quartet No 3": {
+      "Unknown": 1
+    },
+    "Op 18 No 4 Quartet No 4": {
+      "Unknown": 1
+    },
+    "Op 18 No 5 Quartet No 5": {
+      "Unknown": 1
+    },
+    "Op 18 No 6 Quartet No 6": {
+      "Unknown": 1
+    },
+    "Op 59 No 1 Quartet No 7": {
+      "Unknown": 1
+    },
+    "Op 59 No 2 Quartet No 8": {
+      "Unknown": 1
+    },
+    "Op 59 No 3 Quartet No 9": {
+      "Unknown": 1
+    },
+    "Op 74 Quartet No 10": {
+      "Unknown": 1
+    },
+    "Op 95 Quartet No 11": {
+      "Unknown": 1
+    },
+    "O come gran martire": {
+      "Unknown": 1
+    },
+    "O dolc anima mia dunque e pur vero": {
+      "Unknown": 1
+    },
+    "O Herre Gott dein goettlich Wort": {
+      "Unknown": 1
+    },
+    "O lass mich dein gedenken": {
+      "Unknown": 1
+    },
+    "O Mirtillo Mirtill Anima Mia": {
+      "Unknown": 1
+    },
+    "O Primavera Gioventù de lAnno": {
+      "Unknown": 1
+    },
+    "O rossignuol chin queste verdi fronde": {
+      "Unknown": 1
+    },
+    "Pause": {
+      "Unknown": 1
+    },
+    "Perfidissimo Volto": {
+      "Unknown": 1
+    },
+    "Piagne sospira E quandi caldi raggi": {
+      "Unknown": 1
+    },
+    "Piano Sonata 10 Op14 No2 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 11 Op22 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 12 Op26 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 13 Op27 No1 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 14 Op27 No2Moonlight Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 15 Op28Pastorale Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 16 Op31 No1 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 17 Op31 No2 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 18 Op31 No3 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 19 Op49 No1 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 1 Op2 No1 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 20 Op49 No2 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 21 Op53 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 22 Op54 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 23 Op57Appassionata Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 24 Op78 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 25 Op79Sonatina Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 26 Op81aLes Adieux Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 27 Op90 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 28 Op101 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 29 Op106Hammerklavier Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 2 Op2 No2 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 30 Op109 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 31 Op110 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 32 Op111 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 3 Op2 No3 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 4 Op7 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 5 Op10 No1 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 6 Op10 No2 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 7 Op10 No3 Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 8 Op13Pathetique Movement 1": {
+      "Unknown": 1
+    },
+    "Piano Sonata 9 Op14 No1 Movement 1": {
+      "Unknown": 1
+    },
+    "Poi Chella in Sé Tornó Deserto e Muto Terza e Ultima Parte": {
+      "Unknown": 1
+    },
+    "Prelude No10": {
+      "Unknown": 1
+    },
+    "Prelude No11": {
+      "Unknown": 1
+    },
+    "Prelude No12": {
+      "Unknown": 1
+    },
+    "Prelude No13": {
+      "Unknown": 1
+    },
+    "Prelude No14": {
+      "Unknown": 1
+    },
+    "Prelude No15": {
+      "Unknown": 1
+    },
+    "Prelude No16": {
+      "Unknown": 1
+    },
+    "Prelude No17": {
+      "Unknown": 1
+    },
+    "Prelude No18": {
+      "Unknown": 1
+    },
+    "Prelude No19": {
+      "Unknown": 1
+    },
+    "Prelude No1": {
+      "Unknown": 1
+    },
+    "Prelude No20": {
+      "Unknown": 1
+    },
+    "Prelude No21": {
+      "Unknown": 1
+    },
+    "Prelude No22": {
+      "Unknown": 1
+    },
+    "Prelude No23": {
+      "Unknown": 1
+    },
+    "Prelude No24": {
+      "Unknown": 1
+    },
+    "Prelude No2": {
+      "Unknown": 1
+    },
+    "Prelude No3": {
+      "Unknown": 1
+    },
+    "Prelude No4": {
+      "Unknown": 1
+    },
+    "Prelude No5": {
+      "Unknown": 1
+    },
+    "Prelude No6": {
+      "Unknown": 1
+    },
+    "Prelude No7": {
+      "Unknown": 1
+    },
+    "Prelude No8": {
+      "Unknown": 1
+    },
+    "Prelude No9": {
+      "Unknown": 1
+    },
+    "Puer natus in Bethlehem": {
+      "Unknown": 1
+    },
+    "Purcell Sonata in G Minor Z807": {
+      "Unknown": 1
+    },
+    "Quellaugellin che canta": {
+      "Unknown": 1
+    },
+    "Rast Spätere Fassung": {
+      "Unknown": 1
+    },
+    "Rimanti in pace": {
+      "Unknown": 1
+    },
+    "Rückblick": {
+      "Unknown": 1
+    },
+    "Schmetterling": {
+      "Unknown": 1
+    },
+    "Schwanenlied": {
+      "Unknown": 1
+    },
+    "Sechs leichte variationen B077": {
+      "Unknown": 1
+    },
+    "Sechs Variationen in F uber die Arie Salve tu Domine aus der Oper I filosofi immaginarii K398": {
+      "Unknown": 1
+    },
+    "Sechs Variationen uber ein Schweizer Lied B064": {
+      "Unknown": 1
+    },
+    "Sehnsucht": {
+      "Unknown": 1
+    },
+    "Seit ich ihn gesehen": {
+      "Unknown": 1
+    },
+    "Se per estremo ardore": {
+      "Unknown": 1
+    },
+    "Sfogava con le stelle": {
+      "Unknown": 1
+    },
+    "She sat and sang alway": {
+      "Unknown": 1
+    },
+    "Sieben Variationen in D uber das hollandische Lied Willem van Nassau K025": {
+      "Unknown": 1
+    },
+    "Sie liebten sich beide": {
+      "Unknown": 1
+    },
+    "Six Variations on an Original Theme Opus34": {
+      "Unknown": 1
+    },
+    "Six Variations on an Original Theme Opus76": {
+      "Unknown": 1
+    },
+    "Si Chio Vorrei Morire": {
+      "Unknown": 1
+    },
+    "Sovra tenere erbette e bianchi fiori": {
+      "Unknown": 1
+    },
+    "Stracciami pur il core": {
+      "Unknown": 1
+    },
+    "String Quartet in A Major - No1 Allegro di molto e scherzando": {
+      "Unknown": 1
+    },
+    "String Quartet in A Major - No2 Adagio": {
+      "Unknown": 1
+    },
+    "String Quartet in A Major - No3 Menuetto": {
+      "Unknown": 1
+    },
+    "String Quartet in A Major - No4 Fuga a tre soggetti Allegro": {
+      "Unknown": 1
+    },
+    "String Quartet in C Major - No1 Moderato": {
+      "Unknown": 1
+    },
+    "String Quartet in C Major - No2 Adagio": {
+      "Unknown": 1
+    },
+    "String Quartet in C Major - No3 Menuetto Allegretto": {
+      "Unknown": 1
+    },
+    "String Quartet in C Major - No4 Fuga a quattro soggeti Allegro": {
+      "Unknown": 1
+    },
+    "String Quartet in D Major - No1 Allegro di molto": {
+      "Unknown": 1
+    },
+    "String Quartet in D Major - No2 Un poco Adagio affettuoso": {
+      "Unknown": 1
+    },
+    "String Quartet in D Major - No3 Menuetto alla zingarese": {
+      "Unknown": 1
+    },
+    "String Quartet in D Major - No4 Presto e scherzando": {
+      "Unknown": 1
+    },
+    "String Quartet in E-flat Major - No1 Allegro moderato": {
+      "Unknown": 1
+    },
+    "String Quartet in E-flat Major - No2 Menuetto un poco allegretto": {
+      "Unknown": 1
+    },
+    "String Quartet in E-flat Major - No3 Affettuoso e sostenuto": {
+      "Unknown": 1
+    },
+    "String Quartet in E-flat Major - No4 Finale Presto": {
+      "Unknown": 1
+    },
+    "String Quartet in F Minor - No1 Moderato": {
+      "Unknown": 1
+    },
+    "String Quartet in F Minor - No2 Menuetto": {
+      "Unknown": 1
+    },
+    "String Quartet in F Minor - No3 Adagio": {
+      "Unknown": 1
+    },
+    "String Quartet in F Minor - No4 Fuga a due soggetti": {
+      "Unknown": 1
+    },
+    "String Quartet in G Minor - No1 Allegro con spirito": {
+      "Unknown": 1
+    },
+    "String Quartet in G Minor - No2 Menuetto Allegretto": {
+      "Unknown": 1
+    },
+    "String Quartet in G Minor - No3 Poco adagio": {
+      "Unknown": 1
+    },
+    "String Quartet in G Minor - No4 Allegro di molto": {
+      "Unknown": 1
+    },
+    "Ständchen": {
+      "Unknown": 1
+    },
+    "Sérénade à Rosine VWV 1137": {
+      "Unknown": 1
+    },
+    "À toi": {
+      "Unknown": 1
+    },
+    "Éternel amour": {
+      "Unknown": 1
+    }
+  },
+  "educational_insights": {
+    "average_educational_value": "0.600",
+    "educational_by_work_type": {
+      "Other": "0.600"
+    },
+    "educational_by_difficulty": {
+      "intermediate": "0.600"
+    },
+    "most_educational_work_type": "Other"
+  },
+  "performance_insights": {
+    "average_duration": "15.0 minutes",
+    "duration_by_work_type": {
+      "Other": "15.0"
+    },
+    "duration_by_period": {
+      "Unknown": "15.0"
+    },
+    "longest_work_type": "Other"
+  },
+  "quality_insights": {
+    "average_quality": "0.800",
+    "quality_distribution": {
+      "high": 0,
+      "medium": 324,
+      "low": 0
+    },
+    "quality_by_composer": {},
+    "quality_by_period": {
+      "Unknown": "0.800"
+    },
+    "high_quality_percentage": "0.00%"
+  },
+  "historical_analysis": {
+    "period_coverage": 1,
+    "composer_diversity": 324,
+    "work_type_diversity": 1,
+    "periods_represented": [
+      "Unknown"
+    ],
+    "most_represented_period": "Unknown",
+    "coverage_assessment": "moderate"
+  },
+  "recommendations": [
+    {
+      "type": "work_type_diversification",
+      "message": "Other works dominate with 100.0%. Consider adding more work types."
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,10 @@
+{
+  "resolution": 1024,
+  "tone": null,
+  "genderTags": ["neutral"],
+  "styleTags": ["rock", "messy", "example"],
+  "supportsTint": true,
+  "hueVariants": ["brown", "black", "blonde"],
+  "author": "AI Generated Example",
+  "notes": "Example messy hair showing painterly style. Demonstrates neutral gray base for tinting, strand details, and highlight placement."
+}

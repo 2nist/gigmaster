@@ -1,0 +1,70 @@
+
+WHEN IN ROME CLASSICAL DATASET ANALYSIS REPORT
+==============================================
+
+OVERVIEW
+--------
+Total Files: 324
+Processed: 324
+Success Rate: 100.00%
+Errors: 0
+
+COMPOSER DISTRIBUTION
+---------------------
+12 Variationen uber einen russichen Tanz von P Wranitzky B071: 1 (0.3%)
+12 Variations on Ah Vous dirais-je Maman for the Piano K265: 1 (0.3%)
+13 Variationen uber Es war einmal ein alter Mann aus Das rote Kappchen von K Ditters von Dittersdorf B066: 1 (0.3%)
+24 Variationen uber Venni Amore von V Righini B065: 1 (0.3%)
+32 Variationen fur das pianoforte B080: 1 (0.3%)
+6 Variationen uber Nel cor piu non mi sento von G Paisiello B070: 1 (0.3%)
+7 Variations on a Quartet by Winter B075: 1 (0.3%)
+7 Variations on God Save the King in C Major B078: 1 (0.3%)
+8 Variationen uber das Lied Ein Weib ist das herrlichste Ding K613: 1 (0.3%)
+9 Variationen uber ein Minuett von Duport K573: 1 (0.3%)
+
+PERIOD DISTRIBUTION
+-------------------
+Unknown: 324 (100.0%)
+
+WORK TYPE DISTRIBUTION
+----------------------
+Other: 324 (100.0%)
+
+DIFFICULTY DISTRIBUTION
+-----------------------
+intermediate: 324 (100.0%)
+
+QUALITY METRICS
+---------------
+High Quality: 0 (0.0%)
+Medium Quality: 324 (100.0%)
+Low Quality: 0 (0.0%)
+
+CULTURAL SIGNIFICANCE
+---------------------
+Supreme: 0 (0.0%)
+Major: 0 (0.0%)
+Minor: 324 (100.0%)
+
+PERFORMANCE INSIGHTS
+--------------------
+Average Duration: 15.0 minutes
+Longest Work Type: Other
+
+EDUCATIONAL INSIGHTS
+--------------------
+Average Educational Value: 0.600
+Most Educational Work Type: Other
+
+HISTORICAL ANALYSIS
+-------------------
+Period Coverage: 1 periods
+Composer Diversity: 324 composers
+Work Type Diversity: 1 types
+Coverage Assessment: moderate
+
+RECOMMENDATIONS
+---------------
+- Other works dominate with 100.0%. Consider adding more work types.
+
+Generated: 2026-02-05T21:28:32.849Z

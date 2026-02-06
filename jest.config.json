@@ -8,7 +8,9 @@
     "**/?(*.)+(spec|test).js"
   ],
   "moduleNameMapper": {
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+    "^tone$": "<rootDir>/__mocks__/tone.js",
+    "^phaser3spectorjs$": "<rootDir>/__mocks__/phaser3spectorjs.js"
   },
   "transform": {
     "^.+\\.(js|jsx)$": "babel-jest"

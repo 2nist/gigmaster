@@ -1,0 +1,26 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Neutral Nose Example - Painterly Style -->
+  <defs>
+    <radialGradient id="noseGradient" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFA07A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CD853F;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Nose bridge shadow -->
+  <ellipse cx="512" cy="462" rx="8" ry="25" fill="#000000" opacity="0.15"/>
+  
+  <!-- Main nose shape -->
+  <path d="M 497 437 Q 512 447 527 437 Q 532 462 527 487 Q 512 497 497 487 Q 492 462 497 437 Z" fill="url(#noseGradient)"/>
+  
+  <!-- Nostril shadows -->
+  <ellipse cx="502" cy="472" rx="3" ry="5" fill="#000000" opacity="0.3"/>
+  <ellipse cx="522" cy="472" rx="3" ry="5" fill="#000000" opacity="0.3"/>
+  
+  <!-- Nose tip highlight -->
+  <ellipse cx="512" cy="447" rx="4" ry="3" fill="#FFFFFF" opacity="0.4"/>
+  
+  <!-- Subtle bridge line -->
+  <line x1="512" y1="412" x2="512" y2="437" stroke="#8B4513" stroke-width="1" opacity="0.3"/>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "resolution": 1024,
+  "tone": null,
+  "genderTags": ["masculine"],
+  "styleTags": ["beard", "example"],
+  "supportsTint": true,
+  "hueVariants": ["black", "brown", "gray"],
+  "author": "AI Generated Example",
+  "notes": "Example beard showing painterly style. Demonstrates hair strand details, gradient shadows, and mustache integration."
+}

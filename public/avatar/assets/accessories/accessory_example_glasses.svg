@@ -1,0 +1,42 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Glasses Example - Painterly Style -->
+  <defs>
+    <radialGradient id="glassGradient" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0%" style="stop-color:#C0C0C0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0A0A0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#808080;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="lensGradient" cx="0.5" cy="0.5" r="0.9">
+      <stop offset="0%" style="stop-color:#E6F3FF;stop-opacity:0.8" />
+      <stop offset="70%" style="stop-color:#B3D9FF;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#80C1FF;stop-opacity:0.4" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Left lens -->
+  <ellipse cx="462" cy="512" rx="45" ry="35" fill="url(#lensGradient)"/>
+  <ellipse cx="462" cy="512" rx="45" ry="35" fill="none" stroke="url(#glassGradient)" stroke-width="3"/>
+  
+  <!-- Right lens -->
+  <ellipse cx="562" cy="512" rx="45" ry="35" fill="url(#lensGradient)"/>
+  <ellipse cx="562" cy="512" rx="45" ry="35" fill="none" stroke="url(#glassGradient)" stroke-width="3"/>
+  
+  <!-- Bridge -->
+  <rect x="507" y="502" width="10" height="20" fill="url(#glassGradient)"/>
+  
+  <!-- Left temple -->
+  <line x1="417" y1="512" x2="387" y2="502" stroke="url(#glassGradient)" stroke-width="4"/>
+  <line x1="387" y1="502" x2="357" y2="512" stroke="url(#glassGradient)" stroke-width="4"/>
+  
+  <!-- Right temple -->
+  <line x1="607" y1="512" x2="637" y2="502" stroke="url(#glassGradient)" stroke-width="4"/>
+  <line x1="637" y1="502" x2="667" y2="512" stroke="url(#glassGradient)" stroke-width="4"/>
+  
+  <!-- Temple tips -->
+  <ellipse cx="357" cy="512" rx="3" ry="8" fill="url(#glassGradient)"/>
+  <ellipse cx="667" cy="512" rx="3" ry="8" fill="url(#glassGradient)"/>
+  
+  <!-- Reflections -->
+  <ellipse cx="455" cy="505" rx="8" ry="12" fill="#FFFFFF" opacity="0.6"/>
+  <ellipse cx="555" cy="505" rx="8" ry="12" fill="#FFFFFF" opacity="0.6"/>
+</svg>
